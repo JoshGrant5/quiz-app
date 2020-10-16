@@ -14,7 +14,14 @@ const morgan     = require('morgan');
 const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
-db.connect();
+db.connect(err => {
+  if(err) return console.log('error', err);
+  db.query('SELECT * FROM users;', (err, result) => {
+    if(err) return console.log('error running query', err);
+    console.log(result.rows);
+    db.end();
+  })
+});
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
