@@ -13,5 +13,9 @@ module.exports = (helpers) => {
     helpers.getAllQuizzes().then(info => res.json(info));
   });
 
+  router.get('/create', (req, res) => {
+    res.render('create_quiz');
+  });
+
   return router;
 };
