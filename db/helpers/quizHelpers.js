@@ -65,9 +65,9 @@ module.exports = (db) => {
   }
 
   const getScore = function(answers) {
-    query = `SELECT COUNT(*) AS score FROM answers
+    let query = `SELECT COUNT(*) AS score FROM answers
     WHERE is_correct = true AND (`;
-    values = [];
+    const values = [];
 
     for (const answer in answers) {
       values.push(answers[answer]);
@@ -78,21 +78,29 @@ module.exports = (db) => {
     query += `);`
 
     return db.query(query, values)
-    .then(data => data.rows[0])
-    .catch(err => err.message);
+      .then(data => data.rows[0])
+      .catch(err => err.message);
   }
 
   const createResult = function(quiz_id, user_id, score) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
-    query = `INSERT INTO results (quiz_id, user_id, score, date_completed)
+    const query = `INSERT INTO results (quiz_id, user_id, score, date_completed)
     VALUES ($1, $2, $3, $4) RETURNING *;`;
-    values = [quiz_id, user_id, score, date];
+    const values = [quiz_id, user_id, score, date];
 
     return db.query(query, values)
-    .then(data => data.rows[0])
-    .catch(err => err.message);
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  const getResult = function(result_id) {
+    const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE results.id = $1;`
+    const values = [result_id];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
   }
 
   const shuffle = function(answers) {
@@ -116,6 +124,7 @@ module.exports = (db) => {
     getAnswersForQuiz,
     getScore,
     createResult,
+    getResult,
     shuffle,
   }
 }
