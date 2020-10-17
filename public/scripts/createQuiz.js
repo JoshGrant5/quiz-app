@@ -7,18 +7,18 @@ $(() => {
     return `
     <div class='newQuestion'>
         <h2>Question ${count}:</h2>
-        <input type='text' name='question${count}'>
+        <input type='text' name='question${count}' required='required'>
         <label>A)</label>
-        <input type='text' name='a${count}'>
+        <input type='text' name='a${count}' required='required'>
         <input type='radio' name='correct${count}' value='1'>
         <label>B)</label>
-        <input type='text' name='b${count}'>
+        <input type='text' name='b${count}' required='required'>
         <input type='radio' name='correct${count}' value='2'>
         <label>C)</label>
-        <input type='text' name='c${count}'>
+        <input type='text' name='c${count}' required='required'>
         <input type='radio' name='correct${count}' value='3'>
         <label>D)</label>
-        <input type='text' name='d${count}'>
+        <input type='text' name='d${count}' required='required'>
         <input type='radio' name='correct${count}' value='4'>
       </div>
     `
