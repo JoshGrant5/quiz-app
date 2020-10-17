@@ -36,6 +36,7 @@ app.use(express.static("public"));
 // User & Quiz Routes
 const userRoutes = require("./routes/user");
 const quizRoutes = require("./routes/quiz");
+const homeRoutes = require("./routes/home");
 
 // User & Quiz Helpers
 const usersHelpers = require("./db/helpers/userHelpers")(db);
@@ -44,15 +45,16 @@ const quizHelpers = require("./db/helpers/quizHelpers")(db);
 // Mount all resource routes
 app.use("/user", userRoutes(usersHelpers));
 app.use("/quiz", quizRoutes(quizHelpers));
+app.use("/", homeRoutes({ usersHelpers, quizHelpers }));
 // Note: mount other resources here, using the same pattern above
 
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
-app.get("/", (req, res) => {
-  res.render("index");
-});
+// app.get("/", (req, res) => {
+//   res.render("index");
+// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
