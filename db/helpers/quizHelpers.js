@@ -5,7 +5,6 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  // createNewQuiz, createQuestion, and createAnswer accept an object of necessary info
   const createNewQuiz = function(info) {
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
