@@ -6,7 +6,7 @@ module.exports = (db) => {
   };
 
   const getUserByEmail = (email) => {
-    return db.query(`SELECT * FROM users WHERE email = ${email};`)
+    return db.query(`SELECT * FROM users WHERE email = '${email}';`)
       .then(data => data.rows[0])
       .catch(err => err.message);
   };
