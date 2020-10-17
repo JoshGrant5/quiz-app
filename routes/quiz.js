@@ -31,14 +31,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   router.post('/create', (req, res) => {
-    helpers.createNewQuiz(req.body)
+    quizHelpers.createNewQuiz(req.body)
     .then(data => {
       return quizHelpers.sort(data.id ,req.body);
     })
     .then(sortedData => {
       return quizHelpers.addQuizContent(sortedData);
     })
-    .then(res => res.redirect('index'))
+    .then(res => res.redirect('/create'))
     .catch(err => err.message);
   })
 
@@ -46,7 +46,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     let quizInfo = {}
     quizHelpers.getQuizWithUrl(req.params.url)
     // let quizInfo = {user_id: cookie};
-    let quizInfo = {};
     helpers.getQuizWithUrl(req.params.url)
       .then(quiz => {
         quizInfo.quiz = quiz;
