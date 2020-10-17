@@ -22,5 +22,14 @@ module.exports = (db) => {
     .catch(err => err.message);
   }
 
+  const createAnswer = function(info) {
+    return db.query(`
+    INSERT INTO answers (question_id, answer, is_correct)
+    VALUES ($1, $2, $3);
+    `, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
   return { getAllQuizzes }
 }
