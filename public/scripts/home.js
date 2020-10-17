@@ -1,3 +1,8 @@
-// $(() => {
-//   getAllQuizzes().then(res => console.log(res));
-// });
+$(() => {
+  $('#login').on('click', () => {
+    $.ajax({
+      method: "POST",
+      url: "/login"
+    })
+  });
+});
