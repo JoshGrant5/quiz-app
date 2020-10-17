@@ -140,13 +140,22 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const createResult = function(quiz_id, user_id, score) {
+  const createResult = function(quiz_id, user_id, score, total) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
-    const query = `INSERT INTO results (quiz_id, user_id, score, date_completed)
-    VALUES ($1, $2, $3, $4) RETURNING *;`;
-    const values = [quiz_id, user_id, score, date];
+    let query = '';
+    let values = [];
+    if (user_id) {
+      query += `INSERT INTO results (quiz_id, user_id, score, total, date_completed)
+      VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
+      values = [quiz_id, user_id, score, total, date];
+    }
+    else {
+      query += `INSERT INTO results (quiz_id, score, total, date_completed)
+      VALUES ($1, $2, $3, $4) RETURNING *;`;
+      values = [quiz_id, score, total, date];
+    }
 
     return db.query(query, values)
       .then(data => data.rows[0])
