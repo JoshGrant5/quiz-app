@@ -4,6 +4,8 @@ module.exports = (db) => {
       .then(data => data.rows)
       .catch(err => err.message);
   }
+
+  // createNewQuiz, createQuestion, and createAnswer accept an array of necessary info
   const createNewQuiz = function(info) {
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
@@ -12,7 +14,6 @@ module.exports = (db) => {
     .then(data => data.rows)
     .catch(err => err.message);
   }
-
   const createQuestion = function(info) {
     return db.query(`
     INSERT INTO questions (quiz_id, question)
@@ -21,7 +22,6 @@ module.exports = (db) => {
     .then(data => data.rows)
     .catch(err => err.message);
   }
-
   const createAnswer = function(info) {
     return db.query(`
     INSERT INTO answers (question_id, answer, is_correct)
