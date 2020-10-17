@@ -12,17 +12,17 @@ const bcrypt  = require('bcrypt');
 
 module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
-    const templateVars = {
-      user: req.session.user_id
-    };
+    const templateVars = {};
 
-    // Data needed to render home page
+    // data needed for home page
     publicQuizzes = quizHelpers.getPublicQuizzes();
+    user = userHelpers.getUserById(req.session.user_id);
 
-    Promise.all([publicQuizzes])
-      // Populate templateVars with responses
+    Promise.all([publicQuizzes, user])
+      // populate templateVars with data responses
       .then(res => {
         templateVars.quizzes = res[0];
+        templateVars.user = res[1];
         return templateVars;
       })
       .then(data => {

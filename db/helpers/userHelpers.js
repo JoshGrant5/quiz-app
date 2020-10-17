@@ -11,9 +11,16 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  const getUserById = (id) => {
+    return db.query(`SELECT * FROM users WHERE id = '${id}';`)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  };
+
   return { 
     getAllUsers,
-    getUserByEmail
+    getUserByEmail,
+    getUserById
   }
 }
 
