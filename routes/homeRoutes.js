@@ -7,11 +7,14 @@
 
 const express = require('express');
 const router  = express.Router();
+const bcrypt  = require('bcrypt');
 
-module.exports = ({ usersHelpers, quizHelpers }) => {
+
+module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
-
-    const templateVars = {};
+    const templateVars = {
+      user: req.session.user_id
+    };
 
     // Data needed to render home page
     publicQuizzes = quizHelpers.getPublicQuizzes();
@@ -30,6 +33,30 @@ module.exports = ({ usersHelpers, quizHelpers }) => {
   router.get("/login", (req, res) => {
     res.send("<h1>Login</h1>");
   });
+
+  router.post("/login", (req, res) => {
+    // hardcoding users' login information
+    const email = "a@a.ca";
+    const password = "1";
+
+    userHelpers.getUserByEmail(email)
+      .then(data => {
+        const user = data;  // anonymous { id: 1, name: 'Alice', email: 'a@a.ca', password: '1' }
+        if (password === user.password) {
+          // Set a cookie
+          req.session.user_id = user.id;
+          res.redirect("/");
+        } else {
+          res.status(401).send('Incorrect password');
+        }
+      });
+  });
+
+  router.post("/logout", (req, res) => {
+    // clear cookie
+    req.session = null;
+    res.redirect("/");
+  })
 
   router.get("/signup", (req, res) => {
     res.send("<h1>Signup</h1>")
