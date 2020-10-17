@@ -19,7 +19,7 @@ module.exports = (helpers) => {
 
   router.post('/create', (req, res) => {
     // helpers.createNewQuiz(req.body);
-
+    helpers.sort(req.body);
     // Obtain quiz ID from newly created quiz
     // helpers.createQuestion()
     // helpers.createAnswer()

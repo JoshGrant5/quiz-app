@@ -17,7 +17,47 @@ module.exports = (db) => {
     .then(data => data.rows)
     .catch(err => err.message);
   }
+
+  /*
+
+  { title: 'test',
+  thumbnail: 'test',
+  category: 'test',
+  listed: 'true',
+
+  question1: '1',
+  a1: 'a',
+  correct1: 'a',
+  b1: 'b',
+  c1: 'c',
+  d1: 'd',
+
+  question2: '2',
+  a2: 'a',
+  b2: 'b',
+  correct2: 'b',
+  c2: 'c',
+  d2: 'd'
+
+  count: '2'}
+  */
+
+  const sort = function(info) {
+    const count = info.count;
+    const questions = [];
+    const answers = [];
+    const correct = [];
+    for (let i = 1; i <= count; i++) {
+      questions.push(info[`question${i}`]);
+      answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
+      correct.push(info[`correct${i}`]);
+    };
+    console.log('sorted:' , { questions, answers, correct });
+    return { questions, answers, correct };
+  }
+
   const createQuestion = function(info) {
+
     return db.query(`
     INSERT INTO questions (quiz_id, question)
     VALUES ($1, $2);
@@ -64,5 +104,5 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  return { getAllQuizzes, createNewQuiz, createQuestion, createAnswer, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
+  return { getAllQuizzes, createNewQuiz, createQuestion, sort, createAnswer, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
 }
