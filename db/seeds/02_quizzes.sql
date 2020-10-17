@@ -1,12 +1,15 @@
-INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-VALUES (1, 'Happy Quiz', 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=168', true, 'testurl1', 'History', '2020-10-16');
-
-INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-VALUES (2, 'Sad Quiz', 'https://images.pexels.com/photos/4033325/pexels-photo-4033325.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=168', true, 'testurl2', 'Random', '2020-10-16');
-
-INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-VALUES (1, 'Bleh Quiz', 'https://images.pexels.com/photos/1000366/pexels-photo-1000366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=168', true, 'testurl3', 'Random', '2020-10-16');
-
-INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-VALUES (2, 'Mehhhhh Quiz', 'https://images.pexels.com/photos/4386404/pexels-photo-4386404.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=168', true, 'testurl4', 'History', '2020-10-16');
-
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 1','http://dummyimage.com/150x175.png/cc0000/ffffff','TRUE','testurl1','History','2020-09-16');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 2','http://dummyimage.com/182x149.bmp/ff4444/ffffff','TRUE','testurl2','TV/Movies','2020-09-17');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 3','http://dummyimage.com/177x217.bmp/ff4444/ffffff','TRUE','testurl3','Music','2020-09-18');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 4','http://dummyimage.com/163x142.png/5fa2dd/ffffff','TRUE','testurl4','Random','2020-09-19');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 5','http://dummyimage.com/196x210.png/5fa2dd/ffffff','TRUE','testurl5','Science','2020-09-20');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 6','http://dummyimage.com/136x130.png/cc0000/ffffff','TRUE','testurl6','Geography','2020-09-21');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 7','http://dummyimage.com/210x145.png/ff4444/ffffff','TRUE','testurl7','History','2020-09-22');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 8','http://dummyimage.com/151x174.bmp/cc0000/ffffff','TRUE','testurl8','TV/Movies','2020-09-23');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 9','http://dummyimage.com/191x154.bmp/5fa2dd/ffffff','TRUE','testurl9','Music','2020-09-24');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 10','http://dummyimage.com/109x225.jpg/ff4444/ffffff','TRUE','testurl10','Random','2020-09-25');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 11','http://dummyimage.com/150x175.png/cc0000/ffffff','FALSE','testurl11','Science','2020-09-26');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (1,'Test Quiz 12','http://dummyimage.com/211x105.bmp/ff4444/ffffff','FALSE','testurl12','Geography','2020-09-27');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (2,'Test Quiz 13','http://dummyimage.com/177x103.bmp/dddddd/000000','TRUE','testurl13','Random','2020-09-28');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (3,'Test Quiz 14','http://dummyimage.com/218x182.png/ff4444/ffffff','TRUE','testurl14','Science','2020-09-29');
+INSERT INTO quizzes(creator_id,title,photo,listed,url,category,date_created) VALUES (4,'Test Quiz 15','http://dummyimage.com/221x110.png/ff4444/ffffff','TRUE','testurl15','Geography','2020-09-30');
