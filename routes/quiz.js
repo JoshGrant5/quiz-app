@@ -65,8 +65,13 @@ module.exports = (helpers) => {
         // if(cookie) user_id = cookie;
         return helpers.createResult(quiz.id, user_id, score);
       })
-      .then(result => res.json(result));
-      // .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
+      // .then(result => res.json(result));
+      .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
+  });
+
+  router.get("/:url/result/:id", (req, res) => {
+    helpers.getResult(req.params.id)
+      .then(result => res.render('result', { result }));
   });
 
   return router;
