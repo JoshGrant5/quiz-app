@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Results - <%= result.title %></title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+
+  <header>
+    <h1><%= result.title %></h1>
+    <% if(result.photo) { %>
+      <img src='<%= result.photo %>' height=100 width=168>
+    <% } %>
+  </header>
+
+  <body>
+    <div>
+      <h2>Your Score</h2>
+      <p><%= result.score %></p>
+    </div>
+    <div>
+      <button type='button' id = 'share-result'>Share Result</button>
+      <button type='button' id = 'share-quiz'>Share Quiz</button>
+    </div>
+  </body>
+</html>

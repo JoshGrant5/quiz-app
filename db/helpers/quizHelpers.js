@@ -122,6 +122,71 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  return { getAllQuizzes, getPublicQuizzes, createNewQuiz, sort, createQuestion, createAnswer, addQuizContent, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
+  const getScore = function(answers) {
+    let query = `SELECT COUNT(*) AS score FROM answers
+    WHERE is_correct = true AND (`;
+    const values = [];
 
+    for (const answer in answers) {
+      values.push(answers[answer]);
+      if (values.length > 1) query += ` OR`
+      query += ` id = $${values.length}`;
+    }
+
+    query += `);`
+
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  const createResult = function(quiz_id, user_id, score) {
+    const dateString = Date.now();
+    const timestamp = new Date(dateString);
+    const date = timestamp.toDateString();
+    const query = `INSERT INTO results (quiz_id, user_id, score, date_completed)
+    VALUES ($1, $2, $3, $4) RETURNING *;`;
+    const values = [quiz_id, user_id, score, date];
+
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  const getResult = function(result_id) {
+    const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE results.id = $1;`
+    const values = [result_id];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  const shuffle = function(answers) {
+    const shuffled = answers.slice(0);
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  return {
+    getAllQuizzes,
+    getPublicQuizzes,
+    getQuizzesForUser,
+    createNewQuiz,
+    sort,
+    createQuestion,
+    createAnswer,
+    addQuizContent,
+    getQuizWithId,
+    getQuizWithUrl,
+    getQuestions,
+    getAnswers,
+    getAnswersForQuiz,
+    getScore,
+    createResult,
+    getResult,
+    shuffle,
+  }
 }

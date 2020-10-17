@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Take Quiz - <%= quiz.title %></title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
+  </head>
+
+  <!-- Change # to - to uncomment -->
+  <%# include('partials/_nav') %>
+
+  <header>
+    <h1><%= quiz.title %></h1>
+    <% if(quiz.photo) { %>
+      <img src='<%= quiz.photo %>' height=100 width=168>
+    <% } %>
+  </header>
+
+  <body>
+    <form method='POST' action='/quiz/<%= quiz.url %>'>
+      <div id='questions'>
+        <% questions.forEach((question, index) => { %>
+          <div id='question<%= question.id %>' class='question'>
+            <h4>Question <%= index + 1 %></h4>
+            <p><%= question.question%></p>
+            <% question.answers.forEach((answer) => { %>
+              <div id='answer<%= answer.id %>text' class='answer'>
+                <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
+                <label for='answer<%= answer.id %>'><%= answer.answer%></label>
+              </div>
+            <% }); %>
+          </div>
+        <% }); %>
+      </div>
+      </br>
+      <button type='submit'>Submit Answers</button>
+    </form>
+  </body>
+
+  <!-- Change # to - to uncomment -->
+  <%# include('partials/_footer') %>
+</html>
