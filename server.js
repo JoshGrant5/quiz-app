@@ -45,13 +45,13 @@ const quizRoutes = require("./routes/quiz");
 const homeRoutes = require("./routes/homeRoutes");
 
 // User & Quiz Helpers
-const usersHelpers = require("./db/helpers/userHelpers")(db);
+const userHelpers = require("./db/helpers/userHelpers")(db);
 const quizHelpers = require("./db/helpers/quizHelpers")(db);
 
 // Mount all resource routes
-app.use("/user", userRoutes(usersHelpers));
+app.use("/user", userRoutes(userHelpers));
 app.use("/quiz", quizRoutes(quizHelpers));
-app.use("/", homeRoutes({ usersHelpers, quizHelpers }));
+app.use("/", homeRoutes({ userHelpers, quizHelpers }));
 // Note: mount other resources here, using the same pattern above
 
 
