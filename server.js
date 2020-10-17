@@ -16,11 +16,6 @@ const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect(err => {
   if(err) return console.log('error', err);
-  db.query('SELECT * FROM users;', (err, result) => {
-    if(err) return console.log('error running query', err);
-    console.log(result.rows);
-    db.end();
-  })
 });
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -38,15 +33,17 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
-// Separated Routes for each Resource
-// Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
+// User & Quiz Routes
+const userRoutes = require("./routes/user");
+const quizRoutes = require("./routes/quiz");
+
+// User & Quiz Helpers
+const usersHelpers = require("./db/helpers/userHelpers")(db);
+const quizHelpers = require("./db/helpers/quizHelpers")(db);
 
 // Mount all resource routes
-// Note: Feel free to replace the example routes below with your own
-app.use("/api/users", usersRoutes(db));
-app.use("/api/widgets", widgetsRoutes(db));
+app.use("/user", userRoutes(usersHelpers));
+app.use("/quiz", quizRoutes(quizHelpers));
 // Note: mount other resources here, using the same pattern above
 
 
