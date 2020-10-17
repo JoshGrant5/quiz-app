@@ -17,8 +17,17 @@
 
   <body>
     <% for (const quiz of quizzes) { %>
-      <%= quiz.title %>
-      <img src="<%= quiz.photo %>"><br>
+      <a href="/quiz/<%= quiz.url %>">
+        <article class="quiz">
+          <header>
+            <%= quiz.title %>
+          </header>
+          <body>
+            <% if(!quiz.photo) quiz.photo = "../assets/quiz-placeholder.png" %>
+            <img src="<%= quiz.photo %>">
+          </body>
+        </article>
+      </a>
     <% } %>
   </body>
 </html>

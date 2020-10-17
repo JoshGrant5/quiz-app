@@ -6,7 +6,10 @@ module.exports = (db) => {
   }
 
   const getPublicQuizzes = () => {
-    return db.query(`SELECT * FROM quizzes WHERE listed = true;`)
+    return db.query(`SELECT * FROM quizzes 
+    WHERE listed = true
+    LIMIT 10;
+    `) // may need to refactor after adding a load more button
       .then(data => data.rows)
       .catch(err => err.message);
   };
