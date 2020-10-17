@@ -66,16 +66,16 @@ module.exports = (db) => {
 
   const getScore = function(answers) {
     query = `SELECT COUNT(*) AS score FROM answers
-    WHERE`;
+    WHERE is_correct = true AND (`;
     values = [];
 
     for (const answer in answers) {
-      values.push(answer);
+      values.push(answers[answer]);
       if (values.length > 1) query += ` OR`
       query += ` id = $${values.length}`;
     }
 
-    query += ` AND is_correct = true;`
+    query += `);`
 
     return db.query(query, values)
     .then(data => data.rows[0])
