@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>My Quizzes</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/home.js"></script>
   </head>
 
   <header>
@@ -16,7 +15,7 @@
   </header>
 
   <body>
-    <h1>All Quizzes</h1>
+    <h1>My Quizzes</h1>
     <% for (const quiz of quizzes) { %>
       <a href="/quiz/<%= quiz.url %>">
         <article class="quiz">

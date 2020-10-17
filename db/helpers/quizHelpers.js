@@ -3,10 +3,24 @@ module.exports = (db) => {
     return db.query(`SELECT * FROM quizzes;`)
       .then(data => data.rows)
       .catch(err => err.message);
-  }
+  };
 
   const getPublicQuizzes = () => {
-    return db.query(`SELECT * FROM quizzes WHERE listed = true;`)
+    return db.query(`
+      SELECT * FROM quizzes 
+      WHERE listed = true
+      LIMIT 10;
+    `) // may need to refactor after adding a load more button
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
+
+  const getQuizzesForUser = (id) => {
+    return db.query(`
+      SELECT * FROM quizzes
+      JOIN users ON users.id = creator_id
+      WHERE creator_id = '${id}';
+    `)
       .then(data => data.rows)
       .catch(err => err.message);
   };
@@ -108,5 +122,21 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+<<<<<<< HEAD
   return { getAllQuizzes, getPublicQuizzes, createNewQuiz, sort, createQuestion, createAnswer, addQuizContent, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
+=======
+  return { 
+    getAllQuizzes,
+    getPublicQuizzes,
+    getQuizzesForUser,
+    createNewQuiz, 
+    createQuestion, 
+    createAnswer, 
+    getQuizWithId, 
+    getQuizWithUrl, 
+    getQuestions, 
+    getAnswers, 
+    getAnswersForQuiz 
+  }
+>>>>>>> 485e4718ac78fc55aca11b4eb738bb4c0a20c587
 }
