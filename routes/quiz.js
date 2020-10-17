@@ -18,10 +18,9 @@ module.exports = (helpers) => {
   });
 
   router.post('/create', (req, res) => {
-    helpers.createNewQuiz(req.body);
+    // helpers.createNewQuiz(req.body);
 
     // Obtain quiz ID from newly created quiz
-
     // helpers.createQuestion()
     // helpers.createAnswer()
     console.log(req.body);
