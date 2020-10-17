@@ -8,19 +8,26 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
   </head>
+
+  <nav>
+    <!-- Insert nav partial -->
+  </nav>
 
   <header>
     <h1><%= quiz.title %></h1>
-    <img src=<%= quiz.photo %>
+    <% if(quiz.photo) { %>
+      <img src='<%= quiz.photo %>' height=100 width=168>
+    <% } %>
   </header>
 
   <body>
     <form method='POST' action='/quiz/<%= quiz.url %>'>
       <div id='questions'>
-        <% questions.forEach((question) => { %>
+        <% questions.forEach((question, index) => { %>
           <div id='question<%= question.id %>' class='question'>
+            <h4>Question <%= index + 1 %></h4>
             <p><%= question.question%></p>
             <% question.answers.forEach((answer) => { %>
               <div id='answer<%= answer.id %>text' class='answer'>
@@ -31,7 +38,12 @@
           </div>
         <% }); %>
       </div>
+      </br>
       <button type='submit'>Submit Answers</button>
     </form>
   </body>
+
+  <footer>
+    <!-- Insert footer partial, if created -->
+  </footer>
 </html>
