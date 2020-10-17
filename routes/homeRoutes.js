@@ -7,22 +7,25 @@
 
 const express = require('express');
 const router  = express.Router();
-const bcrypt  = require('bcrypt');
+const user = require('./user');
+const { promise } = require('bcrypt/promises');
 
 
 module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
     const templateVars = {};
+    const userid = req.session.user_id;
 
     // data needed for home page
-    publicQuizzes = quizHelpers.getPublicQuizzes();
-    user = userHelpers.getUserById(req.session.user_id);
+    const promises = [];
+    promises.push(quizHelpers.getPublicQuizzes());
+    if(userid) promises.push(userHelpers.getUserById(userid));
 
-    Promise.all([publicQuizzes, user])
+    Promise.all(promises)
       // populate templateVars with data responses
       .then(res => {
         templateVars.quizzes = res[0];
-        templateVars.user = res[1];
+        templateVars.user = res[1] || undefined;
         return templateVars;
       })
       .then(data => {

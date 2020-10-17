@@ -16,16 +16,6 @@
   </header>
 
   <body>
-    <h1>Routes (GET)</h1>
-    <ul>
-      <li><a href="/">/</a></li>
-      <li><a href="/quiz/create">/quiz/create</a></li>
-      <li><a href="/quiz/testurl1">/quiz/testurl1</a></li>
-      <li><a href="/quiz/testurl1/1">/quiz/testurl1/1</a></li>
-      <li><a href="/user">/user</a></li>
-      <li><a href="/login">/login</a></li>
-      <li><a href="/signup">/signup</a></li>
-    </ul>
     <% for (const quiz of quizzes) { %>
       <%= quiz.title %>
       <img src="<%= quiz.photo %>"><br>

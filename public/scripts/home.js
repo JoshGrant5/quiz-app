@@ -1,15 +1,15 @@
 $(() => {
-  $("#login").on("click", () => {
-    $.ajax({
-      method: "POST",
-      url: "/login"
-    })
-  });
+  // $("#login").on("click", () => {
+  //   $.ajax({
+  //     method: "POST",
+  //     url: "/login"
+  //   })
+  // });
 
-  $("#logout").on("click", () => {
-    $.ajax({
-      method: "POST",
-      url: "/logout"
-    })
-  })
+  // $("#logout").on("click", () => {
+  //   $.ajax({
+  //     method: "POST",
+  //     url: "/logout"
+  //   })
+  // })
 });

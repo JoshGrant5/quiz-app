@@ -2,14 +2,31 @@
   <nav>
     <span>Quiz App</span>
     <div>
-      <ul>
-        <li>View Quizzes</li>
-        <li>Create a Quiz</li>
-        <li>My Quizzes</li>
-        <li id="login">Login (POST /login)</li>
-        <li>Sign up</li>
-        <li>Signed in as: </li>
-        <li id="logout">Logout (POST /logout)</li>
-      </ul>
+      <% if(!user) { %>
+        <ul>
+          <form action="/login" method="POST">
+            <li>
+              <button>Login (POST /login)</button>
+            </li>
+          </form>
+          <li>Sign up</li>
+        </ul>
+      <% } else { %>
+        <ul>
+          <li>Signed in as: <%=user.name %></li>
+          <form action="/logout" method="POST">
+            <li>
+              <button>Logout (POST /logout)</button>
+            </li>
+          </form>
+        </ul>
+      <% } %>
+      <div>
+        <ul>
+          <li><a href="/">View Quizzes</a></li>
+          <li><a href="/quiz/create">Create a Quiz</a></li>
+          <li><a href="/user">My Quizzes</a></li>
+        </ul>
+      </div>
   </nav>
 </header>
