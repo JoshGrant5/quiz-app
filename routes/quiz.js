@@ -13,5 +13,22 @@ module.exports = (helpers) => {
     helpers.getAllQuizzes().then(info => res.json(info));
   });
 
+  router.get("/:url", (req, res) => {
+    let quizInfo = {}
+    helpers.getQuizWithUrl(req.params.url)
+      .then(quiz => {
+        quizInfo.quiz = quiz;
+        return helpers.getQuestions(quiz.id);
+      })
+      .then(questions => {
+        quizInfo.questions = questions;
+        return helpers.getAnswersForQuiz(quizInfo.quiz.id);
+      })
+      .then(answers => {
+        quizInfo.answers = answers;
+        res.json(quizInfo);
+      });
+  });
+
   return router;
 };
