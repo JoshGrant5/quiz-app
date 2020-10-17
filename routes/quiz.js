@@ -19,7 +19,8 @@ module.exports = (helpers) => {
 
   router.post('/create', (req, res) => {
     // Stuff happens
-    helpers.createNewQuiz(res); //TODO - check how data is received first
+    // helpers.createNewQuiz(res); //TODO - check how data is received first
+    console.log(req.body);
     res.redirect('index');
   });
 

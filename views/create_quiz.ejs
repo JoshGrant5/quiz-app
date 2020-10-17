@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create A Quiz!</title>
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+<body>
+
+<!-- Testing for template -->
+  <div class='newQuiz'>
+    <form method='POST' action='/quiz/create'>
+      <label>Quiz Title:</label>
+      <input type='text' name='newQuizName' placeholder='The Best Quiz Ever!'>
+      <label>URL Thumbnail:</label>
+      <input type='text' name='newQuizThumbnail'>
+      <label>Category:</label>
+      <input type='text' name='newQuizCategory'> <!--Dropdown for selecting category-->
+      <label for='listed'>Listed?</label>
+      <input type="radio" id="listed" name="listed" value="true">
+      <h2>Question:</h2>
+      <input type='text' name='newQuizQuestion'>
+      <label>A)</label>
+      <input type='text' name='Answer1'>
+      <input type="radio" id="correct" name="correct" value="true">
+      <label>B)</label>
+      <input type='text' name='Answer2'>
+      <input type="radio" id="correct" name="correct" value="true">
+      <label>C)</label>
+      <input type='text' name='Answer3'>
+      <input type="radio" id="correct" name="correct" value="true">
+      <label>D)</label>
+      <input type='text' name='Answer4'>
+      <input type="radio" id="correct" name="correct" value="true">
+      <button type='button'>Add Another Question</button>
+      <button type='submit'>Create Quiz</button>
+    </form>
+  </div>
+
+<!--When pressed, when using ajax to replace with a new question form, take info from this one and store it somewhere? Test how we receive all this first when just using the submit on post-->
+
+</body>
+</html>
