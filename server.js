@@ -49,7 +49,7 @@ const quizHelpers = require("./db/helpers/quizHelpers")(db);
 
 // Mount all resource routes
 app.use("/user", userRoutes({ userHelpers, quizHelpers }));
-app.use("/quiz", quizRoutes(quizHelpers));
+app.use("/quiz", quizRoutes({ userHelpers, quizHelpers }));
 app.use("/", homeRoutes({ userHelpers, quizHelpers }));
 // Note: mount other resources here, using the same pattern above
 
