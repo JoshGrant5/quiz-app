@@ -3,13 +3,24 @@ module.exports = (db) => {
     return db.query(`SELECT * FROM quizzes;`)
       .then(data => data.rows)
       .catch(err => err.message);
-  }
+  };
 
   const getPublicQuizzes = () => {
-    return db.query(`SELECT * FROM quizzes 
-    WHERE listed = true
-    LIMIT 10;
+    return db.query(`
+      SELECT * FROM quizzes 
+      WHERE listed = true
+      LIMIT 10;
     `) // may need to refactor after adding a load more button
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
+
+  const getQuizzesForUser = (id) => {
+    return db.query(`
+      SELECT * FROM quizzes
+      JOIN users ON users.id = creator_id
+      WHERE creator_id = '${id}';
+    `)
       .then(data => data.rows)
       .catch(err => err.message);
   };
@@ -76,6 +87,7 @@ module.exports = (db) => {
   return { 
     getAllQuizzes,
     getPublicQuizzes,
+    getQuizzesForUser,
     createNewQuiz, 
     createQuestion, 
     createAnswer, 
