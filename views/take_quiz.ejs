@@ -11,9 +11,8 @@
     <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
   </head>
 
-  <nav>
-    <!-- Insert nav partial -->
-  </nav>
+  <!-- Change # to - to uncomment -->
+  <%# include('partials/_nav') %>
 
   <header>
     <h1><%= quiz.title %></h1>
@@ -31,8 +30,8 @@
             <p><%= question.question%></p>
             <% question.answers.forEach((answer) => { %>
               <div id='answer<%= answer.id %>text' class='answer'>
-                <label for='answer<%= answer.id %>'><%= answer.answer%></label>
                 <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
+                <label for='answer<%= answer.id %>'><%= answer.answer%></label>
               </div>
             <% }); %>
           </div>
@@ -43,7 +42,6 @@
     </form>
   </body>
 
-  <footer>
-    <!-- Insert footer partial, if created -->
-  </footer>
+  <!-- Change # to - to uncomment -->
+  <%# include('partials/_footer') %>
 </html>

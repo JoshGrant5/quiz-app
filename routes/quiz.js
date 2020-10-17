@@ -29,7 +29,8 @@ module.exports = (helpers) => {
   });
 
   router.get("/:url", (req, res) => {
-    let quizInfo = {}
+    // let quizInfo = {user_id: cookie};
+    let quizInfo = {};
     helpers.getQuizWithUrl(req.params.url)
       .then(quiz => {
         quizInfo.quiz = quiz;
@@ -43,7 +44,8 @@ module.exports = (helpers) => {
       })
       .then((answers) => {
         for (let i = 0; i < answers.length; i++) {
-          quizInfo.questions[i].answers = answers[i];
+          quizInfo.questions[i].answers = helpers.shuffle(answers[i]);
+          // quizInfo.questions = helpers.shuffle(quizInfo.questions); If we want questions shuffled within quiz
         }
         res.render('take_quiz', quizInfo);
         // res.json(quizInfo);
@@ -58,7 +60,10 @@ module.exports = (helpers) => {
         return helpers.getQuizWithUrl(req.params.url);
       })
       .then(quiz => {
-        return helpers.createResult(quiz.id, score, 1); //1 is user_id, hard-coded currently
+        let user_id = 1;
+        // let user_id = NULL;
+        // if(cookie) user_id = cookie;
+        return helpers.createResult(quiz.id, user_id, score);
       })
       .then(result => res.json(result));
       // .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));

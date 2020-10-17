@@ -82,7 +82,7 @@ module.exports = (db) => {
     .catch(err => err.message);
   }
 
-  const createResult = function(quiz_id, score, user_id) {
+  const createResult = function(quiz_id, user_id, score) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
@@ -93,6 +93,15 @@ module.exports = (db) => {
     return db.query(query, values)
     .then(data => data.rows[0])
     .catch(err => err.message);
+  }
+
+  const shuffle = function(answers) {
+    const shuffled = answers.slice(0);
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }
 
   return {
@@ -107,5 +116,6 @@ module.exports = (db) => {
     getAnswersForQuiz,
     getScore,
     createResult,
+    shuffle,
   }
 }
