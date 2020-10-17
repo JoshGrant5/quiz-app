@@ -42,7 +42,8 @@ module.exports = (helpers) => {
       .then(answers => {
         quizInfo.answers = answers;
         res.json(quizInfo);
-      });
+      })
+      .catch(err => res.json(err));
   });
 
   return router;

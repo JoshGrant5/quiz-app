@@ -17,9 +17,9 @@
 
 <!-- Testing template for functionality -->
 
-  <div class='newQuizContainer'>
+<form method='POST' action='/quiz/create'>
 
-    <form method='POST' action='/quiz/create'>
+  <div class='newQuizContainer'>
 
       <div class='newHeading'>
         <label>Quiz Title:</label>
@@ -33,34 +33,34 @@
       </div>
 
       <div class='newQuestion'>
-        <h2>Question:</h2>
-        <input type='text' name='question'>
+        <h2>Question 1:</h2>
+        <input type='text' name='question1'>
         <label>A)</label>
-        <input type='text' name='answer1'>
-        <input type="radio" name="correct" value="true">
+        <input type='text' name='a1'>
+        <input type="radio" name="correct1" value="true">
         <!-- <input type='hidden' name='test' value='Answer1'> -->
         <label>B)</label>
-        <input type='text' name='answer2'>
-        <input type="radio" name="correct" value="true">
+        <input type='text' name='b1'>
+        <input type="radio" name="correct1" value="true">
         <label>C)</label>
-        <input type='text' name='answer3'>
-        <input type="radio" name="correct" value="true">
+        <input type='text' name='c1'>
+        <input type="radio" name="correct1" value="true">
         <label>D)</label>
-        <input type='text' name='answer4'>
-        <input type="radio" name="correct" value="true">
+        <input type='text' name='d1'>
+        <input type="radio" name="correct1" value="true">
       </div>
 
+  </div>
 
-    <button type='button' class='addNewQuestion'>Add Another Question</button>
-    <button type='submit'>Create Quiz</button>
 
-    </form>
+  <button type='button' class='addNewQuestion'>Add Another Question</button>
+  <button type='submit'>Create Quiz</button>
+
+</form>
 
     <div class='question'>
 
     </div>
-
-  </div>
 
   <!--
 
@@ -68,6 +68,7 @@
   thumbnail: 'test',
   category: 'test',
   listed: 'true',
+
   question: [ '1', '2' ],
   answer1: [ 'a', 'a' ],
   test: [ 'Answer1', 'Answer2' ],
