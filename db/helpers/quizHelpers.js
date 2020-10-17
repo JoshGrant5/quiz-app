@@ -5,16 +5,13 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-<<<<<<< HEAD
-  // Adds quiz to db - accepts an object
-=======
   const getPublicQuizzes = () => {
     return db.query(`SELECT * FROM quizzes WHERE listed = true;`)
       .then(data => data.rows)
       .catch(err => err.message);
   };
 
->>>>>>> b4fc68c2d1efbab9a4595ce4f2f920674c043a0c
+  // Adds quiz to db - accepts an object
   const createNewQuiz = function(info) {
     let dateString = Date.now();
     let timestamp = new Date(dateString);
@@ -111,20 +108,5 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-<<<<<<< HEAD
-  return { getAllQuizzes, createNewQuiz, createQuestion, sort, createAnswer, addQuizContent, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
-=======
-  return { 
-    getAllQuizzes,
-    getPublicQuizzes,
-    createNewQuiz, 
-    createQuestion, 
-    createAnswer, 
-    getQuizWithId, 
-    getQuizWithUrl, 
-    getQuestions, 
-    getAnswers, 
-    getAnswersForQuiz 
-  }
->>>>>>> b4fc68c2d1efbab9a4595ce4f2f920674c043a0c
+  return { getAllQuizzes, getPublicQuizzes, createNewQuiz, sort, createQuestion, createAnswer, addQuizContent, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
 }
