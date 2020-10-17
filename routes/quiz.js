@@ -36,9 +36,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       return quizHelpers.sort(data.id ,req.body);
     })
     .then(sortedData => {
+      res.redirect('/user')
       return quizHelpers.addQuizContent(sortedData);
     })
-    .then(res => res.redirect('/create'))
     .catch(err => err.message);
   })
 
@@ -46,7 +46,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     let quizInfo = {}
     quizHelpers.getQuizWithUrl(req.params.url)
     // let quizInfo = {user_id: cookie};
-    helpers.getQuizWithUrl(req.params.url)
+    quizHelpers.getQuizWithUrl(req.params.url)
       .then(quiz => {
         quizInfo.quiz = quiz;
         return quizHelpers.getQuestions(quiz.id);
