@@ -18,15 +18,16 @@ module.exports = (helpers) => {
   });
 
   router.post('/create', (req, res) => {
-    helpers.createNewQuiz(req.body);
-
-    // Obtain quiz ID from newly created quiz
-
-    // helpers.createQuestion()
-    // helpers.createAnswer()
-    console.log(req.body);
-    res.redirect('index');
-  });
+    helpers.createNewQuiz(req.body)
+    .then(data => {
+      return helpers.sort(data.id ,req.body);
+    })
+    .then(sortedData => {
+      return helpers.addQuizContent(sortedData);
+    })
+    .then(res => res.redirect('index'))
+    .catch(err => err.message);
+  })
 
   router.get("/:url", (req, res) => {
     // let quizInfo = {user_id: cookie};
