@@ -39,7 +39,7 @@ app.use(cookieSession({
 }));
 
 // User & Quiz Routes
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/userRoutes");
 const quizRoutes = require("./routes/quiz");
 const homeRoutes = require("./routes/homeRoutes");
 
