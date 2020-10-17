@@ -7,6 +7,13 @@ const shareResult = function() {
   url.setSelectionRange(0, url.value.length);
   document.execCommand('copy');
   document.body.removeChild(url);
+  if (!$('#saved').length) {
+    const div = document.createElement('div');
+    div.id = 'saved';
+    const body = document.querySelector('body');
+    div.textContent = "Website saved to clipboard";
+    body.appendChild(div);
+  }
 }
 
 const shareQuiz = function() {
@@ -15,12 +22,18 @@ const shareQuiz = function() {
   url.setAttribute("id", "url");
   let quiz = document.URL;
   quiz = quiz.split('/').slice(0, -2).join('/')
-  console.log(quiz);
   document.getElementById("url").value = quiz;
   url.select();
   url.setSelectionRange(0, url.value.length);
   document.execCommand('copy');
   document.body.removeChild(url);
+  if (!$('#saved').length) {
+    const div = document.createElement('div');
+    div.id = 'saved';
+    const body = document.querySelector('body');
+    div.textContent = "Website saved to clipboard";
+    body.appendChild(div);
+  }
 }
 
 $(document).ready(function() {
