@@ -1,9 +1,15 @@
 module.exports = (db) => {
   const getAllQuizzes = function() {
-    return db.query(`SELECT * FROM quizzes`)
+    return db.query(`SELECT * FROM quizzes;`)
       .then(data => data.rows)
       .catch(err => err.message);
   }
+
+  const getPublicQuizzes = () => {
+    return db.query(`SELECT * FROM quizzes WHERE listed = true;`)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
 
   const createNewQuiz = function(info) {
     let dateString = Date.now();
@@ -64,5 +70,16 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  return { getAllQuizzes, createNewQuiz, createQuestion, createAnswer, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
+  return { 
+    getAllQuizzes,
+    getPublicQuizzes,
+    createNewQuiz, 
+    createQuestion, 
+    createAnswer, 
+    getQuizWithId, 
+    getQuizWithUrl, 
+    getQuestions, 
+    getAnswers, 
+    getAnswersForQuiz 
+  }
 }
