@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
+const cookieSession = require('cookie-session');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
@@ -32,27 +33,33 @@ app.use("/styles", sass({
   outputStyle: 'expanded'
 }));
 app.use(express.static("public"));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['averylongsecretkey', 'anotherverylongsecretkey']
+}));
 
 // User & Quiz Routes
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/userRoutes");
 const quizRoutes = require("./routes/quiz");
+const homeRoutes = require("./routes/homeRoutes");
 
 // User & Quiz Helpers
-const usersHelpers = require("./db/helpers/userHelpers")(db);
+const userHelpers = require("./db/helpers/userHelpers")(db);
 const quizHelpers = require("./db/helpers/quizHelpers")(db);
 
 // Mount all resource routes
-app.use("/user", userRoutes(usersHelpers));
+app.use("/user", userRoutes({ userHelpers, quizHelpers }));
 app.use("/quiz", quizRoutes(quizHelpers));
+app.use("/", homeRoutes({ userHelpers, quizHelpers }));
 // Note: mount other resources here, using the same pattern above
 
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
-app.get("/", (req, res) => {
-  res.render("index");
-});
+// app.get("/", (req, res) => {
+//   res.render("index");
+// });
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
