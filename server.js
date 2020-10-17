@@ -36,7 +36,7 @@ app.use(express.static("public"));
 // User & Quiz Routes
 const userRoutes = require("./routes/user");
 const quizRoutes = require("./routes/quiz");
-const homeRoutes = require("./routes/home");
+const homeRoutes = require("./routes/homeRoutes");
 
 // User & Quiz Helpers
 const usersHelpers = require("./db/helpers/userHelpers")(db);
