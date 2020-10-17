@@ -31,5 +31,5 @@ module.exports = (db) => {
     .catch(err => err.message);
   }
 
-  return { getAllQuizzes }
+  return { getAllQuizzes, createNewQuiz, createQuestion, createAnswer }
 }

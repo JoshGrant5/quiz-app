@@ -17,5 +17,12 @@ module.exports = (helpers) => {
     res.render('create_quiz');
   });
 
+  router.post('/create', (req, res) => {
+    // Stuff happens
+    helpers.createNewQuiz(res); //TODO - check how data is received first
+    res.redirect('index');
+  });
+
+
   return router;
 };
