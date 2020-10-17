@@ -14,9 +14,9 @@ module.exports = ({ usersHelpers, quizHelpers }) => {
     const templateVars = {};
 
     // Data needed to render home page
-    quizzes = quizHelpers.getAllQuizzes();
+    publicQuizzes = quizHelpers.getPublicQuizzes();
 
-    Promise.all([quizzes])
+    Promise.all([publicQuizzes])
       // Populate templateVars with responses
       .then(res => {
         templateVars.quizzes = res[0];
