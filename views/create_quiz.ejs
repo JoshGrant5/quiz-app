@@ -18,27 +18,45 @@
   <div class='newQuiz'>
     <form method='POST' action='/quiz/create'>
       <label>Quiz Title:</label>
-      <input type='text' name='newQuizName' placeholder='The Best Quiz Ever!'>
+      <input type='text' name='title' placeholder='The Best Quiz Ever!'>
       <label>URL Thumbnail:</label>
-      <input type='text' name='newQuizThumbnail'>
+      <input type='text' name='thumbnail'>
       <label>Category:</label>
-      <input type='text' name='newQuizCategory'> <!--Dropdown for selecting category-->
+      <input type='text' name='category'> <!--Dropdown for selecting category-->
       <label for='listed'>Listed?</label>
       <input type="radio" id="listed" name="listed" value="true">
       <h2>Question:</h2>
-      <input type='text' name='newQuizQuestion'>
+      <input type='text' name='question'>
       <label>A)</label>
-      <input type='text' name='Answer1'>
-      <input type="radio" id="correct" name="correct" value="true">
+      <input type='text' name='answer1'>
+      <input type="radio" name="correct" value="true">
+      <input type='hidden' name='test' value='Answer1'>
       <label>B)</label>
-      <input type='text' name='Answer2'>
-      <input type="radio" id="correct" name="correct" value="true">
+      <input type='text' name='answer2'>
+      <input type="radio" name="correct" value="true">
       <label>C)</label>
-      <input type='text' name='Answer3'>
-      <input type="radio" id="correct" name="correct" value="true">
+      <input type='text' name='answer3'>
+      <input type="radio" name="correct" value="true">
       <label>D)</label>
-      <input type='text' name='Answer4'>
-      <input type="radio" id="correct" name="correct" value="true">
+      <input type='text' name='answer4'>
+      <input type="radio" name="correct" value="true">
+
+
+      <h2>Question:</h2>
+      <input type='text' name='question'>
+      <label>A)</label>
+      <input type='text' name='answer1'>
+      <input type="radio" name="correct" value="true">
+      <input type='hidden' name='test' value='Answer2'>
+      <label>B)</label>
+      <input type='text' name='answer2'>
+      <input type="radio" name="correct" value="true">
+      <label>C)</label>
+      <input type='text' name='answer3'>
+      <input type="radio" name="correct" value="true">
+      <label>D)</label>
+      <input type='text' name='answer4'>
+      <input type="radio" name="correct" value="true">
       <button type='button'>Add Another Question</button>
       <button type='submit'>Create Quiz</button>
     </form>

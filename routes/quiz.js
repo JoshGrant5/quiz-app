@@ -18,8 +18,12 @@ module.exports = (helpers) => {
   });
 
   router.post('/create', (req, res) => {
-    // Stuff happens
-    // helpers.createNewQuiz(res); //TODO - check how data is received first
+    helpers.createNewQuiz(req.body);
+
+    // Obtain quiz ID from newly created quiz
+
+    // helpers.createQuestion()
+    // helpers.createAnswer()
     console.log(req.body);
     res.redirect('index');
   });

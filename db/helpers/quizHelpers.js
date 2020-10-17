@@ -5,12 +5,13 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  // createNewQuiz, createQuestion, and createAnswer accept an array of necessary info
+  // createNewQuiz, createQuestion, and createAnswer accept an object of necessary info
   const createNewQuiz = function(info) {
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
     VALUES ($1, $2, $3, $4, $5, $6, $7);
-    `, info)
+    `, [1, info.title, info.thumbnail, info.listed, '/testurl', info.category, '2020-10-16',])
+    //! creator_id, url, and date hardcoded as a placeholders - would be logged in user_id, quiz url, date function
     .then(data => data.rows)
     .catch(err => err.message);
   }
