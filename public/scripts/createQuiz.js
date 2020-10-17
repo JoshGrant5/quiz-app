@@ -10,22 +10,18 @@ $(() => {
         <input type='text' name='question${count}'>
         <label>A)</label>
         <input type='text' name='a${count}'>
-        <input type='radio' name='correct${count}' value='a'>
+        <input type='radio' name='correct${count}' value='1'>
         <label>B)</label>
         <input type='text' name='b${count}'>
-        <input type='radio' name='correct${count}' value='b''>
+        <input type='radio' name='correct${count}' value='2'>
         <label>C)</label>
         <input type='text' name='c${count}'>
-        <input type='radio' name='correct${count}' value='c'>
+        <input type='radio' name='correct${count}' value='3'>
         <label>D)</label>
         <input type='text' name='d${count}'>
-        <input type='radio' name='correct${count}' value='d'>
+        <input type='radio' name='correct${count}' value='4'>
       </div>
     `
-  };
-
-  const questionCount = count => {
-    ('#count').val(count);
   };
 
   $('.addNewQuestion').on('click', function() {
