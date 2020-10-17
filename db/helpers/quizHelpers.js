@@ -7,7 +7,7 @@ module.exports = (db) => {
 
   const getPublicQuizzes = () => {
     return db.query(`
-      SELECT * FROM quizzes 
+      SELECT * FROM quizzes
       WHERE listed = true
       LIMIT 10;
     `) // may need to refactor after adding a load more button
@@ -122,21 +122,6 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-<<<<<<< HEAD
   return { getAllQuizzes, getPublicQuizzes, createNewQuiz, sort, createQuestion, createAnswer, addQuizContent, getQuizWithId, getQuizWithUrl, getQuestions, getAnswers, getAnswersForQuiz }
-=======
-  return { 
-    getAllQuizzes,
-    getPublicQuizzes,
-    getQuizzesForUser,
-    createNewQuiz, 
-    createQuestion, 
-    createAnswer, 
-    getQuizWithId, 
-    getQuizWithUrl, 
-    getQuestions, 
-    getAnswers, 
-    getAnswersForQuiz 
-  }
->>>>>>> 485e4718ac78fc55aca11b4eb738bb4c0a20c587
+
 }

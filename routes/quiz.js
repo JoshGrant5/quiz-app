@@ -7,8 +7,6 @@
 
 const express = require('express');
 const router  = express.Router();
-const user = require('./user');
-const { promise } = require('bcrypt/promises');
 
 module.exports = (helpers) => {
   router.get("/", (req, res) => {
