@@ -34,6 +34,9 @@ $(() => {
   $('#reviewQuiz').on('click', function() {
     $('.newQuestion').slideDown(600);
     $('#createQuizButton').css({visibility: 'visible'});
+    const category = $('#selectedCategory').find(":selected").text();
+    console.log(category);
+    $('#categoryInput').val(category);
   });
 
   `

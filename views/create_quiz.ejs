@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
   <link rel="stylesheet" href="/styles/create_quiz.css" type="text/css" />
 
+  <!-- Local JS scripts -->
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/createQuiz.js"></script>
 
@@ -31,9 +32,19 @@
         <label>Quiz Title:</label>
         <input type='text' name='title' required='required' placeholder='The Best Quiz Ever!'>
         <label>URL Thumbnail:</label>
-        <input type='text' name='thumbnail'>
+        <input type='url' name='thumbnail'>
         <label>Category:</label>
-        <input type='text' name='category' required='required'> <!--Will be dropdown for selecting category-->
+
+        <div class="dropdown">
+          <label>Category:</label>
+          <input type='hidden' id='categoryInput' name='category'>
+          <select id='selectedCategory'>
+            <% for (let category of categories) { %>
+              <option class='category' required='required' value='<%= category %>'><%= category %></option>
+            <% } %>
+          </select>
+        </div>
+
         <label for='listed'>Listed?</label>
         <input type="radio" id="listed" name="listed" value="true">
       </div>
