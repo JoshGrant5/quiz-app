@@ -11,14 +11,26 @@ module.exports = (db) => {
 
   /**
    * Get all public (listed) quizzes from the database
-   * @param {{filter: string}} category filter
+   * @param {category: string} category filter
    */
-  const getPublicQuizzes = () => {
-    return db.query(`
+  const getPublicQuizzes = (category) => {
+    const queryParams = [];
+    let queryString = `
       SELECT *
       FROM quizzes
-      WHERE listed = true;
-    `)
+      WHERE listed = true
+    `;
+
+    if(category.categoryFilter !== 'All') {
+      queryParams.push(category.categoryFilter);
+      queryString += `AND category = $${queryParams.length} `;
+    }
+
+    queryString += `
+      LIMIT 10;    
+    `;
+
+    return db.query(queryString, queryParams)
       .then(data => data.rows)
       .catch(err => err.message);
   };

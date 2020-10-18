@@ -24,10 +24,14 @@
           <button type="button"><%= category %></button>
         <% } %>
       </div>
-      <% for (const quiz of quizzes) { %>
-        <%= quiz.title %>
-        <img src="<%= quiz.photo %>"><br>
-      <% } %>
+      <div id="quiz-container">
+        <% for (const quiz of quizzes) { %>
+          <article class="quiz">
+            <%= quiz.title %>
+            <img src="<%= quiz.photo %>"><br>
+          </article>
+        <% } %>
+      </div>
     </main>
   </body>
 </html>
