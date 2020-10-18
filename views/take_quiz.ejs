@@ -23,9 +23,15 @@
 
   <body>
     <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
+      <p></p>
+      <button id='prev' type='button'>Previous Question</button>
+      <button id='next' type='button'>Next Question</button>
+      <button id='submit' type='submit'>Submit Answers</button>
+      <button id='review' type='button'>Review Answers</button>
+      <p></p>
       <div id='questions'>
         <% questions.forEach((question, index) => { %>
-          <div id='question<%= question.id %>' class='question'>
+          <div id='question<%= index + 1 %>' class='question'>
             <h4>Question <%= index + 1 %></h4>
             <p><%= question.question%></p>
             <% question.answers.forEach((answer) => { %>
@@ -37,8 +43,6 @@
           </div>
         <% }); %>
       </div>
-      </br>
-      <button type='submit'>Submit Answers</button>
     </form>
   </body>
 
