@@ -16,19 +16,24 @@
   </header>
 
   <body>
-    <h1>All Quizzes</h1>
-    <% for (const quiz of quizzes) { %>
-      <a href="/quiz/<%= quiz.url %>">
-        <article class="quiz">
-          <header>
-            <%= quiz.title %>
-          </header>
-          <body>
-            <% if(!quiz.photo) quiz.photo = "../assets/quiz-placeholder.png" %>
-            <img src="<%= quiz.photo %>">
-          </body>
-        </article>
-      </a>
-    <% } %>
+    <main>
+      <div class="filters">
+        <span>Filter by:</span>
+        <button type="button">All</button>
+        <% for (const category of categories) { %>
+          <button type="button"><%= category %></button>
+        <% } %>
+      </div>
+      <div id="quiz-container">
+        <% for (const quiz of quizzes) { %>
+          <a href="/quiz/<%= quiz.url %>">
+            <article class="quiz">
+              <%= quiz.title %>
+              <img src="<%= quiz.photo %>"><br>
+            </article>
+          </a>
+        <% } %>
+      </div>
+    </main>
   </body>
 </html>
