@@ -17,7 +17,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-  return { 
+  return {
     getAllUsers,
     getUserByEmail,
     getUserById

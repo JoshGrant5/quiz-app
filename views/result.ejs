@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/resultButtons.js"></script>
   </head>
+
+  <%- include('partials/header') %>
 
   <header>
     <h1><%= result.title %></h1>
@@ -22,11 +24,13 @@
   <body>
     <div>
       <h2>Your Score</h2>
-      <p><%= result.score %></p>
+      <p><%= Math.floor(result.score/result.total * 100) %>%</p>
+      <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
     </div>
     <div>
-      <button type='button' id = 'share-result'>Share Result</button>
-      <button type='button' id = 'share-quiz'>Share Quiz</button>
+      <button type='button' id='share-result'>Share Result</button>
+      <button type='button' id='share-quiz'>Share Quiz</button>
+      <button type='button' id='take-quiz'>Beat This Score</button>
     </div>
   </body>
 </html>

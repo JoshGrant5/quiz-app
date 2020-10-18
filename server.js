@@ -40,7 +40,7 @@ app.use(cookieSession({
 
 // User & Quiz Routes
 const userRoutes = require("./routes/userRoutes");
-const quizRoutes = require("./routes/quiz");
+const quizRoutes = require("./routes/quizRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 
 // User & Quiz Helpers

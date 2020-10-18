@@ -1,16 +1,37 @@
 module.exports = (db) => {
-  const getAllQuizzes = function() {
-    return db.query(`SELECT * FROM quizzes;`)
+
+  const getAllQuizzes = () => {
+    return db.query(`
+      SELECT * 
+      FROM quizzes;
+    `)
       .then(data => data.rows)
       .catch(err => err.message);
   };
 
-  const getPublicQuizzes = () => {
-    return db.query(`
-      SELECT * FROM quizzes
+  /**
+   * Get all public (listed) quizze
+   * @param {category: string} category filter
+   * Returns array of quiz objects
+   */
+  const getPublicQuizzes = (category) => {
+    const queryParams = [];
+    let queryString = `
+      SELECT *
+      FROM quizzes
       WHERE listed = true
-      LIMIT 10;
-    `) // may need to refactor after adding a load more button
+    `;
+
+    if(category.categoryFilter !== 'All') {
+      queryParams.push(category.categoryFilter);
+      queryString += `AND category = $${queryParams.length} `;
+    }
+
+    queryString += `
+      LIMIT 10;    
+    `;
+
+    return db.query(queryString, queryParams)
       .then(data => data.rows)
       .catch(err => err.message);
   };
@@ -26,7 +47,7 @@ module.exports = (db) => {
   };
 
   // Adds quiz to db - accepts an object
-  const createNewQuiz = function(info) {
+  const createNewQuiz = (info) => {
     let dateString = Date.now();
     let timestamp = new Date(dateString);
     const date = timestamp.toDateString();
@@ -67,7 +88,7 @@ module.exports = (db) => {
     INSERT INTO answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
-  }
+  };
 
   // Goes through all questions and answers, placing in correct db - accepts an object
   const addQuizContent = function(info) {
@@ -98,31 +119,68 @@ module.exports = (db) => {
     return db.query(`SELECT * FROM quizzes WHERE id = $1;`, [id])
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
-  const getQuizWithUrl = function(url) {
-    return db.query(`SELECT * FROM quizzes WHERE url = $1;`, [url])
+  const getQuizWithUrl = (url) => {
+    return db.query(`
+      SELECT * 
+      FROM quizzes 
+      WHERE url = $1;
+    `, [url])
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
-  const getQuestions = function(id) {
-    return db.query(`SELECT * FROM questions WHERE quiz_id = $1 ORDER BY id;`, [id])
+  const getQuestions = (id) => {
+    return db.query(`
+      SELECT *
+      FROM questions
+      WHERE quiz_id = $1
+      ORDER BY id;
+    `, [id])
       .then(data => data.rows)
       .catch(err => err.message);
-  }
+  };
 
-  const getAnswers = function(id) {
-    return db.query(`SELECT * FROM answers WHERE question_id = $1 ORDER BY id;`, [id])
+  const getAnswers = (id) => {
+    return db.query(`
+      SELECT *
+      FROM answers
+      WHERE question_id = $1
+      ORDER BY id;
+    `, [id])
       .then(data => data.rows)
       .catch(err => err.message);
-  }
+  };
 
-  const getAnswersForQuiz = function(id) {
-    return db.query(`SELECT * FROM answers JOIN questions ON question_id = questions.id WHERE quiz_id = $1 ORDER BY answers.id;`, [id])
+  const getAnswersForQuiz = (id) => {
+    return db.query(`
+      SELECT *
+      FROM answers
+      JOIN questions ON question_id = questions.id
+      WHERE quiz_id = $1
+      ORDER BY answers.id;
+    `, [id])
       .then(data => data.rows)
       .catch(err => err.message);
-  }
+  };
+
+  /**
+   * Get all quiz categories
+   * Returns an array of categories
+   */
+  const getCategories = () => {
+    return db.query(`
+      SELECT DISTINCT category
+      FROM quizzes;
+    `)
+      .then(data => {
+        const categories = [];
+        data.rows.forEach((item) => categories.push(item.category));
+        return categories;
+      })
+      .catch(err => err.message);
+  };
 
   const getScore = function(answers) {
     let query = `SELECT COUNT(*) AS score FROM answers
@@ -142,13 +200,22 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const createResult = function(quiz_id, user_id, score) {
+  const createResult = function(quiz_id, user_id, score, total) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
-    const query = `INSERT INTO results (quiz_id, user_id, score, date_completed)
-    VALUES ($1, $2, $3, $4) RETURNING *;`;
-    const values = [quiz_id, user_id, score, date];
+    let query = '';
+    let values = [];
+    if (user_id) {
+      query += `INSERT INTO results (quiz_id, user_id, score, total, date_completed)
+      VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
+      values = [quiz_id, user_id, score, total, date];
+    }
+    else {
+      query += `INSERT INTO results (quiz_id, score, total, date_completed)
+      VALUES ($1, $2, $3, $4) RETURNING *;`;
+      values = [quiz_id, score, total, date];
+    }
 
     return db.query(query, values)
       .then(data => data.rows[0])
@@ -160,6 +227,38 @@ module.exports = (db) => {
     const values = [result_id];
     return db.query(query, values)
       .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  const getAllResultsForQuiz = function(quiz_id) {
+    const query = `SELECT * FROM results WHERE quiz_id = $1;`
+    const values = [quiz_id];
+    return db.query(query, values)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  }
+
+  const getNumResultsForQuiz = function(quiz_id) {
+    const query = `SELECT COUNT(*) FROM results WHERE quiz_id = $1;`
+    const values = [quiz_id];
+    return db.query(query, values)
+      .then(data => Number(data.rows[0].count))
+      .catch(err => err.message);
+  }
+
+  const getNumScoresBeatenForQuiz = function(quiz_id, score) {
+    const query = `SELECT COUNT(*) FROM results WHERE quiz_id = $1 AND score < $2;`
+    const values = [quiz_id, score];
+    return db.query(query, values)
+      .then(data => Number(data.rows[0].count))
+      .catch(err => err.message);
+  }
+
+  const getAllResultsForUser = function(user_id) {
+    const query = `SELECT * FROM results WHERE user_id = $1;`
+    const values = [user_id];
+    return db.query(query, values)
+      .then(data => data.rows)
       .catch(err => err.message);
   }
 
@@ -189,6 +288,11 @@ module.exports = (db) => {
     getScore,
     createResult,
     getResult,
+    getAllResultsForQuiz,
+    getNumResultsForQuiz,
+    getNumScoresBeatenForQuiz,
+    getAllResultsForUser,
     shuffle,
+    getCategories,
   }
 }

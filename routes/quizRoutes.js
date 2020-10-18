@@ -42,6 +42,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     .catch(err => err.message);
   })
 
+<<<<<<< HEAD:routes/quiz.js
     let quizInfo = {}
     quizHelpers.getQuizWithUrl(req.params.url)
     // let quizInfo = {user_id: cookie};
@@ -49,17 +50,29 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(quiz => {
         quizInfo.quiz = quiz;
         return quizHelpers.getQuestions(quiz.id);
+=======
+  router.get("/:url", (req, res) => {
+    const promises = [];
+    const userid = req.session.user_id;
+    promises.push(quizHelpers.getQuizWithUrl(req.params.url));
+    if(userid) promises.push(userHelpers.getUserById(userid));
+    let quizInfo = {};
+    Promise.all(promises)
+      .then(results => {
+        quizInfo.quiz = results[0];
+        quizInfo.user = results[1] || undefined;
+        return quizHelpers.getQuestions(quizInfo.quiz.id);
+>>>>>>> f0a78e60dd5bbb842413b13688ceec9bf095bd8d:routes/quizRoutes.js
       })
       .then(questions => {
         quizInfo.questions = questions;
-        return quizHelpers.getAnswersForQuiz(quizInfo.quiz.id);
         const answers = [];
-        questions.forEach(question => answers.push(helpers.getAnswers(question.id)));
+        questions.forEach(question => answers.push(quizHelpers.getAnswers(question.id)));
         return Promise.all(answers);
       })
       .then((answers) => {
         for (let i = 0; i < answers.length; i++) {
-          quizInfo.questions[i].answers = helpers.shuffle(answers[i]);
+          quizInfo.questions[i].answers = quizHelpers.shuffle(answers[i]);
           // quizInfo.questions = helpers.shuffle(quizInfo.questions); If we want questions shuffled within quiz
         }
         res.render('take_quiz', quizInfo);
@@ -69,24 +82,39 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
   router.post("/:url", (req, res) => {
     let score = 0;
-    helpers.getScore(req.body)
+    quizHelpers.getScore(req.body)
       .then(answers => {
         score = answers.score;
-        return helpers.getQuizWithUrl(req.params.url);
+        return quizHelpers.getQuizWithUrl(req.params.url);
       })
       .then(quiz => {
-        let user_id = 1;
-        // let user_id = NULL;
-        // if(cookie) user_id = cookie;
-        return helpers.createResult(quiz.id, user_id, score);
+        let user_id = '';
+        if(req.session.user_id) user_id = req.session.user_id;
+        return quizHelpers.createResult(quiz.id, user_id, score, Object.keys(req.body).length);
       })
-      // .then(result => res.json(result));
       .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
   });
 
   router.get("/:url/result/:id", (req, res) => {
-    helpers.getResult(req.params.id)
-      .then(result => res.render('result', { result }));
+    const promises = [];
+    const userid = req.session.user_id;
+    const resultInfo = {};
+    promises.push(quizHelpers.getResult(req.params.id));
+    if(userid) promises.push(userHelpers.getUserById(userid));
+    Promise.all(promises)
+      .then(results => {
+        resultInfo.result = results[0];
+        resultInfo.user = results[1] || undefined;
+        const promises = [];
+        promises.push(quizHelpers.getNumScoresBeatenForQuiz(resultInfo.result.quiz_id, resultInfo.result.score));
+        promises.push(quizHelpers.getNumResultsForQuiz(resultInfo.result.quiz_id));
+        return Promise.all(promises);
+      })
+      .then(results => {
+        resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
+        if (resultInfo.result.url !== req.params.url) res.redirect('/');
+        else res.render('result', resultInfo);
+      });
   });
 
   return router;

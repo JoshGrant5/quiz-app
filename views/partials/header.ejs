@@ -13,7 +13,7 @@
         </ul>
       <% } else { %>
         <ul>
-          <li>Signed in as: <%=user.name %></li>
+          <li>Signed in as: <%= user.name %></li>
           <form action="/logout" method="POST">
             <li>
               <button>Logout (POST /logout)</button>
@@ -23,9 +23,13 @@
       <% } %>
       <div>
         <ul>
+        <% if(!user) { %>
+          <li><a href="/">View Quizzes</a></li>
+        <% } else { %>
           <li><a href="/">View Quizzes</a></li>
           <li><a href="/quiz/create">Create a Quiz</a></li>
           <li><a href="/user">My Quizzes</a></li>
+        <% } %>
         </ul>
       </div>
   </nav>
