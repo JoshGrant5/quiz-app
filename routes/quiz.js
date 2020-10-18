@@ -42,7 +42,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     .catch(err => err.message);
   })
 
-  router.get("/:url", (req, res) => {
     let quizInfo = {}
     quizHelpers.getQuizWithUrl(req.params.url)
     // let quizInfo = {user_id: cookie};
@@ -66,7 +65,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         res.render('take_quiz', quizInfo);
         // res.json(quizInfo);
       });
-  });
+
 
   router.post("/:url", (req, res) => {
     let score = 0;
