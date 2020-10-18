@@ -47,4 +47,12 @@ $(() => {
     }
   });
 
+  $('#thumbnail').on('input', function() {
+    $('#quizPhoto').attr('src', $(this).val());
+  })
+
+  $('#thumbnail').on('click', function() {
+    $(this).select();
+  })
+
 });
