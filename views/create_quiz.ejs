@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create A Quiz!</title>
 
+  <!-- Bootstrap stylesheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
@@ -22,8 +25,6 @@
 
 <body>
 
-<!-- Testing template for functionality -->
-
 <form method='POST' action='/quiz/create' id='newQuizForm'>
 
   <div class='newQuizContainer'>
@@ -32,9 +33,8 @@
         <label>Quiz Title:</label>
         <input type='text' name='title' required='required' placeholder='The Best Quiz Ever!'>
         <label>URL Thumbnail:</label>
-        <input type='url' name='thumbnail'>
+        <input type='url' name='thumbnail' placeholder='placeholder url?'>
         <label>Category:</label>
-
         <div class="dropdown">
           <label>Category:</label>
           <input type='hidden' id='categoryInput' name='category'>
@@ -44,13 +44,15 @@
             <% } %>
           </select>
         </div>
-
         <label for='listed'>Listed?</label>
         <input type="radio" id="listed" name="listed" value="true">
       </div>
 
       <div class='newQuestion'>
-        <h2>Question 1:</h2>
+        <div>
+          <h2>Question 1:</h2>
+          <button type="button" class="btn btn-outline-danger" id='deleteQuestion1'>X</button>
+        </div>
         <input type='text' name='question1' required='required'>
         <label>A)</label>
         <input type='text' name='a1' required='required'>
