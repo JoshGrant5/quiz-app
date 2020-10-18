@@ -19,13 +19,15 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     // data needed for home page
     const promises = [];
     promises.push(quizHelpers.getPublicQuizzes());
+    promises.push(quizHelpers.getCategories());
     if(userid) promises.push(userHelpers.getUserById(userid));
 
     Promise.all(promises)
       // populate templateVars with data responses
       .then(res => {
         templateVars.quizzes = res[0];
-        templateVars.user = res[1] || undefined;
+        templateVars.categories = res[1];
+        templateVars.user = res[2] || undefined;
         return templateVars;
       })
       .then(data => {

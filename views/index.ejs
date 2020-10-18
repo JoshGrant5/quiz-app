@@ -16,9 +16,18 @@
   </header>
 
   <body>
-    <% for (const quiz of quizzes) { %>
-      <%= quiz.title %>
-      <img src="<%= quiz.photo %>"><br>
-    <% } %>
+    <main>
+      <div>
+        <span>Filter by:</span>
+        <button class="filter" type="button">All</button>
+        <% for (const category of categories) { %>
+          <button class="filter" type="button"><%= category %></button>
+        <% } %>
+      </div>
+      <% for (const quiz of quizzes) { %>
+        <%= quiz.title %>
+        <img src="<%= quiz.photo %>"><br>
+      <% } %>
+    </main>
   </body>
 </html>
