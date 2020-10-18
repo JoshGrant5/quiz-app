@@ -42,6 +42,15 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     .catch(err => err.message);
   })
 
+<<<<<<< HEAD:routes/quiz.js
+    let quizInfo = {}
+    quizHelpers.getQuizWithUrl(req.params.url)
+    // let quizInfo = {user_id: cookie};
+    quizHelpers.getQuizWithUrl(req.params.url)
+      .then(quiz => {
+        quizInfo.quiz = quiz;
+        return quizHelpers.getQuestions(quiz.id);
+=======
   router.get("/:url", (req, res) => {
     const promises = [];
     const userid = req.session.user_id;
@@ -53,6 +62,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         quizInfo.quiz = results[0];
         quizInfo.user = results[1] || undefined;
         return quizHelpers.getQuestions(quizInfo.quiz.id);
+>>>>>>> f0a78e60dd5bbb842413b13688ceec9bf095bd8d:routes/quizRoutes.js
       })
       .then(questions => {
         quizInfo.questions = questions;
@@ -68,7 +78,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         res.render('take_quiz', quizInfo);
         // res.json(quizInfo);
       });
-  });
+
 
 
   router.post("/:url", (req, res) => {
