@@ -80,11 +80,13 @@ module.exports = (db) => {
             createAnswer([questionInfo[0].id, info.answers[counter][i-1], true])
             .then(answer => {
               counter++;
+              return answer;
             });
           } else {
             createAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
             .then(answer => {
               counter++;
+              return answer;
             });
           }
         }

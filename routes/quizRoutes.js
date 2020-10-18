@@ -10,11 +10,24 @@ const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
-    quizHelpers.getAllQuizzes().then(info => res.json(info));
+    helpers.getAllQuizzes().then(info => res.json(info));
   });
 
   router.get('/create', (req, res) => {
-    res.render('create_quiz');
+    const templateVars = { };
+    const userid = req.session.user_id;
+    const promises = [];
+    promises.push(userHelpers.getUserById(userid));
+
+    Promise.all(promises)
+      // populate templateVars with data responses
+      .then(res => {
+        templateVars.user = res[1] || undefined;
+        return templateVars;
+      })
+      .then(data => {
+        res.render("create_quiz", data);
+      });
   });
 
   router.post('/create', (req, res) => {
@@ -23,9 +36,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       return quizHelpers.sort(data.id ,req.body);
     })
     .then(sortedData => {
+      res.redirect('/user')
       return quizHelpers.addQuizContent(sortedData);
     })
-    .then(res => res.redirect('index'))
     .catch(err => err.message);
   })
 

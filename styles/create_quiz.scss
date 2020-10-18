@@ -1,6 +1,7 @@
 .newQuizContainer {
   display: flex;
   justify-content: center;
+  flex-direction: row;
   flex-wrap: flex;
   margin: 5em;
   padding: 1em;
@@ -14,4 +15,8 @@
 .newQuestion {
   margin: 1em;
   border: 3px solid black;
+}
+
+#createQuizButton {
+  visibility: hidden;
 }
