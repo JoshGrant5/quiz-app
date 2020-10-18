@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/takeQuiz.js"></script>
   </head>
 
   <%- include('partials/header') %>
@@ -21,7 +22,7 @@
   </header>
 
   <body>
-    <form method='POST' action='/quiz/<%= quiz.url %>'>
+    <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
       <div id='questions'>
         <% questions.forEach((question, index) => { %>
           <div id='question<%= question.id %>' class='question'>
