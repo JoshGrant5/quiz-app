@@ -172,6 +172,38 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  const getAllResultsForQuiz = function(quiz_id) {
+    const query = `SELECT * FROM results WHERE quiz_id = $1;`
+    const values = [quiz_id];
+    return db.query(query, values)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  }
+
+  const getNumResultsForQuiz = function(quiz_id) {
+    const query = `SELECT COUNT(*) FROM results WHERE quiz_id = $1;`
+    const values = [quiz_id];
+    return db.query(query, values)
+      .then(data => Number(data.rows[0].count))
+      .catch(err => err.message);
+  }
+
+  const getNumScoresBeatenForQuiz = function(quiz_id, score) {
+    const query = `SELECT COUNT(*) FROM results WHERE quiz_id = $1 AND score < $2;`
+    const values = [quiz_id, score];
+    return db.query(query, values)
+      .then(data => Number(data.rows[0].count))
+      .catch(err => err.message);
+  }
+
+  const getAllResultsForUser = function(user_id) {
+    const query = `SELECT * FROM results WHERE user_id = $1;`
+    const values = [user_id];
+    return db.query(query, values)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  }
+
   const shuffle = function(answers) {
     const shuffled = answers.slice(0);
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -198,6 +230,10 @@ module.exports = (db) => {
     getScore,
     createResult,
     getResult,
+    getAllResultsForQuiz,
+    getNumResultsForQuiz,
+    getNumScoresBeatenForQuiz,
+    getAllResultsForUser,
     shuffle,
   }
 }
