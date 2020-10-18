@@ -39,5 +39,7 @@ $(document).ready(function() {
     $('.question').css({display: 'block'});
     next.disabled = true;
     prev.disabled = true;
+    next.style.display = 'none';
+    prev.style.display = 'none';
   });
 });

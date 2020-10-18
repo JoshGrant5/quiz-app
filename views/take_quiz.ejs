@@ -24,10 +24,10 @@
   <body>
     <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
       <p></p>
+      <button id='submit' type='submit'>Submit Answers</button>
+      <button id='review' type='button'>All Questions</button>
       <button id='prev' type='button'>Previous Question</button>
       <button id='next' type='button'>Next Question</button>
-      <button id='submit' type='submit'>Submit Answers</button>
-      <button id='review' type='button'>Review Answers</button>
       <p></p>
       <div id='questions'>
         <% questions.forEach((question, index) => { %>
