@@ -1,8 +1,9 @@
-const shareResult = function() {
+const share = function(quiz) {
   const url = document.createElement("input");
   document.body.appendChild(url);
-  url.setAttribute("id", "url");
-  document.getElementById("url").value = document.URL;
+  let link = document.URL;
+  if (quiz) link = link.split('/').slice(0, -2).join('/')
+  url.value = link;
   url.select();
   url.setSelectionRange(0, url.value.length);
   document.execCommand('copy');
@@ -10,29 +11,9 @@ const shareResult = function() {
   if (!$('#saved').length) {
     const div = document.createElement('div');
     div.id = 'saved';
-    const body = document.querySelector('body');
-    div.textContent = "Website saved to clipboard";
-    body.appendChild(div);
-  }
-}
-
-const shareQuiz = function() {
-  const url = document.createElement("input");
-  document.body.appendChild(url);
-  url.setAttribute("id", "url");
-  let quiz = document.URL;
-  quiz = quiz.split('/').slice(0, -2).join('/')
-  document.getElementById("url").value = quiz;
-  url.select();
-  url.setSelectionRange(0, url.value.length);
-  document.execCommand('copy');
-  document.body.removeChild(url);
-  if (!$('#saved').length) {
-    const div = document.createElement('div');
-    div.id = 'saved';
-    const body = document.querySelector('body');
-    div.textContent = "Website saved to clipboard";
-    body.appendChild(div);
+    div.textContent = "Link saved to clipboard";
+    document.body.appendChild(div);
+    setTimeout(() => document.body.removeChild(div), 1000);
   }
 }
 
@@ -42,7 +23,7 @@ const takeQuiz = function() {
 }
 
 $(document).ready(function() {
-  $("#share-result").click(shareResult);
-  $("#share-quiz").click(shareQuiz);
+  $("#share-result").click(() => share(false));
+  $("#share-quiz").click(() => share(true));
   $("#take-quiz").click(takeQuiz);
 });
