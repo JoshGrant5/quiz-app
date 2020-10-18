@@ -17,11 +17,11 @@
 
   <body>
     <main>
-      <div>
+      <div class="filters">
         <span>Filter by:</span>
-        <button class="filter" type="button">All</button>
+        <button type="button">All</button>
         <% for (const category of categories) { %>
-          <button class="filter" type="button"><%= category %></button>
+          <button type="button"><%= category %></button>
         <% } %>
       </div>
       <% for (const quiz of quizzes) { %>

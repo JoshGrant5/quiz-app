@@ -15,6 +15,8 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
     const templateVars = {};
     const userid = req.session.user_id;
+    const filter = (Object.keys(req.query).length) ? req.query : { filter: 'All' };
+    console.log(filter);
 
     // data needed for home page
     const promises = [];

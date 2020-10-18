@@ -1,4 +1,5 @@
 module.exports = (db) => {
+
   const getAllQuizzes = () => {
     return db.query(`
       SELECT * 
@@ -8,6 +9,10 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  /**
+   * Get all public (listed) quizzes from the database
+   * @param {{filter: string}} category filter
+   */
   const getPublicQuizzes = () => {
     return db.query(`
       SELECT *
