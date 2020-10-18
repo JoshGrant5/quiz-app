@@ -24,7 +24,8 @@
   <body>
     <div>
       <h2>Your Score</h2>
-      <p><%= result.score %>/<%= result.total %></p>
+      <p><%= Math.floor(result.score/result.total * 100) %>%</p>
+      <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
     </div>
     <div>
       <button type='button' id='share-result'>Share Result</button>

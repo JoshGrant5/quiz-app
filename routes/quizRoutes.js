@@ -88,14 +88,22 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/:url/result/:id", (req, res) => {
     const promises = [];
     const userid = req.session.user_id;
+    const resultInfo = {};
     promises.push(quizHelpers.getResult(req.params.id));
     if(userid) promises.push(userHelpers.getUserById(userid));
     Promise.all(promises)
       .then(results => {
-        result = results[0];
-        user = results[1] || undefined;
-        if (result.url !== req.params.url) res.redirect('/');
-        else res.render('result', { user, result });
+        resultInfo.result = results[0];
+        resultInfo.user = results[1] || undefined;
+        const promises = [];
+        promises.push(quizHelpers.getNumScoresBeatenForQuiz(resultInfo.result.quiz_id, resultInfo.result.score));
+        promises.push(quizHelpers.getNumResultsForQuiz(resultInfo.result.quiz_id));
+        return Promise.all(promises);
+      })
+      .then(results => {
+        resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
+        if (resultInfo.result.url !== req.params.url) res.redirect('/');
+        else res.render('result', resultInfo);
       });
   });
 
