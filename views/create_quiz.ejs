@@ -7,6 +7,8 @@
 
   <!-- Bootstrap stylesheet -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- CSS Icon stylesheet -->
+  <link href='https://css.gg/css' rel='stylesheet'>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -16,6 +18,10 @@
   <!-- Local JS scripts -->
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/createQuiz.js"></script>
+
+  <!-- Bootstrap JS scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
 
@@ -55,27 +61,38 @@
           <h2>Question 1:</h2>
           <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion1'>X</button>
         </div>
-        <input type='text' name='question1' required='required'>
-        <div class='answers'>
+        <div class='question'>
+          <input type='text' name='question1' required='required'>
+        </div>
+        <h3>Answers:</h3>
+        <div class='answers' data-toggle="buttons">
           <div class='singleLine'>
             <label>A)</label>
             <input type='text' name='a1' required='required'>
-            <input type='radio' name='correct1' required='required' value='1'>
+            <label class='btn btn-outline-success'>
+              <input type='radio' name='correct1' autocomplete='off' required='required' value='1'><i class="gg-check"></i>
+            </label>
           </div>
           <div class='singleLine'>
             <label>B)</label>
             <input type='text' name='b1' required='required'>
-            <input type='radio' name='correct1' value='2'>
+            <label class='btn btn-outline-success'>
+              <input type='radio' name='correct1' value='2'><i class="gg-check"></i>
+            </label>
           </div>
           <div class='singleLine'>
             <label>C)</label>
             <input type='text' name='c1' required='required'>
-            <input type='radio' name='correct1' value='3'>
+            <label class='btn btn-outline-success'>
+              <input type='radio' name='correct1' value='3'><i class="gg-check"></i>
+            </label>
           </div>
           <div class='singleLine'>
             <label>D)</label>
             <input type='text' name='d1' required='required'>
-            <input type='radio' name='correct1' value='4'>
+            <label class='btn btn-outline-success'>
+              <input type='radio' name='correct1' value='4'><i class="gg-check"></i>
+            </label>
           </div>
         </div>
       </div>
@@ -84,9 +101,9 @@
 
   <footer>
     <input type='hidden' id='count' name='count' value='1'>
-    <button type='button' id='addNewQuestion'>Add Another Question</button>
-    <button id='reviewQuiz' type='button'>Review Quiz</button>
-    <button id='createQuizButton' type='submit'>Create Quiz</button>
+    <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
+    <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
+    <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
   </footer>
 
 </form>

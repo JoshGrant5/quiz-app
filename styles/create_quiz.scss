@@ -30,6 +30,10 @@
   justify-content: space-between;
 }
 
+.question input {
+  width: 100%;
+}
+
 .answers {
   flex-direction: column;
 }
@@ -39,7 +43,10 @@
   align-items: stretch;
 }
 .singleLine input {
-  width: 100vw;
+  width: 100%;
+}
+.singleLine input[type="radio"] {
+  -webkit-appearance: none;
 }
 
 .deleteQuestion {
