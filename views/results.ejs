@@ -17,16 +17,22 @@
   <body>
     <h1>My Results</h1>
     <% for (const result of results) { %>
-      <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
+
         <article class="result">
+          <a href="/quiz/<%= result.url %>">
           <header>
             <%= result.title %>
           </header>
           <body>
             <% if(!result.photo) result.photo = "../assets/quiz-placeholder.png" %>
             <img src="<%= result.photo %>">
-            <p>Score was <%= result.percent %>%</p>
           </body>
+          </a>
+          <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
+          <footer>
+            Score was <%= result.percent %>%
+          <p></p>
+          </footer>
         </article>
       </a>
     <% } %>
