@@ -94,7 +94,8 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(results => {
         result = results[0];
         user = results[1] || undefined;
-        res.render('result', { user, result })
+        if (result.url !== req.params.url) res.redirect('/');
+        else res.render('result', { user, result });
       });
   });
 
