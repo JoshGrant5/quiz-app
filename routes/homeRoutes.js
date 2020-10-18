@@ -15,17 +15,20 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
     const templateVars = {};
     const userid = req.session.user_id;
+    const category = { categoryFilter: 'All' }; // on first load
 
     // data needed for home page
     const promises = [];
-    promises.push(quizHelpers.getPublicQuizzes());
+    promises.push(quizHelpers.getPublicQuizzes(category));
+    promises.push(quizHelpers.getCategories());
     if(userid) promises.push(userHelpers.getUserById(userid));
 
     Promise.all(promises)
       // populate templateVars with data responses
       .then(res => {
         templateVars.quizzes = res[0];
-        templateVars.user = res[1] || undefined;
+        templateVars.categories = res[1];
+        templateVars.user = res[2] || undefined;
         return templateVars;
       })
       .then(data => {
@@ -33,6 +36,15 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
+  // api route that returns an array of quiz objects
+  router.get("/category", (req, res) => {
+    const category = req.query;
+    quizHelpers.getPublicQuizzes(category)
+      .then(data => res.send(data))
+      .catch(err => err.message);
+  })
+
+  // not used
   router.get("/login", (req, res) => {
     res.send("<h1>Login</h1>");
   });
@@ -61,6 +73,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     res.redirect("/");
   })
 
+  // not used
   router.get("/signup", (req, res) => {
     res.send("<h1>Signup</h1>")
   });
