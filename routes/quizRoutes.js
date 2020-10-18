@@ -96,6 +96,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         resultInfo.result = results[0];
         resultInfo.user = results[1] || undefined;
         const promises = [];
+        if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
+        else if (resultInfo.result.total === 0 && resultInfo.result.score !== 0) resultInfo.result.percent = 100;
+        else resultInfo.result.percent = Math.floor(resultInfo.result.score/resultInfo.result.total * 100);
         promises.push(quizHelpers.getNumScoresBeatenForQuiz(resultInfo.result.quiz_id, resultInfo.result.score));
         promises.push(quizHelpers.getNumResultsForQuiz(resultInfo.result.quiz_id));
         return Promise.all(promises);
@@ -103,6 +106,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(results => {
         resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
         if (resultInfo.result.url !== req.params.url) res.redirect('/');
+        // else res.json(resultInfo);
         else res.render('result', resultInfo);
       });
   });

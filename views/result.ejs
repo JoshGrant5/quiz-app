@@ -17,14 +17,14 @@
   <header>
     <h1><%= result.title %></h1>
     <% if(result.photo) { %>
-      <img src='<%= result.photo %>' height=100 width=168>
+      <img src='<%= result.photo %>'>
     <% } %>
   </header>
 
   <body>
     <div>
       <h2>Your Score</h2>
-      <p><%= Math.floor(result.score/result.total * 100) %>%</p>
+      <p><%= result.percent %>%</p>
       <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
     </div>
     <div>
@@ -33,4 +33,7 @@
       <button type='button' id='take-quiz'>Beat This Score</button>
     </div>
   </body>
+
+  <!-- Change # to - to uncomment -->
+  <%# include('partials/_footer') %>
 </html>

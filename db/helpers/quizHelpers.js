@@ -2,7 +2,7 @@ module.exports = (db) => {
 
   const getAllQuizzes = () => {
     return db.query(`
-      SELECT * 
+      SELECT *
       FROM quizzes;
     `)
       .then(data => data.rows)
@@ -28,7 +28,7 @@ module.exports = (db) => {
     }
 
     queryString += `
-      LIMIT 10;    
+      LIMIT 10;
     `;
 
     return db.query(queryString, queryParams)
@@ -123,8 +123,8 @@ module.exports = (db) => {
 
   const getQuizWithUrl = (url) => {
     return db.query(`
-      SELECT * 
-      FROM quizzes 
+      SELECT *
+      FROM quizzes
       WHERE url = $1;
     `, [url])
       .then(data => data.rows[0])
@@ -254,8 +254,8 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const getAllResultsForUser = function(user_id) {
-    const query = `SELECT * FROM results WHERE user_id = $1;`
+  const getResultsForUser = function(user_id) {
+    const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE user_id = $1;`
     const values = [user_id];
     return db.query(query, values)
       .then(data => data.rows)
@@ -291,7 +291,7 @@ module.exports = (db) => {
     getAllResultsForQuiz,
     getNumResultsForQuiz,
     getNumScoresBeatenForQuiz,
-    getAllResultsForUser,
+    getResultsForUser,
     shuffle,
     getCategories,
   }
