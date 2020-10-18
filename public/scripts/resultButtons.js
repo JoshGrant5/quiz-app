@@ -36,8 +36,13 @@ const shareQuiz = function() {
   }
 }
 
+const takeQuiz = function() {
+  url = document.URL;
+  $(location).attr('href',url.split('/').slice(0, -2).join('/'))
+}
+
 $(document).ready(function() {
   $("#share-result").click(shareResult);
-
   $("#share-quiz").click(shareQuiz);
+  $("#take-quiz").click(takeQuiz);
 });
