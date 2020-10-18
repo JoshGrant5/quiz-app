@@ -39,6 +39,7 @@ $(() => {
     $('#createQuizButton').css({visibility: 'visible'});
     const category = $('#selectedCategory').find(":selected").text();
     $('#categoryInput').val(category);
+    $('.deleteQuestion').css({visibility: 'visible'});
     // Once review button is clicked and we know the number of questions, activate each delete button
     for (let i = 1; i <= count; i++) {
       $(`#deleteQuestion${i}`).on('click', function() {
