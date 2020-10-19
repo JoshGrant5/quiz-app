@@ -339,6 +339,60 @@ module.exports = (db) => {
     return shuffled;
   }
 
+  // Adds a favorite with the given user and quiz
+  const addFavourite = function(user_id, quiz_id) {
+    const query = `INSERT INTO favourites (user_id, quiz_id) VALUES ($1, $2) RETURNING *;`
+    const values = [user_id, quiz_id];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  // Returns the favorite belonging to the given user and quiz
+  const getFavourite = function(user_id, quiz_id) {
+    const query = `SELECT * FROM favourites WHERE user_id = $1 AND quiz_id = $2;`
+    const values = [user_id, quiz_id];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  // Deletes the favorite belonging to the given user and quiz
+  const deleteFavourite = function(user_id, quiz_id) {
+    const query = `DELETE FROM favourites WHERE user_id = $1 AND quiz_id = $2;`
+    const values = [user_id, quiz_id];
+    return db.query(query, values)
+      .then()
+      .catch(err => err.message);
+  }
+
+  // Adds a rating with the given user and quiz
+  const addRating = function(user_id, quiz_id, rating) {
+    const query = `INSERT INTO ratings (user_id, quiz_id, rating) VALUES ($1, $2, $3) RETURNING *;`
+    const values = [user_id, quiz_id, rating];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  // Returns the rating belonging to the given user and quiz
+  const getRating = function(user_id, quiz_id) {
+    const query = `SELECT * FROM ratings WHERE user_id = $1 AND quiz_id = $2;`
+    const values = [user_id, quiz_id];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
+  // Updates the rating belonging to the given user and quiz
+  const updateRating = function(user_id, quiz_id, rating) {
+    const query = `UPDATE ratings SET rating = $3 WHERE user_id = $1 AND quiz_id = $2 RETURNING *;`
+    const values = [user_id, quiz_id, rating];
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  }
+
   return {
     getAllQuizzes,
     getPublicQuizzes,
@@ -365,5 +419,11 @@ module.exports = (db) => {
     getResultsForUser,
     shuffle,
     getCategories,
+    addFavourite,
+    deleteFavourite,
+    getFavourite,
+    getRating,
+    addRating,
+    updateRating,
   }
 }
