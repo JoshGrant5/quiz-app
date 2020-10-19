@@ -17,6 +17,21 @@ const share = function(quiz) {
   }
 }
 
+const shareSocial = function(fb) {
+  let url = "";
+  if (fb) {
+    url += "https://www.facebook.com/sharer/sharer.php?u=";
+    if (fb && document.URL.includes('localhost')) url += "example.com";
+    else url += document.URL;
+  }
+  else {
+    url += "http://twitter.com/share?text=Check%20out%20the%20quiz%20I%20just%20took&url=";
+    url += document.URL;
+    url += "&hashtags=quiz,beatme";
+  }
+  window.open(url);
+}
+
 const takeQuiz = function() {
   url = document.URL;
   $(location).attr('href',url.split('/').slice(0, -2).join('/'))
@@ -26,4 +41,6 @@ $(document).ready(function() {
   $("#share-result").click(() => share(false));
   $("#share-quiz").click(() => share(true));
   $("#take-quiz").click(takeQuiz);
+  $("#facebook").click(() => shareSocial(true));
+  $("#twitter").click(() => shareSocial(false));
 });

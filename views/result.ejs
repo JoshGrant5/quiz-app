@@ -3,6 +3,11 @@
   <head>
     <title>Results - <%= result.title %></title>
 
+    <meta name="twitter:card" content="summary"></meta>
+    <meta name="twitter:title" content="Results - <%= result.title %>"></meta>
+    <meta name="twitter:description" content="Check out the quiz I just took, I got <%= result.percent %>%"></meta>
+    <meta name="twitter:image:src" content="<%= result.photo %>"></meta>
+
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
@@ -23,14 +28,27 @@
 
   <body>
     <div>
-      <h2>Your Score</h2>
-      <p><%= result.percent %>%</p>
-      <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
+      <% if(result.type === 'trivia' || true) { %>
+        <h2>Your Score</h2>
+        <p><%= result.percent %>%</p>
+        <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
+      <% } else { %>
+        <h2>Your Result</h2>
+        <% if(result.outcomePhoto) { %>
+        <img src='<%= result.outcomePhoto %>'>
+        <% } %>
+        <p><%= result.outcome %></p>
+        <p><%= result.outcomeDescription %></p>
+      <% } %>
     </div>
     <div>
       <button type='button' id='share-result'>Share Result</button>
       <button type='button' id='share-quiz'>Share Quiz</button>
       <button type='button' id='take-quiz'>Beat This Score</button>
+    </div>
+    <div>
+      <img id='facebook' src='https://i.pinimg.com/originals/30/99/af/3099aff4115ee20f43e3cdad04f59c48.png' height=20 width=20>
+      <img id='twitter' src='https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png' height=20 width=20>
     </div>
   </body>
 
