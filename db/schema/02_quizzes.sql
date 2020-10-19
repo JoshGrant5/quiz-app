@@ -10,6 +10,6 @@ CREATE TABLE quizzes (
   url VARCHAR(25),
   category VARCHAR(255),
   date_created DATE,
-  type VARCHAR(255) NOT NULL;
+  type VARCHAR(255) NOT NULL,
   description TEXT
 );

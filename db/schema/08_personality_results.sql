@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS personality_reults CASCADE;
+DROP TABLE IF EXISTS personality_results CASCADE;
 
 CREATE TABLE personality_results (
   id SERIAL PRIMARY KEY NOT NULL,

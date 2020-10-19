@@ -1,5 +1,5 @@
-INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-VALUES (1, 'Pokemon Quiz', 'https://1000logos.net/wp-content/uploads/2017/05/Pokemon-Logo.png', true, 'pokemon', 'Video Games', '2020-10-17');
+INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created,type,description)
+VALUES (1, 'Pokemon Quiz', 'https://1000logos.net/wp-content/uploads/2017/05/Pokemon-Logo.png', true, 'pokemon', 'Video Games', '2020-10-17','trivia','Think you have what it takes to catch them all?');
 
 INSERT INTO trivia_questions (quiz_id, question) VALUES (5, 'Which Pokémon is known for carrying a leek?');
 INSERT INTO trivia_answers (question_id, answer, is_correct) VALUES (9, 'Farfetch''d', true);
