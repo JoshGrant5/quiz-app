@@ -1,0 +1,48 @@
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
+$primary-color: #007bff;
+
+main {
+
+  h2 {
+    font-family: $secondary-font;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: center;
+
+    span {
+      align-self: center;
+    }
+
+    .btn {
+      margin: 5px;
+    }
+
+    // override bootstrap hover effect
+    .btn-outline-primary:hover{
+      background-color: #FFF;
+      color: $primary-color;
+    }
+
+    // override bootstrap hover effect
+    .btn-primary:hover {
+      background-color: $primary-color;
+      color: #FFF;
+    }
+
+    // .btn:active,
+    // .btn:focus,
+    // .btn:target,
+    // .btn:active:focus {
+    //   color: red;
+    //   background-color: yellow;
+    // }
+  }
+}

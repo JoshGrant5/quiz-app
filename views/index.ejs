@@ -18,6 +18,7 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/quiz_cards.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -34,11 +35,12 @@
 
   <body>
     <main>
+      <h2>Quizzes</h2>
       <div class="filters">
         <span>Filter by:</span>
         <button type="button" class="btn btn-primary">All</button>
         <% for (const category of categories) { %>
-          <button type="button" class="btn btn-primary"><%= category %></button>
+          <button type="button" class="btn btn-outline-primary"><%= category %></button>
         <% } %>
       </div>
 
