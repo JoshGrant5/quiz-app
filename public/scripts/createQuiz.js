@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(() => {
   // Question count: Starts at 1 since we already have 1 question in viewport at start
   let count = 1;
 
