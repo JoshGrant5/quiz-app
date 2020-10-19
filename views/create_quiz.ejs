@@ -101,13 +101,13 @@
           </div>
         </div>
       </div>
-      <footer>
-        <input type='hidden' id='count' name='count' value='1'>
-        <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
-        <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
-        <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
-      </footer>
   </div>
+  <footer>
+    <input type='hidden' id='count' name='count' value='1'>
+    <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
+    <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
+    <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
+  </footer>
 </form>
 
 <!-- Personality Quiz Template -->
@@ -144,56 +144,19 @@
           <input type='text' name='description1'>
       </div>
 
-      <div class='newPersonalityQuestion'>
-        <div>
-          <h2>Question 1:</h2>
-          <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQ1'>X</button>
-        </div>
-        <div class='question'>
-          <input type='text' name='question1' required='required'>
-        </div>
-        <h3>Answers:</h3>
-        <div class='answers' data-toggle="buttons">
-          <div class='singleLine'>
-            <label>A)</label>
-            <input type='text' name='a1' required='required'>
-            <input type='hidden' id='pointer' name='category'>
-            <select class='selectedOutcome'></select>
-          </div>
-          <div class='singleLine'>
-            <label>B)</label>
-            <input type='text' name='b1' required='required'>
-            <input type='hidden' id='pointer' name='category'>
-            <select class='selectedOutcome'></select>
-          </div>
-          <div class='singleLine'>
-            <label>C)</label>
-            <input type='text' name='c1' required='required'>
-            <input type='hidden' id='pointer' name='category'>
-            <select class='selectedOutcome'></select>
-          </div>
-          <div class='singleLine'>
-            <label>D)</label>
-            <input type='text' name='d1' required='required'>
-            <input type='hidden' id='pointer' name='category'>
-            <select class='selectedOutcome'></select>
-          </div>
-        </div>
-      </div>
+
 
     </div>
-    <footer>
-      <input type='hidden' id='outcomeCount' name='outcomeCount' value='1'>
-      <input type='hidden' id='questionCount' name='questionCount' value='1'>
-      <button type='button' id='addOutcome'>Add Another Outcome</button>
-      <button type='button' id='submitOutcomes'>Submit Outcomes</button>
-      <button class='btn btn-primary' id='addPersonalityQuestion' type='button' >Add Another Question</button>
-      <button class='btn btn-primary' id='reviewPersonalityQuiz' type='button'>Review Quiz</button>
-      <button class='btn btn-success' id='createPersonalityQuiz' type='submit'>Create Quiz</button>
-    </footer>
-
   </div>
-
+  <footer>
+    <input type='hidden' id='outcomeCount' name='outcomeCount' value='1'>
+    <input type='hidden' id='questionCount' name='questionCount' value='1'>
+    <button type='button' id='addOutcome'>Add Another Outcome</button>
+    <button type='button' id='submitOutcomes'>Submit Outcomes</button>
+    <button class='btn btn-primary' id='addPersonalityQuestion' type='button' >Add Another Question</button>
+    <button class='btn btn-primary' id='reviewPersonalityQuiz' type='button'>Review Quiz</button>
+    <button class='btn btn-success' id='createPersonalityQuiz' type='submit'>Create Quiz</button>
+  </footer>
 </form>
 
 </body>

@@ -1,8 +1,8 @@
 $(() => {
   // Outcome count: Starts at 1 since we already have 1 outcome in viewport at start
   let outcomeCount = 1;
-  // Question count: Starts at 1 since we already have 1 question in viewport at start
-  let questionCount = 1;
+  // Question count: Starts at 0 since there is nothing in the viewport to start
+  let questionCount = 0;
 
   const addOutcome = () => {
     outcomeCount++;
@@ -98,15 +98,24 @@ $(() => {
         outcomes.push(trimmed[0]);
       }
     }
+    const question = addPersonalityQuestion();
+    $('.newQuizContainer').append(question);
     outcomeDropdown(outcomes);
   });
 
   $('#addPersonalityQuestion').on('click', function() {
     $('.newPersonalityQuestion').css({display: 'none'});
-    outcomeDropdown(outcomes);
     const question = addPersonalityQuestion();
     $('.newQuizContainer').append(question);
+    outcomeDropdown(outcomes);
     $('#questionCount').val(questionCount);
+  });
+
+  $('#reviewPersonalityQuiz').on('click', function() {
+    $('.outcomes').slideDown(800);
+    $('.newPersonalityquestion').slideDown(800);
+    $('#createQuizButton').css({visibility: 'visible'});
+    $('html, body').animate({scrollTop:200}, 2000);
   });
 
 });
