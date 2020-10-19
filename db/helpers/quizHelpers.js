@@ -46,16 +46,16 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-  // Adds quiz to db - accepts an object
-  const createNewQuiz = (info) => {
-    let dateString = Date.now();
-    let timestamp = new Date(dateString);
+  // Adds quiz to db - accepts user_id string, and an object
+  const createNewQuiz = (id, info) => {
+    const dateString = Date.now();
+    const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
+    const createdURL = Math.random().toString(20).substr(2, 8);
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
-    `, [1, info.title, info.thumbnail, info.listed, 'testurl', info.category, date,])
-    //! creator_id, url, and date hardcoded as a placeholders - would be logged in user_id, quiz url
+    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date,])
     .then(data => data.rows[0])
     .catch(err => err.message);
   }

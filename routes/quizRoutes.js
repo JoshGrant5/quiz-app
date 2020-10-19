@@ -9,6 +9,7 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
+
   router.get("/", (req, res) => {
     helpers.getAllQuizzes().then(info => res.json(info));
   });
@@ -18,11 +19,12 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const userid = req.session.user_id;
     const promises = [];
     promises.push(userHelpers.getUserById(userid));
-
+    promises.push(quizHelpers.getCategories());
     Promise.all(promises)
       // populate templateVars with data responses
       .then(res => {
-        templateVars.user = res[1] || undefined;
+        templateVars.user = res[0] || undefined;
+        templateVars.categories = res[1];
         return templateVars;
       })
       .then(data => {
@@ -31,7 +33,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   router.post('/create', (req, res) => {
-    quizHelpers.createNewQuiz(req.body)
+    quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       return quizHelpers.sort(data.id ,req.body);
     })
@@ -42,6 +44,19 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     .catch(err => err.message);
   })
 
+<<<<<<< HEAD
+=======
+  //? Is this supposed to be here?? - Josh
+  // let quizInfo = {}
+  // // quizHelpers.getQuizWithUrl(req.params.url)
+  // // let quizInfo = {user_id: cookie};
+  // quizHelpers.getQuizWithUrl(req.params.url)
+  //   .then(quiz => {
+  //     quizInfo.quiz = quiz;
+  //     return quizHelpers.getQuestions(quiz.id);
+  //   })
+
+>>>>>>> josh/reviewquiz
   router.get("/:url", (req, res) => {
     const promises = [];
     const userid = req.session.user_id;
@@ -68,7 +83,11 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         res.render('take_quiz', quizInfo);
         // res.json(quizInfo);
       });
+<<<<<<< HEAD
   });
+=======
+  })
+>>>>>>> josh/reviewquiz
 
 
   router.post("/:url", (req, res) => {
