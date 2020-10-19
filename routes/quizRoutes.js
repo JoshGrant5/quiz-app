@@ -97,7 +97,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
               if(req.session.user_id) user_id = req.session.user_id;
               return quizHelpers.createPersonalityResult(result.quiz.id, user_id, outcome_id);
             })
-            // .then(result => res.json(result));
             .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
         }
       });
@@ -109,7 +108,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const userid = req.session.user_id;
     const resultInfo = {};
     promises.push(quizHelpers.getQuizWithUrl(req.params.url));
-    if(userid) promises.push(userHelpers.getUserById(userid));
+    if (userid) promises.push(userHelpers.getUserById(userid));
     Promise.all(promises)
       .then(results => {
         resultInfo.quiz = results[0];
@@ -135,7 +134,62 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(results => {
         if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
         else resultInfo.outcome = results[0];
+        const promises = [];
+        promises.push(quizHelpers.getRating(resultInfo.user.id, resultInfo.quiz.id));
+        promises.push(quizHelpers.getFavourite(resultInfo.user.id, resultInfo.quiz.id));
+        return Promise.all(promises);
+      })
+      .then(results => {
+        console.log(results);
+        resultInfo.rating = results[0];
+        resultInfo.favourite = results[1];
         res.render('result', resultInfo);
+      });
+  });
+
+  // Posts the rating to the database with the current user and the quiz url given
+  router.post("/:url/result/:id/rating", (req, res) => {
+    const userid = req.session.user_id;
+    if (!userid) return;
+    const promises = [];
+    const rating = {};
+    promises.push(userHelpers.getUserById(userid));
+    promises.push(quizHelpers.getQuizWithUrl(req.params.url))
+    Promise.all(promises)
+      .then(results => {
+        rating.user = results[0];
+        rating.quiz = results[0];
+        return quizHelpers.getRating(rating.user.id, rating.quiz.id);
+      })
+      .then(stars => {
+        if (stars) return quizHelpers.updateRating(rating.user.id, rating.quiz.id, req.body.stars);
+        else return quizHelpers.addRating(rating.user.id, rating.quiz.id, req.body.stars)
+      });
+  });
+
+  // Adds a favorite to the database with the current user and the quiz url given
+  router.post("/:url/result/:id/favourite", (req, res) => {
+    const userid = req.session.user_id;
+    if (!userid) return;
+    const promises = [];
+    promises.push(userHelpers.getUserById(userid));
+    promises.push(quizHelpers.getQuizWithUrl(req.params.url))
+    Promise.all(promises)
+      .then(results => {
+        return quizHelpers.addFavourite(results[0].id, results[1].id);
+      });
+  });
+
+  // Deletes a favorite from the database belonging to the current user and the quiz url given
+  router.post("/:url/result/:id/favourite/delete", (req, res) => {
+    const userid = req.session.user_id;
+    if (!userid) return;
+    const promises = [];
+    promises.push(userHelpers.getUserById(userid));
+    promises.push(quizHelpers.getQuizWithUrl(req.params.url))
+    Promise.all(promises)
+      .then(results => {
+        return quizHelpers.deleteFavourite(results[0].id, results[1].id);
       });
   });
 
