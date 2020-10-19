@@ -6,22 +6,46 @@ $(() => {
     count++;
     return `
     <div class='newQuestion'>
-        <h2>Question ${count}:</h2>
-        <input type='text' name='question${count}' required='required'>
+    <div>
+      <h2>Question ${count}:</h2>
+      <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${count}'>X</button>
+    </div>
+    <div class='question'>
+      <input type='text' name='question${count}' required='required'>
+    </div>
+    <h3>Answers:</h3>
+    <div class='answers' data-toggle="buttons">
+      <div class='singleLine'>
         <label>A)</label>
         <input type='text' name='a${count}' required='required'>
-        <input type='radio' name='correct${count}' required='required' value='1'>
+        <label class='btn btn-outline-success'>
+          <input type='radio' name='correct${count}' autocomplete='off' required='required' value='1'><i class="gg-check"></i>
+        </label>
+      </div>
+      <div class='singleLine'>
         <label>B)</label>
         <input type='text' name='b${count}' required='required'>
-        <input type='radio' name='correct${count}' value='2'>
+        <label class='btn btn-outline-success'>
+          <input type='radio' name='correct${count}' value='2'><i class="gg-check"></i>
+        </label>
+      </div>
+      <div class='singleLine'>
         <label>C)</label>
         <input type='text' name='c${count}' required='required'>
-        <input type='radio' name='correct${count}' value='3'>
+        <label class='btn btn-outline-success'>
+          <input type='radio' name='correct${count}' value='3'><i class="gg-check"></i>
+        </label>
+      </div>
+      <div class='singleLine'>
         <label>D)</label>
         <input type='text' name='d${count}' required='required'>
-        <input type='radio' name='correct${count}' value='4'>
+        <label class='btn btn-outline-success'>
+          <input type='radio' name='correct${count}' value='4'><i class="gg-check"></i>
+        </label>
       </div>
-    `
+    </div>
+  </div>
+  `
   };
 
   $('#addNewQuestion').on('click', function() {
@@ -32,38 +56,26 @@ $(() => {
   });
 
   $('#reviewQuiz').on('click', function() {
-    $('.newQuestion').slideDown(600);
+    $('.newQuestion').slideDown(800);
     $('#createQuizButton').css({visibility: 'visible'});
+    $('html, body').animate({scrollTop:0}, 2000);
+    const category = $('#selectedCategory').find(":selected").text();
+    $('#categoryInput').val(category);
+    $('.deleteQuestion').css({visibility: 'visible'});
+    // Once review button is clicked and we know the number of questions, activate each delete button
+    for (let i = 1; i <= count; i++) {
+      $(`#deleteQuestion${i}`).on('click', function() {
+        $(`#deleteQuestion${i}`).parent().parent().remove();
+      });
+    }
   });
 
-  `
-  <header>
-    <h1><%= quiz.title %></h1>
-    <% if(quiz.photo) { %>
-      <img src='<%= quiz.photo %>' height=100 width=168>
-    <% } %>
-  </header>
+  $('#thumbnail').on('input', function() {
+    $('#quizPhoto').attr('src', $(this).val());
+  })
 
-  <body>
-    <form method='POST' action='/quiz/<%= quiz.url %>'>
-      <div id='questions'>
-        <% questions.forEach((question, index) => { %>
-          <div id='question<%= question.id %>' class='question'>
-            <h4>Question <%= index + 1 %></h4>
-            <p><%= question.question%></p>
-            <% question.answers.forEach((answer) => { %>
-              <div id='answer<%= answer.id %>text' class='answer'>
-                <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
-                <label for='answer<%= answer.id %>'><%= answer.answer%></label>
-              </div>
-            <% }); %>
-          </div>
-        <% }); %>
-      </div>
-      </br>
-      <button type='submit'>Submit Answers</button>
-    </form>
-  </body>
-  `
+  $('#thumbnail').on('click', function() {
+    $(this).select();
+  })
 
 });
