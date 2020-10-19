@@ -64,7 +64,8 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       })
       .then((answers) => {
         for (let i = 0; i < answers.length; i++) {
-          quizInfo.questions[i].answers = quizHelpers.shuffle(answers[i]);
+          quizInfo.questions[i].answers = answers[i];
+          // quizInfo.questions[i].answers = quizHelpers.shuffle(answers[i]);
         }
         res.render('take_quiz', quizInfo);
       });
@@ -75,7 +76,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const result = {};
     quizHelpers.getQuizWithUrl(req.params.url)
       .then(quiz => {
-        if (quiz.type === 'trivia' || true) {
+        if (quiz.type === 'trivia') {
           result.quiz = quiz;
           quizHelpers.getScore(req.body)
             .then(answers => {
@@ -94,6 +95,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
               if(req.session.user_id) user_id = req.session.user_id;
               return quizHelpers.createPersonalityResult(result.quiz.id, user_id, outcome_id);
             })
+            // .then(result => res.json(result));
             .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
         }
       });
@@ -114,7 +116,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(result => {
         resultInfo.result = result;
         const promises = [];
-        if (resultInfo.quiz.type === 'trivia' || true) {
+        if (resultInfo.quiz.type === 'trivia') {
           if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
           else if (resultInfo.result.total === 0 && resultInfo.result.score !== 0) resultInfo.result.percent = 100;
           else resultInfo.result.percent = Math.floor(resultInfo.result.score/resultInfo.result.total * 100);
@@ -127,7 +129,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         return Promise.all(promises);
       })
       .then(results => {
-        if (resultInfo.quiz.type === 'trivia' || true) resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
+        if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
         else resultInfo.outcome = results[0];
         if (resultInfo.result.url !== req.params.url) res.redirect('/');
         // else res.json(resultInfo);

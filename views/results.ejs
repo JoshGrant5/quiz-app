@@ -30,7 +30,14 @@
           </a>
           <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
           <footer>
-            Score was <%= result.percent %>%
+            <% if(result.type === 'trivia') { %>
+              Score was <%= result.percent %>%
+            <% } else { %>
+              <p>Result was <%= result.outcome.title %></p>
+              <% if(result.outcome.photo) { %>
+                <img src='<%= result.outcome.photo %>'>
+              <% } %>
+            <% } %>
           <p></p>
           </footer>
         </article>

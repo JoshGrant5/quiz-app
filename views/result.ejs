@@ -28,7 +28,7 @@
 
   <body>
     <div>
-      <% if(result.type === 'trivia' || true) { %>
+      <% if(result.type === 'trivia') { %>
         <h2>Your Score</h2>
         <p><%= result.percent %>%</p>
         <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
@@ -41,7 +41,6 @@
         <% if(outcome.description) { %>
           <p><%= outcome.description %></p>
         <% } %>
-        <p><%= outcome.description %></p>
       <% } %>
     </div>
     <div>
