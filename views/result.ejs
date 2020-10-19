@@ -34,11 +34,14 @@
         <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
       <% } else { %>
         <h2>Your Result</h2>
-        <% if(result.outcomePhoto) { %>
-        <img src='<%= result.outcomePhoto %>'>
+        <% if(outcome.photo) { %>
+          <img src='<%= outcome.photo %>'>
         <% } %>
-        <p><%= result.outcome %></p>
-        <p><%= result.outcomeDescription %></p>
+        <p><%= outcome.title %></p>
+        <% if(outcome.description) { %>
+          <p><%= outcome.description %></p>
+        <% } %>
+        <p><%= outcome.description %></p>
       <% } %>
     </div>
     <div>

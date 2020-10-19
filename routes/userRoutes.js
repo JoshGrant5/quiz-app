@@ -46,7 +46,19 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     promises.push(quizHelpers.getResultsForUser(userid));
     promises.push(userHelpers.getUserById(userid));
 
-    // get data and render page
+    // Promise.all(promises)
+    //   .then(results => {
+    //     templateVars.results.trivia = results[0][0];
+    //     templateVars.results.personality = results[0][1];
+    //     templateVars.user = results[1] || undefined;
+    //     for (const result of templateVars.results.trivia) {
+    //       if (result.total === 0 && result.score === 0) result.percent = 0;
+    //       else if (result.total === 0 && result.score !== 0) result.percent = 100;
+    //       else result.percent = Math.floor(result.score/result.total * 100);
+    //     }
+    //     res.render("results", templateVars);
+    //   });
+
     Promise.all(promises)
       .then(results => {
         templateVars.results = results[0];
@@ -56,7 +68,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
           else if (result.total === 0 && result.score !== 0) result.percent = 100;
           else result.percent = Math.floor(result.score/result.total * 100);
         }
-        // res.json(templateVars);
         res.render("results", templateVars);
       });
   });

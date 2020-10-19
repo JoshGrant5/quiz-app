@@ -54,21 +54,19 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(results => {
         quizInfo.quiz = results[0];
         quizInfo.user = results[1] || undefined;
-        return quizHelpers.getQuestions(quizInfo.quiz.id);
+        return quizHelpers.getQuestions(quizInfo.quiz.id, quizInfo.quiz.type);
       })
       .then(questions => {
         quizInfo.questions = questions;
         const answers = [];
-        questions.forEach(question => answers.push(quizHelpers.getAnswers(question.id)));
+        questions.forEach(question => answers.push(quizHelpers.getAnswers(question.id, quizInfo.quiz.type)));
         return Promise.all(answers);
       })
       .then((answers) => {
         for (let i = 0; i < answers.length; i++) {
           quizInfo.questions[i].answers = quizHelpers.shuffle(answers[i]);
-          // quizInfo.questions = helpers.shuffle(quizInfo.questions); If we want questions shuffled within quiz
         }
         res.render('take_quiz', quizInfo);
-        // res.json(quizInfo);
       });
   });
 
@@ -89,7 +87,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
             .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
         }
         else {
-
+          result.quiz = quiz;
+          quizHelpers.getOutcome(req.body)
+            .then(outcome_id => {
+              let user_id = '';
+              if(req.session.user_id) user_id = req.session.user_id;
+              return quizHelpers.createPersonalityResult(result.quiz.id, user_id, outcome_id);
+            })
+            .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
         }
       });
   });
@@ -109,15 +114,21 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(result => {
         resultInfo.result = result;
         const promises = [];
-        if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
-        else if (resultInfo.result.total === 0 && resultInfo.result.score !== 0) resultInfo.result.percent = 100;
-        else resultInfo.result.percent = Math.floor(resultInfo.result.score/resultInfo.result.total * 100);
-        promises.push(quizHelpers.getNumScoresBeatenForQuiz(resultInfo.result.quiz_id, resultInfo.result.score));
-        promises.push(quizHelpers.getNumResultsForQuiz(resultInfo.result.quiz_id));
+        if (resultInfo.quiz.type === 'trivia' || true) {
+          if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
+          else if (resultInfo.result.total === 0 && resultInfo.result.score !== 0) resultInfo.result.percent = 100;
+          else resultInfo.result.percent = Math.floor(resultInfo.result.score/resultInfo.result.total * 100);
+          promises.push(quizHelpers.getNumScoresBeatenForQuiz(resultInfo.result.quiz_id, resultInfo.result.score));
+          promises.push(quizHelpers.getNumResultsForQuiz(resultInfo.result.quiz_id));
+        }
+        else {
+          promises.push(quizHelpers.getOutcomeWithId(resultInfo.result.outcome_id));
+        }
         return Promise.all(promises);
       })
       .then(results => {
-        resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
+        if (resultInfo.quiz.type === 'trivia' || true) resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
+        else resultInfo.outcome = results[0];
         if (resultInfo.result.url !== req.params.url) res.redirect('/');
         // else res.json(resultInfo);
         else res.render('result', resultInfo);

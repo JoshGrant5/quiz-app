@@ -185,6 +185,8 @@ module.exports = (db) => {
   const getScore = function(answers) {
     let query = `SELECT COUNT(*) AS score FROM answers
     WHERE is_correct = true AND (`;
+    // let query = `SELECT COUNT(*) AS score FROM trivia_answers
+    // WHERE is_correct = true AND (`;
     const values = [];
 
     for (const answer in answers) {
@@ -200,6 +202,33 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  const getOutcome = function(answers) {
+    let query = `SELECT outcome_id, COUNT(*) AS score FROM personality_answers
+    WHERE (`;
+    const values = [];
+
+    for (const answer in answers) {
+      values.push(answers[answer]);
+      if (values.length > 1) query += ` OR`
+      query += ` id = $${values.length}`;
+    }
+
+    query += `) GROUP BY outcome_id ORDER BY score DESC, outcome_id LIMIT 1;`
+
+    return db.query(query, values)
+      .then(data => data.rows[0].outcome_id)
+      .catch(err => err.message);
+  }
+
+  const getOutcomeWithId = function(outcome_id) {
+    const query = `SELECT * FROM personality_outcomes WHERE id = $1;`;
+    const values = [outcome_id];
+
+    return db.query(query, values)
+      .then(data => data.rows[0].outcome_id)
+      .catch(err => err.message);
+  }
+
   const createTriviaResult = function(quiz_id, user_id, score, total) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
@@ -207,13 +236,17 @@ module.exports = (db) => {
     let query = '';
     let values = [];
     if (user_id) {
-      query += `INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed)
+      query += `INSERT INTO results (quiz_id, user_id, score, total, date_completed)
       VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
+      // query += `INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed)
+      // VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
       values = [quiz_id, user_id, score, total, date];
     }
     else {
-      query += `INSERT INTO trivia_results (quiz_id, score, total, date_completed)
+      query += `INSERT INTO results (quiz_id, score, total, date_completed)
       VALUES ($1, $2, $3, $4) RETURNING *;`;
+      // query += `INSERT INTO trivia_results (quiz_id, score, total, date_completed)
+      // VALUES ($1, $2, $3, $4) RETURNING *;`;
       values = [quiz_id, score, total, date];
     }
 
@@ -274,6 +307,7 @@ module.exports = (db) => {
 
   const getNumResultsForQuiz = function(quiz_id) {
     const query = `SELECT COUNT(*) FROM results WHERE quiz_id = $1;`
+    // const query = `SELECT COUNT(*) FROM trivia_results WHERE quiz_id = $1;`
     const values = [quiz_id];
     return db.query(query, values)
       .then(data => Number(data.rows[0].count))
@@ -282,6 +316,7 @@ module.exports = (db) => {
 
   const getNumScoresBeatenForQuiz = function(quiz_id, score) {
     const query = `SELECT COUNT(*) FROM results WHERE quiz_id = $1 AND score < $2;`
+    // const query = `SELECT COUNT(*) FROM trivia_results WHERE quiz_id = $1 AND score < $2;`
     const values = [quiz_id, score];
     return db.query(query, values)
       .then(data => Number(data.rows[0].count))
@@ -290,8 +325,15 @@ module.exports = (db) => {
 
   const getResultsForUser = function(user_id) {
     const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE user_id = $1;`
-    // const query = `SELECT * FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id WHERE user_id = $1
-    //               UNION SELECT * FROM quizzes JOIN personality_results ON quiz_id = quizzes.id WHERE user_id = $1;`
+
+    // const promises = [];
+    // const values = [user_id];
+    // let query = `SELECT * FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id WHERE user_id = $1;`
+    // promises.push(db.query(query, values));
+    // query = `SELECT * FROM quizzes JOIN personality_results ON quiz_id = quizzes.id WHERE user_id = $1;`
+    // promises.push(db.query(query, values));
+    // return Promise.all(promises);
+
     const values = [user_id];
     return db.query(query, values)
       .then(data => data.rows)
@@ -322,6 +364,8 @@ module.exports = (db) => {
     getAnswers,
     getAnswersForQuiz,
     getScore,
+    getOutcome,
+    getOutcomeWithId,
     createTriviaResult,
     createPersonalityResult,
     getResult,

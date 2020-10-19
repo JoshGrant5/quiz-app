@@ -38,6 +38,9 @@
               <div id='answer<%= answer.id %>text' class='answer'>
                 <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
                 <label for='answer<%= answer.id %>'><%= answer.answer%></label>
+                <% if(answer.photo) { %>
+                  <img src='<%= answer.photo %>'>
+                <% } %>
               </div>
             <% }); %>
           </div>
