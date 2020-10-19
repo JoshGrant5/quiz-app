@@ -40,10 +40,51 @@ const takeQuiz = function() {
   $(location).attr('href',url.split('/').slice(0, -2).join('/'))
 }
 
+// Adjusts the rating based on the star clicked
+const stars = function(num) {
+  const stars = [$("#star1"), $("#star2"), $("#star3"), $("#star4"), $("#star5")];
+  for (let i = 0; i < stars.length; i++) {
+    if (i < num) {
+      stars[i].removeClass("glyphicon-star-empty")
+      stars[i].addClass("glyphicon-star")
+    }
+    else {
+      stars[i].removeClass("glyphicon-star")
+      stars[i].addClass("glyphicon-star-empty")
+    }
+  }
+  let url = document.URL + '/rating';
+  let star = {stars: document.querySelectorAll('.glyphicon-star').length}
+  $.ajax({
+    method: "POST",
+    url: url,
+    data: star,
+  });
+}
+
+// Toggles the favourite status of the quiz
+const heart = function() {
+  const heart = $("#heart");
+  heart.toggleClass("glyphicon-heart-empty");
+  heart.toggleClass("glyphicon-heart");
+  let url = document.URL + '/favourite';
+  if (heart.hasClass("glyphicon-heart-empty")) url += '/delete';
+  $.ajax({
+    method: "POST",
+    url: url,
+  });
+}
+
 $(document).ready(function() {
   $("#share-result").click(() => share(false));
   $("#share-quiz").click(() => share(true));
   $("#take-quiz").click(takeQuiz);
   $("#facebook").click(() => shareSocial(true));
   $("#twitter").click(() => shareSocial(false));
+  $("#star1").click(() => stars(1));
+  $("#star2").click(() => stars(2));
+  $("#star3").click(() => stars(3));
+  $("#star4").click(() => stars(4));
+  $("#star5").click(() => stars(5));
+  $("#heart").click(heart);
 });
