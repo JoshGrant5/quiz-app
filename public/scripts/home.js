@@ -6,12 +6,16 @@ $(() => {
   // creates a quiz article element
   const createQuizElement = (quiz) => {
     let $quiz = $(`
-      <a href="/quiz/${quiz.url}">
-        <article class="quiz">
-          ${quiz.title}
-          <img src="${quiz.photo}"><br>
-        </article>
+    <article class="card quiz">
+      <a href="/quiz/${quiz.url$}">
+        <img class="card-img-top" src="${quiz.photo}">
+        <div class="card-body">
+          <h3 class="card-title">${quiz.title}</h3>
+          <p class="card-subtitle">${quiz.type} | ${quiz.category}</p>
+          <p class="card-text">${quiz.description}</p>
+        </div>
       </a>
+    </article>
     `);
 
     return $quiz;
