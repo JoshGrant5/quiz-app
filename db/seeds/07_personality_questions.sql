@@ -1,0 +1,12 @@
+INSERT INTO personality_questions(quiz_id,question) VALUES (16, 'Question 1');
+INSERT INTO personality_questions(quiz_id,question) VALUES (16, 'Question 2');
+INSERT INTO personality_questions(quiz_id,question) VALUES (16, 'Question 3');
+INSERT INTO personality_questions(quiz_id,question) VALUES (16, 'Question 4');
+INSERT INTO personality_questions(quiz_id,question) VALUES (17, 'Question 1');
+INSERT INTO personality_questions(quiz_id,question) VALUES (17, 'Question 2');
+INSERT INTO personality_questions(quiz_id,question) VALUES (17, 'Question 3');
+INSERT INTO personality_questions(quiz_id,question) VALUES (17, 'Question 4');
+INSERT INTO personality_questions(quiz_id,question) VALUES (18, 'Question 1');
+INSERT INTO personality_questions(quiz_id,question) VALUES (18, 'Question 2');
+INSERT INTO personality_questions(quiz_id,question) VALUES (18, 'Question 3');
+INSERT INTO personality_questions(quiz_id,question) VALUES (18, 'Question 4');
