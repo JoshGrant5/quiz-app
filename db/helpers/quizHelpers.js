@@ -207,12 +207,12 @@ module.exports = (db) => {
     let query = '';
     let values = [];
     if (user_id) {
-      query += `INSERT INTO results (quiz_id, user_id, score, total, date_completed)
+      query += `INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed)
       VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
       values = [quiz_id, user_id, score, total, date];
     }
     else {
-      query += `INSERT INTO results (quiz_id, score, total, date_completed)
+      query += `INSERT INTO trivia_results (quiz_id, score, total, date_completed)
       VALUES ($1, $2, $3, $4) RETURNING *;`;
       values = [quiz_id, score, total, date];
     }
@@ -222,7 +222,26 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const createPersonalityResult = function(quiz_id, user_id, personality_outcome_id) {
+  const createPersonalityResult = function(quiz_id, user_id, outcome_id) {
+    const dateString = Date.now();
+    const timestamp = new Date(dateString);
+    const date = timestamp.toDateString();
+    let query = '';
+    let values = [];
+    if (user_id) {
+      query += `INSERT INTO personality_results (quiz_id, user_id, outcome_id, date_completed)
+      VALUES ($1, $2, $3, $4=) RETURNING *;`;
+      values = [quiz_id, user_id, outcome_id, date];
+    }
+    else {
+      query += `INSERT INTO personality_results (quiz_id, outcome_id, date_completed)
+      VALUES ($1, $2, $3=) RETURNING *;`;
+      values = [quiz_id, outcome_id, date];
+    }
+
+    return db.query(query, values)
+      .then(data => data.rows[0])
+      .catch(err => err.message);
   }
 
   const getResult = function(result_id, type) {
