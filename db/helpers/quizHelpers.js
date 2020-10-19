@@ -200,7 +200,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const createResult = function(quiz_id, user_id, score, total) {
+  const createTriviaResult = function(quiz_id, user_id, score, total) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
@@ -222,17 +222,32 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const getTriviaResult = function(result_id) {
+  const createPersonalityResult = function(quiz_id, user_id, personality_outcome_id) {
+  }
+
+  const getResult = function(result_id, type) {
     const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE results.id = $1;`
+    // const query = `SELECT * FROM quizzes JOIN $2 ON quiz_id = quizzes.id WHERE $3 = $1;`
     const values = [result_id];
+    // if (type === 'trivia') {
+      // values.push('trivia_results')
+      // values.push('trivia_results.id')
+    // }
+    // else {
+      // values.push('personality_results')
+      // values.push('personality_results.id')
+    // }
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
   }
 
-  const getAllResultsForQuiz = function(quiz_id) {
+  const getAllResultsForQuiz = function(quiz_id, type) {
     const query = `SELECT * FROM results WHERE quiz_id = $1;`
+    // const query = `SELECT * FROM $2 WHERE quiz_id = $1;`
     const values = [quiz_id];
+    // if (type === 'trivia') values.push('trivia_results')
+    // else values.push('personality_results')
     return db.query(query, values)
       .then(data => data.rows)
       .catch(err => err.message);
@@ -254,8 +269,10 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const getTriviaResultsForUser = function(user_id) {
+  const getResultsForUser = function(user_id) {
     const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE user_id = $1;`
+    // const query = `SELECT * FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id WHERE user_id = $1
+    //               UNION SELECT * FROM quizzes JOIN personality_results ON quiz_id = quizzes.id WHERE user_id = $1;`
     const values = [user_id];
     return db.query(query, values)
       .then(data => data.rows)
@@ -286,12 +303,13 @@ module.exports = (db) => {
     getAnswers,
     getAnswersForQuiz,
     getScore,
-    createResult,
-    getTriviaResult,
+    createTriviaResult,
+    createPersonalityResult,
+    getResult,
     getAllResultsForQuiz,
     getNumResultsForQuiz,
     getNumScoresBeatenForQuiz,
-    getTriviaResultsForUser,
+    getResultsForUser,
     shuffle,
     getCategories,
   }

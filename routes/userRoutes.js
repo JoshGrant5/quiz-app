@@ -43,7 +43,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     }
 
     const promises = [];
-    promises.push(quizHelpers.getTriviaResultsForUser(userid));
+    promises.push(quizHelpers.getResultsForUser(userid));
     promises.push(userHelpers.getUserById(userid));
 
     // get data and render page

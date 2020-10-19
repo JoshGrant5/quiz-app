@@ -74,30 +74,40 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
 
   router.post("/:url", (req, res) => {
-    let score = 0;
-    quizHelpers.getScore(req.body)
-      .then(answers => {
-        score = answers.score;
-        return quizHelpers.getQuizWithUrl(req.params.url);
-      })
+    const result = {};
+    quizHelpers.getQuizWithUrl(req.params.url)
       .then(quiz => {
-        let user_id = '';
-        if(req.session.user_id) user_id = req.session.user_id;
-        return quizHelpers.createResult(quiz.id, user_id, score, Object.keys(req.body).length);
-      })
-      .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
+        if (quiz.type === 'trivia' || true) {
+          result.quiz = quiz;
+          quizHelpers.getScore(req.body)
+            .then(answers => {
+              result.score = answers.score;
+              let user_id = '';
+              if(req.session.user_id) user_id = req.session.user_id;
+              return quizHelpers.createTriviaResult(result.quiz.id, user_id, result.score, Object.keys(req.body).length);
+            })
+            .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
+        }
+        else {
+
+        }
+      });
   });
 
   router.get("/:url/result/:id", (req, res) => {
     const promises = [];
     const userid = req.session.user_id;
     const resultInfo = {};
-    promises.push(quizHelpers.getTriviaResult(req.params.id));
+    promises.push(quizHelpers.getQuizWithUrl(req.params.url));
     if(userid) promises.push(userHelpers.getUserById(userid));
     Promise.all(promises)
       .then(results => {
-        resultInfo.result = results[0];
+        resultInfo.quiz = results[0];
         resultInfo.user = results[1] || undefined;
+        return quizHelpers.getResult(req.params.id, resultInfo.quiz.type);
+      })
+      .then(result => {
+        resultInfo.result = result;
         const promises = [];
         if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
         else if (resultInfo.result.total === 0 && resultInfo.result.score !== 0) resultInfo.result.percent = 100;
