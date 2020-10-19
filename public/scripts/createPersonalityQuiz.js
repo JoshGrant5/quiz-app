@@ -21,13 +21,49 @@ $(() => {
   const addPersonalityQuestion = () => {
     questionCount++;
     return `
-    <select id='selectedOutcome'>
+    <div class='newPersonalityQuestion'>
+      <div>
+        <h2>Question ${questionCount}:</h2>
+        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQ${questionCount}'>X</button>
+      </div>
+      <div class='question'>
+        <input type='text' name='question${questionCount}' required='required'>
+      </div>
+      <h3>Answers:</h3>
+      <div class='answers' data-toggle="buttons">
+        <div class='singleLine'>
+          <label>A)</label>
+          <input type='text' name='a${questionCount}' required='required'>
+          <input type='hidden' id='pointer' name='category'>
+          <select class='selectedOutcome'></select>
+        </div>
+        <div class='singleLine'>
+          <label>B)</label>
+          <input type='text' name='b${questionCount}' required='required'>
+          <input type='hidden' id='pointer' name='category'>
+          <select class='selectedOutcome'></select>
+        </div>
+        <div class='singleLine'>
+          <label>C)</label>
+          <input type='text' name='c${questionCount}' required='required'>
+          <input type='hidden' id='pointer' name='category'>
+          <select class='selectedOutcome'></select>
+        </div>
+        <div class='singleLine'>
+          <label>D)</label>
+          <input type='text' name='d${questionCount}' required='required'>
+          <input type='hidden' id='pointer' name='category'>
+          <select class='selectedOutcome'></select>
+        </div>
+      </div>
+    </div>
+    `;
+  };
 
-
-
-    </select>
-    `
-
+  const outcomeDropdown = outcomes => {
+    for (let outcome of outcomes) {
+      $('.selectedOutcome').append(`<option class='pointer' required='required' value='${outcome}'>${outcome}></option>`);
+    }
   };
 
   $('#selectTrivia').on('click', function() {
@@ -47,18 +83,14 @@ $(() => {
     $('#outcomeCount').val(outcomeCount);
   });
 
-  const outcomeDropdown = outcomes => {
-    for (let outcome of outcomes) {
-      $('#selectedOutcome').append(`<option class='pointer' required='required' value='${outcome}'><%= category %></option>`);
-    }
-  };
+  const outcomes = [];
 
   $('#submitOutcomes').on('click', function() {
     $('.outcomes').css({display: 'none'});
     $('.newPersonalityQuestion').slideDown(800);
     let serialized = $('#newPersonalityForm').serialize()
     let list = serialized.split('outcome');
-    const outcomes = [];
+
     for (string of list) {
       if (Number.isInteger(Number(string[0]))) {
         let newString = string.substring(2);
@@ -66,10 +98,12 @@ $(() => {
         outcomes.push(trimmed[0]);
       }
     }
+    outcomeDropdown(outcomes);
   });
 
   $('#addPersonalityQuestion').on('click', function() {
     $('.newPersonalityQuestion').css({display: 'none'});
+    outcomeDropdown(outcomes);
     const question = addPersonalityQuestion();
     $('.newQuizContainer').append(question);
     $('#questionCount').val(questionCount);
