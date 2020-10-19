@@ -34,12 +34,13 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
+  // Displays all results for the logged in user
   router.get('/results', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
 
     if(!userid) {
-      res.redirect("/"); // send user back to home page
+      res.redirect("/"); // If not logged in redirect back to home page
     }
 
     const promises = [];

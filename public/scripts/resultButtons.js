@@ -1,3 +1,4 @@
+// Share the link to either the quiz or specific result
 const share = function(quiz) {
   const url = document.createElement("input");
   document.body.appendChild(url);
@@ -17,6 +18,7 @@ const share = function(quiz) {
   }
 }
 
+// Share the result to either Facebook or Twitter
 const shareSocial = function(fb) {
   let url = "";
   if (fb) {
@@ -32,6 +34,7 @@ const shareSocial = function(fb) {
   window.open(url);
 }
 
+// Retake the quiz, redirecting to quiz page
 const takeQuiz = function() {
   url = document.URL;
   $(location).attr('href',url.split('/').slice(0, -2).join('/'))

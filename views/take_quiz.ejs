@@ -12,8 +12,10 @@
     <script type="text/javascript" src="/scripts/takeQuiz.js"></script>
   </head>
 
+  <!-- Nav Bar -->
   <%- include('partials/header') %>
 
+  <!-- Quiz Title and Photo -->
   <header>
     <h1><%= quiz.title %></h1>
     <% if(quiz.photo) { %>
@@ -21,6 +23,7 @@
     <% } %>
   </header>
 
+  <!-- Quiz Questions -->
   <body>
     <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
       <p></p>

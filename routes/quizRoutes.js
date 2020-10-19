@@ -44,6 +44,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     .catch(err => err.message);
   })
 
+  // Displays the quiz with the given url, to be taken
   router.get("/:url", (req, res) => {
     const promises = [];
     const userid = req.session.user_id;
@@ -72,6 +73,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
 
+  // Posts the answers selected to the quiz with the given url, to be stored in the database as a result
   router.post("/:url", (req, res) => {
     const result = {};
     quizHelpers.getQuizWithUrl(req.params.url)
@@ -101,6 +103,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
+  // Displays the result with the given id
   router.get("/:url/result/:id", (req, res) => {
     const promises = [];
     const userid = req.session.user_id;
@@ -115,6 +118,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       })
       .then(result => {
         resultInfo.result = result;
+        if (resultInfo.result.url !== req.params.url) res.redirect('/'); //Redirect to home page if id does not belong to given url
         const promises = [];
         if (resultInfo.quiz.type === 'trivia') {
           if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
@@ -131,9 +135,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(results => {
         if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
         else resultInfo.outcome = results[0];
-        if (resultInfo.result.url !== req.params.url) res.redirect('/');
-        // else res.json(resultInfo);
-        else res.render('result', resultInfo);
+        res.render('result', resultInfo);
       });
   });
 

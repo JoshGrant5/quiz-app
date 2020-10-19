@@ -10,7 +10,7 @@ module.exports = (db) => {
   };
 
   /**
-   * Get all public (listed) quizze
+   * Get all public (listed) quizzes
    * @param {category: string} category filter
    * Returns array of quiz objects
    */
@@ -115,12 +115,14 @@ module.exports = (db) => {
     }
   }
 
+  // Returns a quiz object with the given id
   const getQuizWithId = function(id) {
     return db.query(`SELECT * FROM quizzes WHERE id = $1;`, [id])
       .then(data => data.rows[0])
       .catch(err => err.message);
   };
 
+  // Returns a quiz object with the given url
   const getQuizWithUrl = (url) => {
     return db.query(`
       SELECT *
@@ -131,6 +133,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Returns all questions belonging to the given quiz, with the given type
   const getQuestions = (quiz_id, type) => {
     let query = ``;
     if (type === 'trivia') query += `SELECT * FROM trivia_questions WHERE quiz_id = $1 ORDER BY id;`;
@@ -140,6 +143,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Returns all answers belonging to the given question, with the given type
   const getAnswers = (question_id, type) => {
     let query = ``;
     if (type === 'trivia') query += `SELECT * FROM trivia_answers WHERE question_id = $1 ORDER BY id;`;
@@ -149,6 +153,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Returns all answers belonging to the given quiz, with the given type
   const getAnswersForQuiz = (quiz_id, type) => {
     let query = ``;
     if (type === 'trivia') query += `SELECT * FROM trivia_answers JOIN trivia_questions ON question_id = trivia_questions.id WHERE quiz_id = $1 ORDER BY id;`;
@@ -175,6 +180,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Calculates score based on the given array of answers chosen
   const getScore = function(answers) {
     let query = `SELECT COUNT(*) AS score FROM trivia_answers
     WHERE is_correct = true AND (`;
@@ -193,6 +199,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Calculates outcome based on the given array of answers chosen
   const getOutcome = function(answers) {
     let query = `SELECT outcome_id, COUNT(*) AS score FROM personality_answers
     WHERE (`;
@@ -211,6 +218,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Returns an outcome object with the given id
   const getOutcomeWithId = function(outcome_id) {
     const query = `SELECT * FROM personality_outcomes WHERE id = $1;`;
     const values = [outcome_id];
@@ -220,6 +228,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Creates and returns a result for a trivia quiz with the given quiz, user, score and total possible score
   const createTriviaResult = function(quiz_id, user_id, score, total) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
@@ -242,6 +251,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Creates and returns a result for a personality quiz with the given quiz, user, and outcome
   const createPersonalityResult = function(quiz_id, user_id, outcome_id) {
     const dateString = Date.now();
     const timestamp = new Date(dateString);
@@ -264,6 +274,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Returns a result object with the given id from the table with the given type
   const getResult = function(result_id, type) {
     let query = `SELECT * FROM quizzes JOIN `;
     const values = [result_id];
@@ -278,6 +289,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Returns all results that match the given quiz from the table with the given type
   const getAllResultsForQuiz = function(quiz_id, type) {
     let query = `SELECT * FROM `
     const values = [quiz_id];
@@ -288,6 +300,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Returns the count of how many results belong to the given quiz
   const getNumResultsForQuiz = function(quiz_id) {
     const query = `SELECT COUNT(*) FROM trivia_results WHERE quiz_id = $1;`
     const values = [quiz_id];
@@ -296,6 +309,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Returns the count of how many results that belong to the given quiz have a lower score than the given score
   const getNumScoresBeatenForQuiz = function(quiz_id, score) {
     const query = `SELECT COUNT(*) FROM trivia_results WHERE quiz_id = $1 AND score < $2;`
     const values = [quiz_id, score];
@@ -304,6 +318,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
+  // Returns all results belonging to the given user
   const getResultsForUser = function(user_id) {
     const promises = [];
     const values = [user_id];
@@ -314,6 +329,7 @@ module.exports = (db) => {
     return Promise.all(promises);
   }
 
+  //Shuffles an array
   const shuffle = function(answers) {
     const shuffled = answers.slice(0);
     for (let i = shuffled.length - 1; i > 0; i--) {
