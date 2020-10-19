@@ -46,17 +46,30 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Check each created URL on creation to make sure it has not been used before
+  const uniqueURLs = [];
+  const createURL = () => {
+    const createdURL = Math.random().toString(20).substr(2, 8);
+    if (!uniqueURLs.includes(createdURL)) {
+      uniqueURLs.push(createdURL);
+      return createdURL
+    } else {
+      return createURL();
+    }
+  }
+
   // Adds quiz to db - accepts user_id string, and an object
   const createNewQuiz = (id, info) => {
+    console.log('info is here!!!!!!', info)
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
-    const createdURL = Math.random().toString(20).substr(2, 8);
+    const createdURL = createURL();
     return db.query(`
-    INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-    VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date,])
-    .then(data => data.rows[0])
+    INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
+    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, 'trivia', 'test'])
+    .then(data => console.log(data.rows[0]))
     .catch(err => err.message);
   }
 
