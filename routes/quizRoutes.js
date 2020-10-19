@@ -92,7 +92,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const promises = [];
     const userid = req.session.user_id;
     const resultInfo = {};
-    promises.push(quizHelpers.getResult(req.params.id));
+    promises.push(quizHelpers.getTriviaResult(req.params.id));
     if(userid) promises.push(userHelpers.getUserById(userid));
     Promise.all(promises)
       .then(results => {

@@ -222,7 +222,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const getResult = function(result_id) {
+  const getTriviaResult = function(result_id) {
     const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE results.id = $1;`
     const values = [result_id];
     return db.query(query, values)
@@ -254,7 +254,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   }
 
-  const getResultsForUser = function(user_id) {
+  const getTriviaResultsForUser = function(user_id) {
     const query = `SELECT * FROM quizzes JOIN results ON quiz_id = quizzes.id WHERE user_id = $1;`
     const values = [user_id];
     return db.query(query, values)
@@ -287,11 +287,11 @@ module.exports = (db) => {
     getAnswersForQuiz,
     getScore,
     createResult,
-    getResult,
+    getTriviaResult,
     getAllResultsForQuiz,
     getNumResultsForQuiz,
     getNumScoresBeatenForQuiz,
-    getResultsForUser,
+    getTriviaResultsForUser,
     shuffle,
     getCategories,
   }
