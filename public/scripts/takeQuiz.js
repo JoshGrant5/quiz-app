@@ -4,18 +4,21 @@ const allAnswered = function(form) {
 
 $(document).ready(function() {
   const form = document.forms.quiz;
-  const submit = form.querySelector('#submit');
+  const submitTop = form.querySelector('#submit-top');
+  const submitBottom = form.querySelector('#submit-bottom');
   const prev = form.querySelector('#prev');
   const next = form.querySelector('#next');
   let count = 1;
-  submit.disabled = !allAnswered(form);
+  submitTop.disabled = !allAnswered(form);
+  submitBottom.disabled = !allAnswered(form);
   prev.disabled = true;
   $('.question').css({display: 'none'});
   $('#question1').css({display: 'block'});
 
   $('form').click((event) => {
     if (event.target.type && event.target.type === 'radio') {
-      submit.disabled = !allAnswered(form);
+      submitTop.disabled = !allAnswered(form);
+      submitBottom.disabled = !allAnswered(form);
     }
   });
 
