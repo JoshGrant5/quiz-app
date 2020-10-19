@@ -15,6 +15,7 @@ main {
   
   .filters {
     display: flex;
+    flex-flow: row wrap;
     justify-content: center;
 
     span {
@@ -26,13 +27,19 @@ main {
     }
 
     // override bootstrap hover effect
-    .btn-outline-primary:hover{
+    .btn-outline-primary:hover,
+    .btn-outline-primary:focus,
+    .btn-outline-primary:target,
+    .btn-outline-primary:active:focus {
       background-color: #FFF;
       color: $primary-color;
     }
 
     // override bootstrap hover effect
-    .btn-primary:hover {
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:target,
+    .btn-primary:active:focus {
       background-color: $primary-color;
       color: #FFF;
     }

@@ -1,6 +1,5 @@
 $(() => {
 
-  // element definitions
   const $quizContainer = $('#quiz-container');
 
   // creates a quiz article element
@@ -29,8 +28,10 @@ $(() => {
     })
   };
 
+  const $filterBtns = $(".filters button");
+
   // click handler on quiz category filter
-  $(".filters button").on("click", (e) => {
+  $filterBtns.on("click", (e) => {
     // gets category button text
     const categoryFilter = $(e.target).text();
     
@@ -40,9 +41,15 @@ $(() => {
       url: "/category",
       data: { categoryFilter }
     }).then((res) => {
+      // empty quiz container and show filtered ones
       $quizContainer.empty();
       renderQuizzes(res);
+
+      // change selected filter to solid and unselected filter to outline
+      $filterBtns.each(function() {
+        if($(this).hasClass("btn-primary")) $(this).removeClass("btn-primary").addClass("btn-outline-primary");
+      });
+      $(e.target).removeClass("btn-outline-primary").addClass("btn-primary");
     }).catch((err) => err.message);
-    
   });
 });
