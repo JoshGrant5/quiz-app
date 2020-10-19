@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS questions CASCADE;
+DROP TABLE IF EXISTS trivia_questions CASCADE;
 
 CREATE TABLE trivia_questions (
   id SERIAL PRIMARY KEY NOT NULL,
