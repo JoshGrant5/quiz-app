@@ -17,6 +17,8 @@
 
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/take_quiz.css" type="text/css" />
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -25,12 +27,6 @@
     <!-- Local JS scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/takeQuiz.js"></script>
-
-    <!-- Needs to be moved to seperate file -->
-    <style>
-      img.Image { max-width: 100%; display: block; }
-      div#ImageContainer { width: 300px; }
-    </style>
   </head>
 
   <!-- Nav Bar -->
@@ -38,49 +34,54 @@
     <%- include('partials/header') %>
   </header>
 
-  <!-- Quiz Title and Photo -->
   <body>
-    <h1><%= quiz.title %></h1>
-    <% if(quiz.photo) { %>
-      <div id="ImageContainer">
-        <img src="<%= quiz.photo %>" class="Image">
-      </div>
-    <% } %>
-
-  <!-- Quiz Questions -->
-  <body>
-    <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
-      <p></p>
+    <div id='container'>
+      <!-- Quiz Title and Photo -->
       <div>
-        <button id='submit-top' type='submit'>Submit Answers</button>
-        <button id='review' type='button'>All Questions</button>
-      </div>
-      <div>
-        <button id='prev' type='button'>Previous Question</button>
-        <button id='next' type='button'>Next Question</button>
-      </div>
-      <p></p>
-      <div id='questions'>
-        <% questions.forEach((question, index) => { %>
-          <div id='question<%= index + 1 %>' class='question'>
-            <h4>Question <%= index + 1 %></h4>
-            <p><%= question.question%></p>
-            <% question.answers.forEach((answer) => { %>
-              <div id='answer<%= answer.id %>text' class='answer'>
-                <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
-                <label for='answer<%= answer.id %>'><%= answer.answer%></label>
-                <% if(answer.photo) { %>
-                  <div id="ImageContainer">
-                    <img src="<%= answer.photo %>" class="Image">
-                  </div>
-                <% } %>
-              </div>
-            <% }); %>
+        <h1><%= quiz.title %></h1>
+        <% if(quiz.photo) { %>
+          <div id='photo'>
+            <img src="<%= quiz.photo %>" class='photo'>
           </div>
-        <% }); %>
+        <% } %>
       </div>
-      <button id='submit-bottom' type='submit'>Submit Answers</button>
-    </form>
+
+      <!-- Quiz Questions -->
+      <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
+        <div class='buttons'>
+          <button id='submit-top' class='quiz-button btn btn-success' type='submit'>Submit Answers</button>
+          <button id='review' class='quiz-button btn btn-primary' type='button'>All Questions</button>
+        </div>
+        <div class='buttons'>
+          <button id='prev' class='quiz-button btn btn-primary' type='button'>Previous Question</button>
+          <button id='next' class='quiz-button btn btn-primary' type='button'>Next Question</button>
+        </div>
+        <div id='questions'>
+          <% questions.forEach((question, index) => { %>
+            <div id='question<%= index + 1 %>' class='question'>
+              <div id='text'>
+                <h4>Question <%= index + 1 %></h4>
+                <p><%= question.question%></p>
+              </div>
+              <% question.answers.forEach((answer) => { %>
+                <div id='answer<%= answer.id %>text' class='answer'>
+                  <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
+                  <label for='answer<%= answer.id %>'><%= answer.answer%></label>
+                  <% if(answer.photo) { %>
+                    <div id="ImageContainer">
+                      <img src="<%= answer.photo %>" class="Image">
+                    </div>
+                  <% } %>
+                </div>
+              <% }); %>
+            </div>
+          <% }); %>
+        </div>
+        <div class='buttons'>
+          <button id='submit-bottom' class='quiz-button btn btn-success' type='submit'>Submit Answers</button>
+        </div>
+      </form>
+    </div>
 
     <!-- Bootstrap JS scripts -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
