@@ -123,7 +123,6 @@ $(() => {
 
     for (let i = 1; i <= questionCount; i++) {
       $('.deleteQuestion').on('click', function() {
-        console.log($(this))
         $(this).parent().parent().remove();
       });
     }
