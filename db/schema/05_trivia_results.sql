@@ -6,5 +6,5 @@ CREATE TABLE trivia_results (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   score INTEGER DEFAULT 0,
   total INTEGER DEFAULT 0,
-  date_completed DATE NOT NULL
+  date_completed TIMESTAMP NOT NULL
 );

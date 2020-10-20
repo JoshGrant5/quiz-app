@@ -414,9 +414,8 @@ module.exports = (db) => {
 
   // Creates and returns a result for a trivia quiz with the given quiz, user, score and total possible score
   const createTriviaResult = function(quiz_id, user_id, score, total) {
-    const dateString = Date.now();
-    const timestamp = new Date(dateString);
-    const date = timestamp.toDateString();
+    let date = new Date();
+    date = date.toISOString();
     let query = '';
     let values = [];
     if (user_id) {
@@ -443,9 +442,8 @@ module.exports = (db) => {
 
   // Creates and returns a result for a personality quiz with the given quiz, user, and outcome
   const createPersonalityResult = function(quiz_id, user_id, outcome_id) {
-    const dateString = Date.now();
-    const timestamp = new Date(dateString);
-    const date = timestamp.toDateString();
+    let date = new Date();
+    date = date.toISOString();
     let query = '';
     let values = [];
     if (user_id) {
