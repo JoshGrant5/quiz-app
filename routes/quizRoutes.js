@@ -49,7 +49,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   })
 
   router.post('/create/personality', (req,res) => {
-    console.log('personality')
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       console.log('Quiz Created')

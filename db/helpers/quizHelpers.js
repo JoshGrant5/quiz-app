@@ -67,7 +67,7 @@ module.exports = (db) => {
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category[0], date, info.type, info.quizDescription || null])
+    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
     .then(data => data.rows[0])
     .catch(err => err.message);
   }
@@ -86,32 +86,6 @@ module.exports = (db) => {
     return { questions, answers, correct, id }
   }
 
-  // Sorts form data into questions, answers, and outcomes - accepts and returns an object
-  const personalitySort = function(id, info) {
-    const count = info.questionCount;
-    const questions = [];
-    const outcomes = {};
-    const answers = [];
-    const pointers = [];
-    for (let i = 1; i <= count; i++) {
-      questions.push(info[`question${i}`]);
-      outcomes[info[`outcome${i}`]] = [info[`photo${i}` || null], info[`description${i}`] || null];
-      answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
-      pointers.push([info[`a${i}_pointer`], info[`b${i}_pointer`], info[`c${i}_pointer`], info[`d${i}_pointer`]]);
-    };
-    console.log('Personality is sorting right now')
-    return { questions, outcomes, answers, pointers, id }
-  }
-
-  // Adds outcomes to db - accepts an array
-  const createOutcomes = function(info) {
-    return db.query(`
-      INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
-    `, info)
-    .then(data => data.rows)
-    .catch(err => err.message);
-  }
-
   // Adds question to trivia db - accepts an array
   const createTriviaQuestion = function(info) {
     return db.query(`
@@ -120,27 +94,10 @@ module.exports = (db) => {
     .catch(err => err.message);
   }
 
-  // Adds question to personality db - accepts an array
-  const createPersonalityQuestion = function(info) {
-    return db.query(`
-    INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
-    .then(data => data.rows)
-    .catch(err => err.message);
-  }
-
   // Adds answers to trivia db - accepts a nested array
   const createTriviaAnswer = function(info) {
     return db.query(`
     INSERT INTO trivia_answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
-    .then(data => data.rows)
-    .catch(err => err.message);
-  };
-
-  // Adds answers to personality db - accepts an array
-  const createPersonalityAnswer = function(info) {
-    return db.query(`
-    INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
-
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -170,23 +127,86 @@ module.exports = (db) => {
     }
   }
 
+  // Sorts form data into questions, answers, and outcomes - accepts and returns an object
+  const personalitySort = function(id, info) {
+    const outcomeCount = info.outcomeCount;
+    const questionCount = info.questionCount;
+    const questions = [];
+    const outcomes = {};
+    const answers = [];
+    const pointers = [];
+    for (let i = 1; i <= outcomeCount; i++) {
+      outcomes[info[`outcome${i}`]] = [info[`photo${i}` || null], info[`description${i}`] || null];
+    }
+      for (let i = 1; i <= questionCount; i++) {
+      questions.push(info[`question${i}`]);
+      answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
+      pointers.push([info[`a${i}_pointer`], info[`b${i}_pointer`], info[`c${i}_pointer`], info[`d${i}_pointer`]]);
+    }
+    console.log('Personality is sorting right now')
+    return { questions, outcomes, answers, pointers, id }
+  }
+
+  // Adds outcomes to db - accepts an array
+  const createOutcomes = function(info) {
+    return db.query(`
+      INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
+    `, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
+  // Adds question to personality db - accepts an array
+  const createPersonalityQuestion = function(info) {
+    return db.query(`
+    INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
+  // Adds answers to personality db - accepts an array
+  const createPersonalityAnswer = function(info) {
+    return db.query(`
+    INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
+
+    .then(data => data.rows)
+    .catch(err => err.message);
+  };
+
   // Goes through all questions and answers, placing in correct personality db - accepts an object (returned from personalitySort())
   const addPersonalityQuizContent = function(info) {
+    let outcomeCounter = 1; // outcome counter
+    // let questionCounter = 0;
+    let x = 0;
+    let outcomePairs = {};
     for (let outcome in info.outcomes) {
       let outcomeInfo = [info.id, outcome, info.outcomes[outcome][0], info.outcomes[outcome][1]];
       createOutcomes(outcomeInfo)
-      .then(outcomes => console.log('OUTCOMES', outcomes));
-    }
-    for (let question of info.questions) {
-      createPersonalityQuestion([info.id, question])
-      .then(questionInfo => {
-        console.log('QUESTINO INFO', questionInfo)
-        for (let i = 1; i <= 4; i++) {
-          createPersonalityAnswer([questionInfo[0].id, info.pointers[i-1], info.answers[i-1]])
-          .then(answer => {
-            console.log('Answersssssssss', answer)
-            return answer;
-          });
+      .then(outcomes => {
+        console.log('OUTCOMES ID', outcomes[0].id)
+        console.log('the outcome counter is', outcomeCounter)
+        console.log('the object length comparing on line 190', Object.keys(info.outcomes).length)
+        outcomePairs[outcomes[0].title] = outcomes[0].id;
+        if (outcomeCounter === Object.keys(info.outcomes).length) {
+          console.log('The outcome pairs object', outcomePairs);
+          for (let question of info.questions) {
+            // questionCounter++;
+            createPersonalityQuestion([info.id, question])
+            .then(questionInfo => {
+              console.log('QUESTINO INFO', questionInfo)
+              for (let i = 1; i <= 4; i++) {
+                // console.log(`The pointer is ${info.pointers[questionCounter-1][i-1]}`)
+                createPersonalityAnswer([questionInfo[0].id, outcomePairs[info.pointers[x][i-1]], info.answers[x][i-1]])
+                .then(answer => {
+                  x++;
+                  console.log('Answersssssssss', answer)
+                  return answer;
+                });
+              }
+            });
+          }
+        } else {
+          outcomeCounter++;
         }
       });
     }

@@ -34,7 +34,7 @@ $(() => {
         <input type='text' name='question${questionCount}' required='required'>
       </div>
       <h3>Answers:</h3>
-      <div class='answers' data-toggle="buttons">
+
         <div class='singleLine'>
           <label>A)</label>
           <input type='text' name='a${questionCount}' required='required'>
@@ -53,9 +53,9 @@ $(() => {
         <div class='singleLine'>
           <label>D)</label>
           <input type='text' name='d${questionCount}' required='required'>
-          <select class='selectedOutcome name='d${questionCount}_pointer' id='d${questionCount}_pointer' required='required'></select>
+          <select class='selectedOutcome name='d${questionCount}_pointer' required='required'></select>
         </div>
-      </div>
+
     </div>
     `;
   };
@@ -76,6 +76,7 @@ $(() => {
     $('.outcomes').css({display: 'none'});
     const outcome = addOutcome();
     $('.newQuizContainer').append(outcome);
+    $('#outcomeCount').val(outcomeCount);
   });
 
   $('#submitOutcomes').on('click', function() {
@@ -83,8 +84,11 @@ $(() => {
     $('.newPersonalityQuestion').slideDown(800);
     $('#addOutcome').css({display: 'none'});
     $('#submitOutcomes').css({display: 'none'});
+    $('#addPersonalityQuestion').css({visibility: 'visible'});
+    $('#reviewPersonalityQuiz').css({visibility: 'visible'});
 
     let serialized = $('#newPersonalityForm').serialize()
+    console.log(serialized)
     let list = serialized.split('outcome');
     for (string of list) {
       if (Number.isInteger(Number(string[0]))) {
@@ -109,7 +113,7 @@ $(() => {
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
     $('.newPersonalityquestion').slideDown(800);
-    $('.#addOutcome').slideDown(800);
+    $('#addOutcome').slideDown(800);
     $('#createPersonalityQuiz').css({visibility: 'visible'});
     $('html, body').animate({scrollTop:200}, 2000);
     const category = $('#personalityCategory').find(":selected").text();
