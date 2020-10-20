@@ -13,6 +13,7 @@ $(document).ready(function() {
   let count = 1;
   submitTop.disabled = !allAnswered(form);
   submitBottom.disabled = !allAnswered(form);
+  submitBottom.style.display = 'none';
   prev.disabled = true;
   $('.question').css({display: 'none'});
   $('#question1').css({display: 'block'});
@@ -52,5 +53,6 @@ $(document).ready(function() {
     next.style.display = 'none';
     prev.style.display = 'none';
     review.style.display = 'none';
+    submitBottom.style.display = 'block';
   });
 });
