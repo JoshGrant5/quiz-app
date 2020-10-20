@@ -51,7 +51,7 @@
         <input type='text' name='quizDescription' placeholder='Optional'>
         <div class="dropdown">
           <label>Category:</label>
-          <input type='hidden' class='categoryInput' name='category'>
+          <input type='hidden' id='tCategoryInput' name='category'>
           <select id='triviaCategory'>
             <% for (let category of categories) { %>
               <option class='category' required='required'><%= category %></option>
@@ -126,7 +126,7 @@
         <input type='text' name='quizDescription' placeholder='Optional'>
         <div class="dropdown">
           <label>Category:</label>
-          <input type='hidden' class='categoryInput' name='category'>
+          <input type='hidden' id='pCategoryInput' name='category'>
           <select id='personalityCategory'>
             <% for (let category of categories) { %>
               <option class='category' required='required'><%= category %></option>
@@ -149,12 +149,9 @@
           <input type='text' name='description1'>
       </div>
 
-
-
     </div>
   </div>
   <footer>
-    <input type='hidden' id='outcomeCount' name='outcomeCount' value='1'>
     <input type='hidden' id='questionCount' name='questionCount' value='1'>
     <input type='hidden' name='type' value='personality'>
     <button type='button' id='addOutcome'>Add Another Outcome</button>

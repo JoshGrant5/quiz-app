@@ -60,7 +60,6 @@ module.exports = (db) => {
 
   // Adds quiz to db - accepts user_id string, and an object
   const createNewQuiz = (id, info) => {
-    console.log('info is here!!!!!!', info)
     const dateString = Date.now();
     const timestamp = new Date(dateString);
     const date = timestamp.toDateString();
@@ -68,8 +67,8 @@ module.exports = (db) => {
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
-    .then(data => console.log(data.rows[0]))
+    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category[0], date, info.type, info.quizDescription || null])
+    .then(data => data.rows[0])
     .catch(err => err.message);
   }
 
@@ -94,13 +93,13 @@ module.exports = (db) => {
     const outcomes = {};
     const answers = [];
     const pointers = [];
-
     for (let i = 1; i <= count; i++) {
       questions.push(info[`question${i}`]);
       outcomes[info[`outcome${i}`]] = [info[`photo${i}` || null], info[`description${i}`] || null];
       answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
       pointers.push([info[`a${i}_pointer`], info[`b${i}_pointer`], info[`c${i}_pointer`], info[`d${i}_pointer`]]);
     };
+    console.log('Personality is sorting right now')
     return { questions, outcomes, answers, pointers, id }
   }
 
@@ -122,7 +121,7 @@ module.exports = (db) => {
   }
 
   // Adds question to personality db - accepts an array
-  const createTriviaQuestion = function(info) {
+  const createPersonalityQuestion = function(info) {
     return db.query(`
     INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
     .then(data => data.rows)
@@ -141,6 +140,7 @@ module.exports = (db) => {
   const createPersonalityAnswer = function(info) {
     return db.query(`
     INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
+
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -153,7 +153,7 @@ module.exports = (db) => {
       .then(questionInfo => {
         for (let i = 1; i <= 4; i++) {
           if (Number(info.correct[counter]) === i) {
-            createTriviaAnswer([questionInfo[0].id, info.pointers[i-1], info.answers[i-1]])
+            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1]], true)
             .then(answer => {
               counter++;
               return answer;
@@ -180,10 +180,11 @@ module.exports = (db) => {
     for (let question of info.questions) {
       createPersonalityQuestion([info.id, question])
       .then(questionInfo => {
+        console.log('QUESTINO INFO', questionInfo)
         for (let i = 1; i <= 4; i++) {
           createPersonalityAnswer([questionInfo[0].id, info.pointers[i-1], info.answers[i-1]])
           .then(answer => {
-            counter++;
+            console.log('Answersssssssss', answer)
             return answer;
           });
         }

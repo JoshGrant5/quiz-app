@@ -25,7 +25,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(res => {
         templateVars.user = res[0] || undefined;
         templateVars.categories = res[1];
-        console.log('ALL CATEGORIES', templateVars)
         return templateVars;
       })
       .then(data => {
@@ -33,29 +32,42 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
-  router.post('/create/trivia', (req, res) => {
+  router.post('/create', (req, res) => {
+    console.log('trivia')
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
-      return quizHelpers.sort(data.id ,req.body);
+      console.log('bodyyyyyyy', req.body)
+      console.log('data id', data.id)
+      return quizHelpers.triviaSort(data.id, req.body);
     })
     .then(sortedData => {
+      console.log('Sorted promise has run', sortedData)
       res.redirect('/user')
-      return quizHelpers.addQuizContent(sortedData);
+      return quizHelpers.addTriviaQuizContent(sortedData);
     })
     .catch(err => err.message);
   })
 
-  router.post('/create/personality', (req, res) => {
+  router.post('/create/personality', (req,res) => {
+    console.log('personality')
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
-    .then(data => console.log(data))
-    //   return quizHelpers.sort(data.id ,req.body);
-    // })
-    // .then(sortedData => {
-    //   res.redirect('/user')
-    //   return quizHelpers.addQuizContent(sortedData);
-    // })
+    .then(data => {
+      console.log('Quiz Created')
+      console.log('iddddd', data.id)
+      console.log('req boydddddddd', req.body)
+      return quizHelpers.personalitySort(data.id ,req.body);
+    })
+    .then(sortedData => {
+      console.log('Data Sorted:', sortedData)
+      res.redirect('/user')
+      return quizHelpers.addPersonalityQuizContent(sortedData);
+    })
     .catch(err => err.message);
   })
+
+  // router.post('/create/personality', (req, res) => {
+
+  // })
 
   router.get("/:url", (req, res) => {
     const promises = [];
