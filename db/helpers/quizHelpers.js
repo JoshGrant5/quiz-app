@@ -111,8 +111,8 @@ module.exports = (db) => {
     const createdURL = createURL();
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+     RETURNING *;`, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
     .then(data => data.rows[0])
     .catch(err => err.message);
   };
@@ -134,7 +134,9 @@ module.exports = (db) => {
   // Adds question to trivia db - accepts an array
   const createTriviaQuestion = function(info) {
     return db.query(`
-    INSERT INTO trivia_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    INSERT INTO trivia_questions (quiz_id, question)
+    VALUES ($1, $2)
+    RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -142,7 +144,9 @@ module.exports = (db) => {
   // Adds answers to trivia db - accepts a nested array
   const createTriviaAnswer = function(info) {
     return db.query(`
-    INSERT INTO trivia_answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
+    INSERT INTO trivia_answers (question_id, answer, is_correct)
+    VALUES ($1, $2, $3)
+    RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -193,8 +197,9 @@ module.exports = (db) => {
   // Adds outcomes to personality db - accepts an array
   const createOutcomes = function(info) {
     return db.query(`
-      INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
-    `, info)
+      INSERT INTO personality_outcomes (quiz_id, title, photo, description)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   }
@@ -202,7 +207,8 @@ module.exports = (db) => {
   // Adds question to personality db - accepts an array
   const createPersonalityQuestion = function(info) {
     return db.query(`
-    INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    INSERT INTO personality_questions (quiz_id, question)
+    VALUES ($1, $2) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   }
@@ -210,7 +216,8 @@ module.exports = (db) => {
   // Adds answers to personality db - accepts an array
   const createPersonalityAnswer = function(info) {
     return db.query(`
-    INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
+    INSERT INTO personality_answers (question_id, outcome_id, answer)
+    VALUES ($1, $2, $3) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
