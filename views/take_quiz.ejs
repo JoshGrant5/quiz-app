@@ -18,6 +18,7 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/take_quiz.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/title.css" type="text/css" />
 
 
     <!-- Fonts -->
@@ -38,7 +39,7 @@
     <div id='container'>
       <!-- Quiz Title and Photo -->
       <div>
-        <h1><%= quiz.title %></h1>
+        <h2><%= quiz.title %></h2>
         <% if(quiz.photo) { %>
           <div id='photo'>
             <img src="<%= quiz.photo %>" class='photo'>

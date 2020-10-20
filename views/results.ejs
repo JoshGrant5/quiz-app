@@ -18,6 +18,7 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/quiz_cards.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/title.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -39,7 +40,7 @@
   </header>
 
   <body>
-    <h1>My Results</h1>
+    <h2>My Results</h2>
     <div id='quiz-container'>
       <% for (const result of results) { %>
         <article class="card quiz">
@@ -52,9 +53,9 @@
               <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
                 <footer>
                   <% if(result.type === 'trivia') { %>
-                    <p>Score was <%= result.percent %>%</p>
+                    <p>You got <%= result.percent %>%</p>
                   <% } else { %>
-                    <p>Result was <%= result.outcome.title %></p>
+                    <p>You got <%= result.outcome.title %></p>
                   <% } %>
                   <p></p>
                 </footer>

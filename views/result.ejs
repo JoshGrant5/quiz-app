@@ -26,6 +26,7 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/result.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/title.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -45,7 +46,7 @@
   <body>
     <div id='container'>
       <div>
-        <h1><%= result.title %></h1>
+        <h2><%= result.title %></h2>
         <% if(result.photo) { %>
           <div id='photo'>
             <img src="<%= result.photo %>" class='photo'>
@@ -62,8 +63,8 @@
         <% } else { %>
           <h2>Your Result</h2>
           <% if(outcome.photo) { %>
-            <div id="ImageContainer">
-              <img src="<%= outcome.photo %>" class="Image">
+            <div id='photo'>
+              <img src="<%= outcome.photo %>" class='photo'>
             </div>
           <% } %>
           <p><%= outcome.title %></p>
