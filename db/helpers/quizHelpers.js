@@ -18,20 +18,34 @@ module.exports = (db) => {
    */
   const getPublicQuizzes = (options) => {
     // {"filterType":"category","filterName":"TV/Movies","sortName":"created-desc"}
-
-    const queryParams = [];
     console.log('options>>', options);
-    const { filterType, filterName, sortName, sortOrder } = options;
     
-    if (sortName === "popular-desc" || sortName === "popular-asc") {
-      // (filterType === "category") ? 
+    const { filterType, filterName, sortName, sortOrder } = options;
+    const queryParams = [];
+    
+    let queryString = "SELECT quizzes.* ";    
+    
+    if (sortName === "popular" || sortName === "rating") {
+
+      // choose table to join
+      if (sortName === "popular") {
+        switch(filterType) {
+          case "trivia":
+            queryString += ", count(trivia_results) AS total_count FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id";
+            break;
+          case "personality":
+            queryString += ", count(personality_results AS total_count FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id";
+            break;
+          default:
+            queryString += ", count("
+        }
+      } else {
+        table = "ratings";
+      }
+      queryString += `, count(${table}) AS total_count FROM quizzes JOIN ${table} ON quiz_id = quizzes.id `
+    } else {
+      queryString += "FROM quizzes "
     }
-
-    let queryString = `
-    SELECT *
-    FROM quizzes
-    `;
-
 
     queryString += "WHERE listed = true ";
 
@@ -48,12 +62,6 @@ module.exports = (db) => {
       }
     }
 
-    // sort by quiz create date
-    // if (sortName === "created") {
-    //   queryString += "ORDER BY date_created";
-    // } else if (sortName === "created-asc") {
-    //   queryString += "ORDER BY date_created ASC";
-    // }
 
     console.log(queryString, queryParams);
 

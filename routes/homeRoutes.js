@@ -15,10 +15,11 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
     const templateVars = {};
     const userid = req.session.user_id;
-    const quizOptions = { 
+    const quizOptions = { // set sort order on first load
       filterName: 'All',
-      sortBy: 'Newest'
-    }; // on first load
+      sortName: 'created',
+      sortOrder: 'asc'
+    };
 
     // data needed for home page
     const promises = [];
