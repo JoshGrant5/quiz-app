@@ -32,12 +32,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
-  router.post('/create', (req, res) => {
+  router.post('/create/trivia', (req, res) => {
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
+      console.log(req.body)
       return quizHelpers.triviaSort(data.id, req.body);
     })
     .then(sortedData => {
+      console.log('Sorted data', sortedData)
       res.redirect('/user')
       return quizHelpers.addTriviaQuizContent(sortedData);
     })

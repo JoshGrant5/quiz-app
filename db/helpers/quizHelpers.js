@@ -109,7 +109,7 @@ module.exports = (db) => {
       .then(questionInfo => {
         for (let i = 1; i <= 4; i++) {
           if (Number(info.correct[counter]) === i) {
-            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1]], true)
+            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], true])
             .then(answer => {
               counter++;
               return answer;
@@ -117,7 +117,6 @@ module.exports = (db) => {
           } else {
             createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
             .then(answer => {
-              counter++;
               return answer;
             });
           }

@@ -26,7 +26,7 @@ $(() => {
     <div class='newPersonalityQuestion'>
       <div>
         <h2>Question ${questionCount}:</h2>
-        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQ${questionCount}'>X</button>
+        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${questionCount}'>X</button>
       </div>
       <div class='question'>
         <input type='text' name='question${questionCount}' required='required'>
@@ -122,11 +122,9 @@ $(() => {
     $('.deleteQuestion').css({visibility: 'visible'});
 
     for (let i = 1; i <= questionCount; i++) {
-      console.log($(`#deleteQ${i}`))
-      console.log($(`#deleteQ${i}`).parent().parent())
-      $(`#deleteQ${i}`).on('click', function() {
-        console.log('clicked')
-        $(`#deleteQ${i}`).parent().parent().remove();
+      $('.deleteQuestion').on('click', function() {
+        console.log($(this))
+        $(this).parent().parent().remove();
       });
     }
   });
