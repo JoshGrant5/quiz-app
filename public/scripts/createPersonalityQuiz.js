@@ -3,8 +3,6 @@ $(() => {
   let outcomeCount = 1;
   // Question count: Starts at 0 since there is nothing in the viewport to start
   let questionCount = 0;
-  // Options array for iterating through answer id's
-  const options = ['a', 'b', 'c', 'd'];
   // Array for storing all given outcomes
   let outcomes = [];
 
@@ -34,7 +32,6 @@ $(() => {
         <input type='text' name='question${questionCount}' required='required'>
       </div>
       <h3>Answers:</h3>
-
         <div class='singleLine'>
           <label>A)</label>
           <input type='text' name='a${questionCount}' required='required'>
@@ -53,9 +50,8 @@ $(() => {
         <div class='singleLine'>
           <label>D)</label>
           <input type='text' name='d${questionCount}' required='required'>
-          <select class='selectedOutcome name='d${questionCount}_pointer' required='required'></select>
+          <select class='selectedOutcome' name='d${questionCount}_pointer' required='required'></select>
         </div>
-
     </div>
     `;
   };
