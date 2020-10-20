@@ -11,5 +11,15 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .catch(err => err.message);
   });
 
+  // returns an array of quiz objects given filter options
+  router.get("/filter", (req, res) => {
+    const filterOptions = req.query;
+    quizHelpers.getPublicQuizzes(filterOptions)
+      .then(data => {
+        res.send(data);
+      });
+
+  })
+
   return router;
 };

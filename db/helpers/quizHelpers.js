@@ -1,3 +1,5 @@
+const { query } = require("express");
+
 module.exports = (db) => {
 
   // not used as far as I know - Helen
@@ -10,12 +12,8 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-  /**
-   * Get all public (listed) quizzes
-   * @param {category: string} category filter
-   * Returns array of quiz objects
-   */
-  const getPublicQuizzes = (category) => {
+  // gets listed quizes given filter options
+  const getPublicQuizzes = (options) => {
     const queryParams = [];
     let queryString = `
       SELECT *
@@ -23,14 +21,13 @@ module.exports = (db) => {
       WHERE listed = true
     `;
 
-    if(category.categoryFilter !== 'All') {
-      queryParams.push(category.categoryFilter);
-      queryString += `AND category = $${queryParams.length} `;
+    if(options.filterName !== 'All' && options.filterType === 'type') {
+      queryParams.push(options.filterName);
+      queryString += `AND type = $1;`;
+    } else if (options.firstName !== 'All' && options.filterType === 'category') {
+      queryParams.push(options.filterName);
+      queryString += `AND category = $1;`;
     }
-
-    queryString += `
-      LIMIT 10;
-    `;
 
     return db.query(queryString, queryParams)
       .then(data => data.rows)
