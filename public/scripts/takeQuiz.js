@@ -15,6 +15,14 @@ $(document).ready(function() {
   submitBottom.disabled = !allAnswered(form);
   submitBottom.style.display = 'none';
   prev.disabled = true;
+  if (form.querySelectorAll('.question').length === 1) {
+    next.disabled = true;
+    prev.disabled = true;
+    review.disabled = true;
+    next.style.display = 'none';
+    prev.style.display = 'none';
+    review.style.display = 'none';
+  }
   $('.question').css({display: 'none'});
   $('#question1').css({display: 'block'});
 
