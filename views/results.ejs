@@ -17,6 +17,7 @@
 
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/quiz_cards.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -39,37 +40,30 @@
 
   <body>
     <h1>My Results</h1>
-    <% for (const result of results) { %>
-
-        <article class="result">
+    <div id='quiz-container'>
+      <% for (const result of results) { %>
+        <article class="card quiz">
           <a href="/quiz/<%= result.url %>">
-          <header>
-            <%= result.title %>
-          </header>
-          <body>
             <% if(!result.photo) result.photo = "../assets/quiz-placeholder.png" %>
-            <div id="ImageContainer">
-              <img src="<%= result.photo %>" class="Image">
-            </div>
-          </body>
+            <img src="<%= result.photo %>" class="card-img-top">
+            <div class="card-body">
+              <h3><%= result.title %></h3>
           </a>
-          <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
-          <footer>
-            <% if(result.type === 'trivia') { %>
-              Score was <%= result.percent %>%
-            <% } else { %>
-              <p>Result was <%= result.outcome.title %></p>
-              <% if(result.outcome.photo) { %>
-                <div id="ImageContainer">
-                  <img src="<%= result.outcome.photo %>" class="Image">
-                </div>
-              <% } %>
-            <% } %>
-          <p></p>
-          </footer>
+              <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
+                <footer>
+                  <% if(result.type === 'trivia') { %>
+                    <p>Score was <%= result.percent %>%</p>
+                  <% } else { %>
+                    <p>Result was <%= result.outcome.title %></p>
+                  <% } %>
+                  <p></p>
+                </footer>
+              </a>
+            </div>
         </article>
-      </a>
-    <% } %>
+      <% } %>
+    </div>
+  </body>
 
     <!-- Bootstrap JS scripts -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
