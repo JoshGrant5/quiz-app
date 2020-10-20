@@ -1,37 +1,46 @@
-<header>
-  <nav>
-    <span>Quiz App</span>
-    <div>
+<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">quizapp</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+        <% if(!user) { %>
+          <a class="nav-item nav-link active" href="/">View Quizzes</a></li>
+        <% } else { %>
+          <a class="nav-item nav-link active" href="/">View Quizzes</a></li>
+          <a class="nav-item nav-link active" href="/quiz/create">Create Quiz</a></li>
+          <a class="nav-item nav-link active" href="/user">My Quizzes</a></li>
+          <a class="nav-item nav-link active" href="/user/results">My Results</a></li>
+        <% } %>
+    </div>
+
+    <div class="navbar-nav ml-auto">
       <% if(!user) { %>
-        <ul>
-          <form action="/login" method="POST">
-            <li>
-              <button>Login (POST /login)</button>
-            </li>
-          </form>
-          <li>Sign up</li>
+        <ul class="nav">
+          <li class="nav-item">
+            <form action="/login" method="POST">
+              <button class="btn btn-success">Login (hardcoded)</button>
+            </form>
+          </li>
+          <li class="nav-item">
+            <form action="/signup" method="GET">
+              <button class="btn btn-success">Sign up</button>
+            </form>
+          </li>
         </ul>
       <% } else { %>
-        <ul>
-          <li>Signed in as: <%= user.name %></li>
+        <ul class="nav">
+          <li class="nav-item" id ="username">Signed in as: <%= user.name %></li>
           <form action="/logout" method="POST">
-            <li>
-              <button>Logout (POST /logout)</button>
+            <li class="nav-item">
+              <button class="btn btn-success">Logout</button>
             </li>
           </form>
         </ul>
       <% } %>
-      <div>
-        <ul>
-        <% if(!user) { %>
-          <li><a href="/">View Quizzes</a></li>
-        <% } else { %>
-          <li><a href="/">View Quizzes</a></li>
-          <li><a href="/quiz/create">Create a Quiz</a></li>
-          <li><a href="/user">My Quizzes</a></li>
-          <li><a href="/user/results">My Results</a></li>
-        <% } %>
-        </ul>
-      </div>
-  </nav>
-</header>
+    </div>
+  </div>
+</nav>

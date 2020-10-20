@@ -1,0 +1,38 @@
+// See: https://sass-lang.com/
+
+html {
+  background-color: #EEE;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #000;
+
+  nav {
+    min-height: 4rem;
+    line-height: 1.5rem;
+
+    .navbar-brand {
+      font-family: 'Passion One', cursive;
+      font-size: 32px;
+    }
+
+    .navbar-nav a:hover {
+      // hover effect
+    }
+
+    #username {
+      align-self: center;
+      margin-right: 0.5rem;
+    }
+
+    ul {
+      button {
+        margin: 0 0.5rem;
+      }
+    }
+  }
+  
+  body {
+    margin-top: 4rem;
+    padding: 20px;    
+  }
+}
