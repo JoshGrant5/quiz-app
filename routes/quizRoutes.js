@@ -9,11 +9,6 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
-
-  router.get("/", (req, res) => {
-    helpers.getAllQuizzes().then(info => res.json(info));
-  });
-
   router.get('/create', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;

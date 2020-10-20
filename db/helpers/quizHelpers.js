@@ -2,17 +2,7 @@ const { query } = require("express");
 
 module.exports = (db) => {
 
-  // not used as far as I know - Helen
-  const getAllQuizzes = () => {
-    return db.query(`
-      SELECT *
-      FROM quizzes;
-    `)
-      .then(data => data.rows)
-      .catch(err => err.message);
-  };
-
-  /**
+   /**
    * Gets listed quizzes given filter and sort options
    * @param {{filterType:string, filterName:string, sortName:string, sortOrder: string}} options
    */
@@ -750,7 +740,6 @@ module.exports = (db) => {
   }
 
   return {
-    getAllQuizzes,
     getPublicQuizzes,
     getQuizzesForUser,
     uniqueURLs,
