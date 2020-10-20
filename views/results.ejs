@@ -26,12 +26,6 @@
 
     <!-- Local JS scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-
-    <!-- Needs to be moved to seperate file -->
-    <style>
-      img.Image { max-width: 100%; display: block; }
-      div#ImageContainer { width: 300px; }
-    </style>
   </head>
 
   <!-- Nav Bar -->
@@ -47,20 +41,19 @@
           <a href="/quiz/<%= result.url %>">
             <% if(!result.photo) result.photo = "../assets/quiz-placeholder.png" %>
             <img src="<%= result.photo %>" class="card-img-top">
+          </a>
+          <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
             <div class="card-body">
               <h3><%= result.title %></h3>
-          </a>
-              <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
-                <footer>
-                  <% if(result.type === 'trivia') { %>
-                    <p>You got <%= result.percent %>%</p>
-                  <% } else { %>
-                    <p>You got <%= result.outcome.title %></p>
-                  <% } %>
-                  <p></p>
-                </footer>
-              </a>
+              <footer>
+                <% if(result.type === 'trivia') { %>
+                  <p>You got <%= result.percent %>%</p>
+                <% } else { %>
+                  <p>You got <%= result.outcome.title %></p>
+                <% } %>
+              </footer>
             </div>
+          </a>
         </article>
       <% } %>
     </div>
