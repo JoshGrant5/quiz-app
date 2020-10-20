@@ -12,52 +12,48 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-  // gets listed quizes given filter options
+  /**
+   * Gets listed quizzes given filter and sort options
+   * @param {{filterType:string, filterName:string, sortName:string, sortOrder: string}} options 
+   */
   const getPublicQuizzes = (options) => {
-    // {"filterType":"category","filterName":"TV/Movies","sortBy":"created-desc"}
+    // {"filterType":"category","filterName":"TV/Movies","sortName":"created-desc"}
 
     const queryParams = [];
     console.log('options>>', options);
-    const { filterType, filterName, sortBy } = options;
+    const { filterType, filterName, sortName, sortOrder } = options;
+    
+    if (sortName === "popular-desc" || sortName === "popular-asc") {
+      // (filterType === "category") ? 
+    }
 
     let queryString = `
-      SELECT * FROM quizzes
-      WHERE listed = true
+    SELECT *
+    FROM quizzes
     `;
 
-    if (filterName !== 'All') {
+
+    queryString += "WHERE listed = true ";
+
+    if (filterName !== "All") {
       // filter by quiz type
-      if (filterType === 'type') {
+      if (filterType === "type") {
         queryParams.push(filterName);
         queryString += `AND type = $${queryParams.length} `;
       
       // filter by quiz category
-      } else if (filterType === 'category') {
+      } else if (filterType === "category") {
         queryParams.push(filterName);
         queryString += `AND category = $${queryParams.length} `;
       }
     }
 
-    switch(sortBy) {
-      case 'created-desc':
-        queryString += `ORDER BY date_created DESC`;
-        break;
-      case 'created-asc':
-        queryString += `ORDER BY date_created ASC`;
-        break;
-      case 'popular-desc':
-        console.log('popular-desc');
-        break;
-      case 'popular-asc':
-        console.log('popular-asc');
-        break;
-      case 'rating-desc':
-        console.log('rating-desc');
-        break;
-      case 'rating-asc':
-        console.log('rating-asc');
-        break;
-    }
+    // sort by quiz create date
+    // if (sortName === "created") {
+    //   queryString += "ORDER BY date_created";
+    // } else if (sortName === "created-asc") {
+    //   queryString += "ORDER BY date_created ASC";
+    // }
 
     console.log(queryString, queryParams);
 

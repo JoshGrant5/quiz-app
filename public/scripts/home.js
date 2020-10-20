@@ -9,27 +9,28 @@ $(() => {
   $sortAndFilterBtns.on("click", function(e) {
 
     const selectionType = $(this).parent().attr("class");
-    let filterName, filterType, sortBy;
+    let filterName, filterType, sortName, sortOrder;
     
     // if filter selected, filter = target, sort = styled
     if (selectionType === "quiz-filter") {
       filterName = $(this).text();
       filterType = $(this).attr("name");
-      sortBy = $(".quiz-sort button.btn-primary").attr("name");
+      sortName = $(".quiz-sort button.btn-primary").attr("name").split("-")[0];
+      sortOrder = $(".quiz-sort button.btn-primary").attr("name").split("-")[1];
     
     // if sort selected, sort = target, filter = styled
     } else {
-      // filterName = $(".quiz-filter button.btn-primary").text();
       filterName = $(".quiz-filter button.btn-primary").text();
       filterType = $(".quiz-filter button.btn-primary").attr("name");
-      sortBy = $(this).attr("name");
+      sortName = $(this).attr("name").split("-")[0];
+      sortOrder = $(this).attr("name").split("-")[1];
     }
 
-    // send sort and filter and get an array of quizzes
+    // send sort and filter options, returns an array of quizzes
     $.ajax({
       method: "GET",
       url: "/api/filterAndSort",
-      data: { filterType, filterName, sortBy }
+      data: { filterType, filterName, sortName, sortOrder }
     }).then((res) => {
       // empty quiz container and show filtered quizzes in sort order
       $quizContainer.empty();
