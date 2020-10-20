@@ -537,10 +537,11 @@ module.exports = (db) => {
   // Returns quizzes in order of most favourites
   const getMostFavourited = function() {
     const query = `
-      SELECT quiz_id, COUNT(*) AS count
-      FROM favourites
-      GROUP BY quiz_id
-      ORDER BY count DESC, quiz_id;
+      SELECT quizzes.id, COUNT(quiz_id) AS count
+      FROM quizzes
+      LEFT JOIN favourites on quiz_id = quizzes.id
+      GROUP BY quizzes.id
+      ORDER BY count DESC, quizzes.id;
     `
     return db.query(query)
       .then(data => data.rows)
@@ -550,13 +551,15 @@ module.exports = (db) => {
   // Returns quizzes in order of most results
   const getMostPopular = function() {
     const query = `
-      SELECT quiz_id, COUNT(*) AS count
-      FROM personality_results
-      GROUP BY quiz_id
-        UNION SELECT quiz_id, COUNT(*) AS count
-        FROM trivia_results
-        GROUP BY quiz_id
-      ORDER BY count DESC, quiz_id;
+      SELECT quizzes.id, COUNT(quiz_id) AS count
+      FROM quizzes
+      LEFT JOIN personality_results ON quizzes.id = quiz_id
+      GROUP BY quizzes.id
+        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        GROUP BY quizzes.id
+      ORDER BY count DESC, id;
     `
     return db.query(query)
       .then(data => data.rows)
@@ -566,10 +569,15 @@ module.exports = (db) => {
   // Returns quizzes in order of best average rating
   const getBestRated = function() {
     const query = `
-      SELECT quiz_id, AVG(rating) AS avg_rating
-      FROM ratings
-      GROUP BY quiz_id
-      ORDER BY avg_rating DESC, quiz_id;
+      SELECT quizzes.id, CASE
+        WHEN AVG(rating) IS NULL
+        THEN 0
+        ELSE AVG(rating) END
+        AS avg_rating
+      FROM quizzes
+      LEFT JOIN ratings on quiz_id = quizzes.id
+      GROUP BY quizzes.id
+      ORDER BY avg_rating DESC, quizzes.id;
     `
     return db.query(query)
       .then(data => data.rows)
