@@ -13,7 +13,8 @@ main {
     text-transform: uppercase;
   }
   
-  .filters {
+  .quiz-filter,
+  .quiz-sort {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
@@ -45,12 +46,5 @@ main {
       color: #FFF;
     }
 
-    // .btn:active,
-    // .btn:focus,
-    // .btn:target,
-    // .btn:active:focus {
-    //   color: red;
-    //   background-color: yellow;
-    // }
   }
 }

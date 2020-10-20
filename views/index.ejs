@@ -35,9 +35,11 @@
 
   <body>
     <main>
+
       <h2>Quizzes</h2>
-      <div class="filters">
-        <span>Filter:</span>
+
+      <div class="quiz-filter">
+        <span>Filter by:</span>
         <button type="button" class="btn btn-primary">All</button>
         <% for (const type of types) { %>
           <button type="button" class="btn btn-outline-primary" name="type"><%= type %></button>
@@ -45,6 +47,16 @@
         <% for (const category of categories) { %>
           <button type="button" class="btn btn-outline-primary" name="category"><%= category %></button>
         <% } %>
+      </div>
+
+      <div class="quiz-sort">
+        <span>Sort by:</span>
+        <button type="button" class="btn btn-primary" name="created-desc">Newest</button>
+        <button type="button" class="btn btn-outline-primary" name="created-asc">Oldest</button>
+        <button type="button" class="btn btn-outline-primary" name="popular-desc">Most Popular</button>
+        <button type="button" class="btn btn-outline-primary" name="popular-asc">Least Popular</button>
+        <button type="button" class="btn btn-outline-primary" name="rating-desc">Highest Rated</button>
+        <button type="button" class="btn btn-outline-primary" name="rating-asc">Lowest Rated</button>
       </div>
 
       <div id="quiz-container">
