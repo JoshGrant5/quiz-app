@@ -45,6 +45,8 @@
       .fa-heart.checked {
         color: purple;
       }
+      img.Image { max-width: 100%; display: block; }
+      div#ImageContainer { width: 300px; }
     </style>
   </head>
 
@@ -57,7 +59,9 @@
   <body>
     <h1><%= result.title %></h1>
     <% if(result.photo) { %>
-      <img src='<%= result.photo %>'>
+      <div id="ImageContainer">
+        <img src="<%= result.photo %>" class="Image">
+      </div>
     <% } %>
 
   <body>
@@ -70,7 +74,9 @@
       <% } else { %>
         <h2>Your Result</h2>
         <% if(outcome.photo) { %>
-          <img src='<%= outcome.photo %>'>
+          <div id="ImageContainer">
+            <img src="<%= outcome.photo %>" class="Image">
+          </div>
         <% } %>
         <p><%= outcome.title %></p>
         <% if(outcome.description) { %>

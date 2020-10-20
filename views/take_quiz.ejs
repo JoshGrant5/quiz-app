@@ -25,6 +25,12 @@
     <!-- Local JS scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/takeQuiz.js"></script>
+
+    <!-- Needs to be moved to seperate file -->
+    <style>
+      img.Image { max-width: 100%; display: block; }
+      div#ImageContainer { width: 300px; }
+    </style>
   </head>
 
   <!-- Nav Bar -->
@@ -36,7 +42,9 @@
   <body>
     <h1><%= quiz.title %></h1>
     <% if(quiz.photo) { %>
-      <img src='<%= quiz.photo %>'>
+      <div id="ImageContainer">
+        <img src="<%= quiz.photo %>" class="Image">
+      </div>
     <% } %>
 
   <!-- Quiz Questions -->
@@ -58,7 +66,9 @@
                 <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
                 <label for='answer<%= answer.id %>'><%= answer.answer%></label>
                 <% if(answer.photo) { %>
-                  <img src='<%= answer.photo %>'>
+                  <div id="ImageContainer">
+                    <img src="<%= answer.photo %>" class="Image">
+                  </div>
                 <% } %>
               </div>
             <% }); %>
