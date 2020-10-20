@@ -14,23 +14,58 @@ module.exports = (db) => {
 
   // gets listed quizes given filter options
   const getPublicQuizzes = (options) => {
+    // {"filterType":"category","filterName":"TV/Movies","sortBy":"created-desc"}
+
     const queryParams = [];
+    console.log('options>>', options);
+    const { filterType, filterName, sortBy } = options;
+
     let queryString = `
-      SELECT *
-      FROM quizzes
+      SELECT * FROM quizzes
       WHERE listed = true
     `;
 
-    if(options.filterName !== 'All' && options.filterType === 'type') {
-      queryParams.push(options.filterName);
-      queryString += `AND type = $1;`;
-    } else if (options.firstName !== 'All' && options.filterType === 'category') {
-      queryParams.push(options.filterName);
-      queryString += `AND category = $1;`;
+    if (filterName !== 'All') {
+      // filter by quiz type
+      if (filterType === 'type') {
+        queryParams.push(filterName);
+        queryString += `AND type = $${queryParams.length} `;
+      
+      // filter by quiz category
+      } else if (filterType === 'category') {
+        queryParams.push(filterName);
+        queryString += `AND category = $${queryParams.length} `;
+      }
     }
 
+    switch(sortBy) {
+      case 'created-desc':
+        queryString += `ORDER BY date_created DESC`;
+        break;
+      case 'created-asc':
+        queryString += `ORDER BY date_created ASC`;
+        break;
+      case 'popular-desc':
+        console.log('popular-desc');
+        break;
+      case 'popular-asc':
+        console.log('popular-asc');
+        break;
+      case 'rating-desc':
+        console.log('rating-desc');
+        break;
+      case 'rating-asc':
+        console.log('rating-asc');
+        break;
+    }
+
+    console.log(queryString, queryParams);
+
     return db.query(queryString, queryParams)
-      .then(data => data.rows)
+      .then(data => {
+        console.log('data>>', data.rows.length);
+        return data.rows
+      })
       .catch(err => err.message);
   };
 

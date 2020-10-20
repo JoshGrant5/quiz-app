@@ -43,18 +43,18 @@ $(() => {
     if (selectionType === "quiz-filter") {
       filterName = $(this).text();
       filterType = $(this).attr("name");
-      sortBy = $(".quiz-sort button.btn-primary").text();
+      sortBy = $(".quiz-sort button.btn-primary").attr("name");
     
     // if sort selected, sort = target, filter = styled
     } else {
       filterName = $(".quiz-filter button.btn-primary").text();
       filterType = $(".quiz-filter button.btn-primary").attr("name");
-      sortBy = $(this).text();
+      sortBy = $(this).attr("name");
     }
 
-    console.log('filterName>>', filterName);
-    console.log('filterType>>', filterType);
-    console.log('sortby>>', sortBy);
+    // console.log('filterName>>', filterName);
+    // console.log('filterType>>', filterType);
+    // console.log('sortby>>', sortBy);
 
     // gets category button text
     // const filterType = $(this).attr("name");
@@ -63,8 +63,8 @@ $(() => {
     // renders new quiz view based on filter and sort options
     $.ajax({
       method: "GET",
-      url: "/api/filter",
-      data: { filterType, filterName }
+      url: "/api/filterAndSort",
+      data: { filterType, filterName, sortBy }
     }).then((res) => {
       // empty quiz container and show filtered ones
       $quizContainer.empty();

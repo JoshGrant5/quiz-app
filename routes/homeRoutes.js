@@ -16,7 +16,8 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const templateVars = {};
     const userid = req.session.user_id;
     const quizOptions = { 
-      filterName: 'All'
+      filterName: 'All',
+      sortBy: 'Newest'
     }; // on first load
 
     // data needed for home page
