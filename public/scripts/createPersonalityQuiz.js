@@ -56,18 +56,21 @@ $(() => {
     `;
   };
 
+  // Generate the outcome dropdown based on the items in the outcomes array
   const outcomeDropdown = outcomes => {
     for (let outcome of outcomes) {
       $('.selectedOutcome').append(`<option class='pointer' required='required'>${outcome}</option>`);
     }
   };
 
+  // Personality template is shown instead of the trivia template
   $('#selectPersonality').on('click', function() {
     $('#newPersonalityForm').slideDown(800);
     $('.quizType').css({display: 'none'});
     outcomes = [];
   })
 
+  // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
     $('.outcomes').css({display: 'none'});
     const outcome = addOutcome();
@@ -75,6 +78,7 @@ $(() => {
     $('#outcomeCount').val(outcomeCount);
   });
 
+  // All outcome containers are hidden and the question container is shown
   $('#submitOutcomes').on('click', function() {
     $('.outcomes').css({display: 'none'});
     $('.newPersonalityQuestion').slideDown(800);
@@ -83,6 +87,7 @@ $(() => {
     $('#addPersonalityQuestion').css({visibility: 'visible'});
     $('#reviewPersonalityQuiz').css({visibility: 'visible'});
 
+    /* Without the form submitting, the outcome inputs are stored in the outcome array */
     let serialized = $('.outcome').serialize() // receive all outcome inputs as a serialized string
     let list = serialized.split('='); // split the string into an array
     let trimmed = list.splice(outcomeCount) // the first x number of items in array are the input names (not values), so splice at that index
@@ -96,6 +101,7 @@ $(() => {
     outcomeDropdown(outcomes);
   });
 
+  // Previous question is hidden and replaced by new container
   $('#addPersonalityQuestion').on('click', function() {
     $('.newPersonalityQuestion').css({display: 'none'});
     const question = addPersonalityQuestion();
@@ -104,20 +110,23 @@ $(() => {
     $('#questionCount').val(questionCount);
   });
 
+  // All outcomes and questions are shown for user to review
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
-    $('.newPersonalityquestion').slideDown(800);
+    $('.newPersonalityQuestion').slideDown(800);
     $('#addOutcome').slideDown(800);
     $('#createPersonalityQuiz').css({visibility: 'visible'});
-    $('html, body').animate({scrollTop:200}, 2000);
+    $('html, body').animate({scrollTop:200}, 1500);
     const category = $('#personalityCategory').find(":selected").text();
     $('#pCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
 
-    // Once review button is clicked and we know the number of questions, activate each delete button
     for (let i = 1; i <= questionCount; i++) {
-      $(`#deleteQuestion${i}`).on('click', function() {
-        $(`#deleteQuestion${i}`).parent().parent().remove();
+      console.log($(`#deleteQ${i}`))
+      console.log($(`#deleteQ${i}`).parent().parent())
+      $(`#deleteQ${i}`).on('click', function() {
+        console.log('clicked')
+        $(`#deleteQ${i}`).parent().parent().remove();
       });
     }
   });

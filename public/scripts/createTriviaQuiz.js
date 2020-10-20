@@ -63,7 +63,7 @@ $(() => {
   $('#reviewQuiz').on('click', function() {
     $('.newQuestion').slideDown(800);
     $('#createQuizButton').css({visibility: 'visible'});
-    $('html, body').animate({scrollTop:200}, 2000);
+    $('html, body').animate({scrollTop:200}, 1500);
     const category = $('#triviaCategory').find(":selected").text();
     $('#tCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});

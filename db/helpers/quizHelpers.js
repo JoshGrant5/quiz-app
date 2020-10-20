@@ -71,7 +71,7 @@ module.exports = (db) => {
     .catch(err => err.message);
   }
 
-  // Sorts form data into questions, answers, and correct(s) - accepts and returns an object
+  // Sorts form data for trivia quiz into questions, answers, and correct(s) - accepts and returns an object
   const triviaSort = function(id, info) {
     const count = info.count;
     const questions = [];
@@ -126,7 +126,7 @@ module.exports = (db) => {
     }
   }
 
-  // Sorts form data into questions, answers, and outcomes - accepts and returns an object
+  // Sorts form data for personality quiz into questions, answers, and outcomes - accepts and returns an object
   const personalitySort = function(id, info) {
     const outcomeCount = info.outcomeCount;
     const questionCount = info.questionCount;
@@ -145,7 +145,7 @@ module.exports = (db) => {
     return { questions, outcomes, answers, pointers, id }
   }
 
-  // Adds outcomes to db - accepts an array
+  // Adds outcomes to personality db - accepts an array
   const createOutcomes = function(info) {
     return db.query(`
       INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
@@ -166,7 +166,6 @@ module.exports = (db) => {
   const createPersonalityAnswer = function(info) {
     return db.query(`
     INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
-
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -181,6 +180,7 @@ module.exports = (db) => {
       createOutcomes(outcomeInfo)
       .then(outcomes => {
         outcomePairs[outcomes[0].title] = outcomes[0].id;
+        // Wait for outcomes to finish before starting questions
         if (outcomeCounter === Object.keys(info.outcomes).length) {
           for (let question of info.questions) {
             createPersonalityQuestion([info.id, question])
