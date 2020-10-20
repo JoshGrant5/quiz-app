@@ -32,14 +32,28 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
-  router.post('/create', (req, res) => {
+  router.post('/create/trivia', (req, res) => {
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
-      return quizHelpers.sort(data.id ,req.body);
+      console.log(req.body)
+      return quizHelpers.triviaSort(data.id, req.body);
+    })
+    .then(sortedData => {
+      console.log('Sorted data', sortedData)
+      res.redirect('/user')
+      return quizHelpers.addTriviaQuizContent(sortedData);
+    })
+    .catch(err => err.message);
+  })
+
+  router.post('/create/personality', (req,res) => {
+    quizHelpers.createNewQuiz(req.session.user_id, req.body)
+    .then(data => {
+      return quizHelpers.personalitySort(data.id ,req.body);
     })
     .then(sortedData => {
       res.redirect('/user')
-      return quizHelpers.addQuizContent(sortedData);
+      return quizHelpers.addPersonalityQuizContent(sortedData);
     })
     .catch(err => err.message);
   });

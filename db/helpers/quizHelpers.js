@@ -12,25 +12,72 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-  // gets listed quizes given filter options
+  /**
+   * Gets listed quizzes given filter and sort options
+   * @param {{filterType:string, filterName:string, sortName:string, sortOrder: string}} options
+   */
   const getPublicQuizzes = (options) => {
-    const queryParams = [];
-    let queryString = `
-      SELECT *
-      FROM quizzes
-      WHERE listed = true
-    `;
+    // {"filterType":"category","filterName":"TV/Movies","sortName":"created-desc"}
+    console.log('options>>', options);
 
-    if(options.filterName !== 'All' && options.filterType === 'type') {
-      queryParams.push(options.filterName);
-      queryString += `AND type = $1;`;
-    } else if (options.firstName !== 'All' && options.filterType === 'category') {
-      queryParams.push(options.filterName);
-      queryString += `AND category = $1;`;
+    const { filterType, filterName, sortName, sortOrder } = options;
+    const queryParams = [];
+
+    let queryString = "SELECT quizzes.* ";
+
+    if (sortName === "popular" || sortName === "rating") {
+
+      // choose quiz table(s) depending on filter type
+      if (sortName === "popular") {
+        switch(filterType) {
+          case "trivia":
+            queryString += `, count(trivia_results) AS total_count
+              FROM quizzes
+              JOIN trivia_results ON quiz_id = quizzes.id `;
+            break;
+          case "personality":
+            queryString += `, count(personality_results AS total_count
+              FROM quizzes
+              JOIN trivia_results ON quiz_id = quizzes.id `;
+            break;
+          default:
+            queryString += `FROM quizzes JOIN(
+              SELECT quiz_id, count(*) AS count
+              FROM personality_results
+              GROUP BY quiz_id
+                UNION SELECT quiz_id, count(*) AS count
+                FROM trivia_results
+                GROUP BY quiz_id
+              ) AS most_popular ON quizzes.id = quiz_id `;
+        }
+      }
+    // sorted by create date
+    } else {
+      queryString += "FROM quizzes ";
     }
 
+    queryString += "WHERE listed = true ";
+
+    if (filterName !== "All") {
+      // filter by quiz type
+      if (filterType === "type") {
+        queryParams.push(filterName);
+        queryString += `AND type = $${queryParams.length} `;
+
+      // filter by quiz category
+      } else if (filterType === "category") {
+        queryParams.push(filterName);
+        queryString += `AND category = $${queryParams.length} `;
+      }
+    }
+
+    console.log(queryString, queryParams);
+
     return db.query(queryString, queryParams)
-      .then(data => data.rows)
+      .then(data => {
+        console.log('data>>', data.rows.length);
+        return data.rows
+      })
       .catch(err => err.message);
   };
 
@@ -45,23 +92,33 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Check each created URL on creation to make sure it has not been used before
+  const uniqueURLs = [];
+  const createURL = () => {
+    const createdURL = Math.random().toString(20).substr(2, 8);
+    if (!uniqueURLs.includes(createdURL)) {
+      uniqueURLs.push(createdURL);
+      return createdURL
+    } else {
+      return createURL();
+    }
+  }
+
   // Adds quiz to db - accepts user_id string, and an object
   const createNewQuiz = (id, info) => {
-    const dateString = Date.now();
-    const timestamp = new Date(dateString);
+    const timestamp = new Date(Date.now());
     const date = timestamp.toDateString();
-    const createdURL = Math.random().toString(20).substr(2, 8);
+    const createdURL = createURL();
     return db.query(`
-      INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date,])
+    INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
+    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
     .then(data => data.rows[0])
     .catch(err => err.message);
   };
 
-  // Sorts form data into questions, answers, and correct(s) - accepts and returns an object
-  const sort = function(id, info) {
+  // Sorts form data for trivia quiz into questions, answers, and correct(s) - accepts and returns an object
+  const triviaSort = function(id, info) {
     const count = info.count;
     const questions = [];
     const answers = [];
@@ -74,45 +131,38 @@ module.exports = (db) => {
     return { questions, answers, correct, id }
   };
 
-  // Adds question to db - accepts an array
-  const createQuestion = function(info) {
+  // Adds question to trivia db - accepts an array
+  const createTriviaQuestion = function(info) {
     return db.query(`
-      INSERT INTO questions (quiz_id, question)
-      VALUES ($1, $2)
-      RETURNING *;
-    `, info)
+    INSERT INTO trivia_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
 
-  // Adds answers to db - accepts a nested array
-  const createAnswer = function(info) {
+  // Adds answers to trivia db - accepts a nested array
+  const createTriviaAnswer = function(info) {
     return db.query(`
-      INSERT INTO answers (question_id, answer, is_correct)
-      VALUES ($1, $2, $3)
-      RETURNING *;
-    `, info)
+    INSERT INTO trivia_answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
 
-  // Goes through all questions and answers, placing in correct db - accepts an object
-  const addQuizContent = function(info) {
+  // Goes through all questions and answers, placing in correct trivia db - accepts an object (returned from triviaSort())
+  const addTriviaQuizContent = function(info) {
     let counter = 0; // counter used for referencing all answers against correct answer
     for (let question of info.questions) {
-      createQuestion([info.id, question])
+      createTriviaQuestion([info.id, question])
       .then(questionInfo => {
         for (let i = 1; i <= 4; i++) {
           if (Number(info.correct[counter]) === i) {
-            createAnswer([questionInfo[0].id, info.answers[counter][i-1], true])
+            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], true])
             .then(answer => {
               counter++;
               return answer;
             });
           } else {
-            createAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
+            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
             .then(answer => {
-              counter++;
               return answer;
             });
           }
@@ -121,7 +171,81 @@ module.exports = (db) => {
     }
   };
 
-  // Returns a quiz object with the given id
+  // Sorts form data for personality quiz into questions, answers, and outcomes - accepts and returns an object
+  const personalitySort = function(id, info) {
+    const outcomeCount = info.outcomeCount;
+    const questionCount = info.questionCount;
+    const questions = [];
+    const outcomes = {};
+    const answers = [];
+    const pointers = [];
+    for (let i = 1; i <= outcomeCount; i++) {
+      outcomes[info[`outcome${i}`]] = [info[`photo${i}` || null], info[`description${i}`] || null];
+    }
+      for (let i = 1; i <= questionCount; i++) {
+      questions.push(info[`question${i}`]);
+      answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
+      pointers.push([info[`a${i}_pointer`], info[`b${i}_pointer`], info[`c${i}_pointer`], info[`d${i}_pointer`]]);
+    }
+    return { questions, outcomes, answers, pointers, id }
+  }
+
+  // Adds outcomes to personality db - accepts an array
+  const createOutcomes = function(info) {
+    return db.query(`
+      INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
+    `, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
+  // Adds question to personality db - accepts an array
+  const createPersonalityQuestion = function(info) {
+    return db.query(`
+    INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
+  // Adds answers to personality db - accepts an array
+  const createPersonalityAnswer = function(info) {
+    return db.query(`
+    INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  };
+
+  // Goes through all questions and answers, placing in correct personality db - accepts an object (returned from personalitySort())
+  const addPersonalityQuizContent = function(info) {
+    let outcomeCounter = 1; // starts at 1 because grabbing looking for # of outcomes, not index
+    let questionIndex = 0;
+    let outcomePairs = {};
+    for (let outcome in info.outcomes) {
+      let outcomeInfo = [info.id, outcome, info.outcomes[outcome][0], info.outcomes[outcome][1]];
+      createOutcomes(outcomeInfo)
+      .then(outcomes => {
+        outcomePairs[outcomes[0].title] = outcomes[0].id;
+        // Wait for outcomes to finish before starting questions
+        if (outcomeCounter === Object.keys(info.outcomes).length) {
+          for (let question of info.questions) {
+            createPersonalityQuestion([info.id, question])
+            .then(questionInfo => {
+              for (let i = 1; i <= 4; i++) {
+                createPersonalityAnswer([questionInfo[0].id, outcomePairs[info.pointers[questionIndex][i-1]], info.answers[questionIndex][i-1]])
+                .then(answer => {
+                  questionIndex++;
+                  return answer;
+                });
+              }
+            });
+          }
+        } else {
+          outcomeCounter++;
+        }
+      });
+    }
+  }
+
   const getQuizWithId = function(id) {
     return db.query(`
       SELECT *
@@ -588,11 +712,17 @@ module.exports = (db) => {
     getAllQuizzes,
     getPublicQuizzes,
     getQuizzesForUser,
+    uniqueURLs,
     createNewQuiz,
-    sort,
-    createQuestion,
-    createAnswer,
-    addQuizContent,
+    triviaSort,
+    personalitySort,
+    createOutcomes,
+    createTriviaQuestion,
+    createTriviaAnswer,
+    createPersonalityQuestion,
+    createPersonalityAnswer,
+    addTriviaQuizContent,
+    addPersonalityQuizContent,
     getQuizWithId,
     getQuizWithUrl,
     getQuestions,

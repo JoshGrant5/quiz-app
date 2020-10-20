@@ -1,6 +1,58 @@
 $(() => {
 
   const $quizContainer = $('#quiz-container');
+  const $sortAndFilterBtns = $(".quiz-view-options button");
+  const $filterBtns = $(".quiz-filter button");
+  const $sortBtns = $(".quiz-sort button");
+  
+  // click handler on quiz filtering and sorting
+  $sortAndFilterBtns.on("click", function(e) {
+
+    const selectionType = $(this).parent().attr("class");
+    let filterName, filterType, sortName, sortOrder;
+    
+    // if filter selected, filter = target, sort = styled
+    if (selectionType === "quiz-filter") {
+      filterName = $(this).text();
+      filterType = $(this).attr("name");
+      sortName = $(".quiz-sort button.btn-primary").attr("name").split("-")[0];
+      sortOrder = $(".quiz-sort button.btn-primary").attr("name").split("-")[1];
+    
+    // if sort selected, sort = target, filter = styled
+    } else {
+      filterName = $(".quiz-filter button.btn-primary").text();
+      filterType = $(".quiz-filter button.btn-primary").attr("name");
+      sortName = $(this).attr("name").split("-")[0];
+      sortOrder = $(this).attr("name").split("-")[1];
+    }
+
+    // send sort and filter options, returns an array of quizzes
+    $.ajax({
+      method: "GET",
+      url: "/api/filterAndSort",
+      data: { filterType, filterName, sortName, sortOrder }
+    }).then((res) => {
+      // empty quiz container and show filtered quizzes in sort order
+      $quizContainer.empty();
+      renderQuizzes(res);
+
+      // toggle button styles so only active filter/sort is solid
+      toggleBtns(selectionType);
+      $(e.target).removeClass("btn-outline-primary").addClass("btn-primary");
+    }).catch((err) => err.message);
+  });
+
+  // toggle style of filter and sort button given selected button
+  const toggleBtns = (selection) => {
+    let buttons;
+    (selection === 'quiz-filter') ? buttons = $filterBtns : buttons = $sortBtns;
+    
+    buttons.each(function() {
+      if($(this).hasClass("btn-primary")) {
+        $(this).removeClass("btn-primary").addClass("btn-outline-primary");
+      }
+    });
+  };
 
   // creates a quiz article element
   const createQuizElement = (quiz) => {
@@ -27,30 +79,4 @@ $(() => {
       $quizContainer.append($quiz);
     })
   };
-
-  const $filterBtns = $(".filters button");
-
-  // click handler on quiz category filter
-  $filterBtns.on("click", function(e) {
-    // gets category button text
-    const filterType = $(this).attr("name");
-    const filterName = $(this).text();
-    
-    // gets an array of quizzes based on filter and adds them to quiz container
-    $.ajax({
-      method: "GET",
-      url: "/api/filter",
-      data: { filterType, filterName }
-    }).then((res) => {
-      // empty quiz container and show filtered ones
-      $quizContainer.empty();
-      renderQuizzes(res);
-
-      // change selected filter to solid and unselected filter to outline
-      $filterBtns.each(function() {
-        if($(this).hasClass("btn-primary")) $(this).removeClass("btn-primary").addClass("btn-outline-primary");
-      });
-      $(e.target).removeClass("btn-outline-primary").addClass("btn-primary");
-    }).catch((err) => err.message);
-  });
 });
