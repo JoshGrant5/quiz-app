@@ -45,16 +45,14 @@ const stars = function(num) {
   const stars = [$("#star1"), $("#star2"), $("#star3"), $("#star4"), $("#star5")];
   for (let i = 0; i < stars.length; i++) {
     if (i < num) {
-      stars[i].removeClass("glyphicon-star-empty")
-      stars[i].addClass("glyphicon-star")
+      stars[i].addClass("checked")
     }
     else {
-      stars[i].removeClass("glyphicon-star")
-      stars[i].addClass("glyphicon-star-empty")
+      stars[i].removeClass("checked")
     }
   }
   let url = document.URL + '/rating';
-  let star = {stars: document.querySelectorAll('.glyphicon-star').length}
+  let star = {stars: document.querySelectorAll('.fa-star.checked').length}
   $.ajax({
     method: "POST",
     url: url,
@@ -65,10 +63,9 @@ const stars = function(num) {
 // Toggles the favourite status of the quiz
 const heart = function() {
   const heart = $("#heart");
-  heart.toggleClass("glyphicon-heart-empty");
-  heart.toggleClass("glyphicon-heart");
+  heart.toggleClass("checked");
   let url = document.URL + '/favourite';
-  if (heart.hasClass("glyphicon-heart-empty")) url += '/delete';
+  if (!heart.hasClass("checked")) url += '/delete';
   $.ajax({
     method: "POST",
     url: url,
