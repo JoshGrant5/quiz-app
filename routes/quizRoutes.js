@@ -33,15 +33,11 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   router.post('/create', (req, res) => {
-    console.log('trivia')
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
-      console.log('bodyyyyyyy', req.body)
-      console.log('data id', data.id)
       return quizHelpers.triviaSort(data.id, req.body);
     })
     .then(sortedData => {
-      console.log('Sorted promise has run', sortedData)
       res.redirect('/user')
       return quizHelpers.addTriviaQuizContent(sortedData);
     })
@@ -51,22 +47,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.post('/create/personality', (req,res) => {
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
-      console.log('Quiz Created')
-      console.log('iddddd', data.id)
-      console.log('req boydddddddd', req.body)
       return quizHelpers.personalitySort(data.id ,req.body);
     })
     .then(sortedData => {
-      console.log('Data Sorted:', sortedData)
       res.redirect('/user')
       return quizHelpers.addPersonalityQuizContent(sortedData);
     })
     .catch(err => err.message);
   })
-
-  // router.post('/create/personality', (req, res) => {
-
-  // })
 
   router.get("/:url", (req, res) => {
     const promises = [];

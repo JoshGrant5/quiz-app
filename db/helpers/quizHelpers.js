@@ -142,7 +142,6 @@ module.exports = (db) => {
       answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
       pointers.push([info[`a${i}_pointer`], info[`b${i}_pointer`], info[`c${i}_pointer`], info[`d${i}_pointer`]]);
     }
-    console.log('Personality is sorting right now')
     return { questions, outcomes, answers, pointers, id }
   }
 
@@ -181,21 +180,15 @@ module.exports = (db) => {
       let outcomeInfo = [info.id, outcome, info.outcomes[outcome][0], info.outcomes[outcome][1]];
       createOutcomes(outcomeInfo)
       .then(outcomes => {
-        console.log('OUTCOMES ID', outcomes[0].id)
-        console.log('the outcome counter is', outcomeCounter)
-        console.log('the object length comparing on line 190', Object.keys(info.outcomes).length)
         outcomePairs[outcomes[0].title] = outcomes[0].id;
         if (outcomeCounter === Object.keys(info.outcomes).length) {
-          console.log('The outcome pairs object', outcomePairs);
           for (let question of info.questions) {
             createPersonalityQuestion([info.id, question])
             .then(questionInfo => {
-              console.log('QUESTINO INFO', questionInfo)
               for (let i = 1; i <= 4; i++) {
                 createPersonalityAnswer([questionInfo[0].id, outcomePairs[info.pointers[questionIndex][i-1]], info.answers[questionIndex][i-1]])
                 .then(answer => {
                   questionIndex++;
-                  console.log('Answersssssssss', answer)
                   return answer;
                 });
               }
