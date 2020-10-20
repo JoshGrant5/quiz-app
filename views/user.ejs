@@ -17,6 +17,7 @@
     
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/quiz_cards.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -32,19 +33,21 @@
 
   <body>
     <h1>My Quizzes</h1>
-    <% for (const quiz of quizzes) { %>
-      <a href="/quiz/<%= quiz.url %>">
-        <article class="quiz">
-          <header>
-            <%= quiz.title %>
-          </header>
-          <body>
-            <% if(!quiz.photo) quiz.photo = "../assets/quiz-placeholder.png" %>
-            <img src="<%= quiz.photo %>">
-          </body>
+
+    <div id="quiz-container">
+      <% for (const quiz of quizzes) { %>
+        <article class="card quiz">
+          <a href="/quiz/<%= quiz.url %>">
+            <img class="card-img-top" src="<%= quiz.photo %>">
+            <div class="card-body">
+              <h3 class="card-title"><%= quiz.title %></h3>
+              <p class="card-subtitle"><%= quiz.type %> | <%= quiz.category %></p>
+              <p class="card-text"><%= quiz.description %></p>
+            </div>
+          </a>
         </article>
-      </a>
-    <% } %>
+      <% } %>
+    </div>
 
     <!-- Bootstrap JS scripts -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
