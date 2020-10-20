@@ -148,7 +148,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   // Posts the rating to the database with the current user and the quiz url given
-  router.post("/:url/result/:id/rating", (req, res) => {
+  router.post("/:url/rating", (req, res) => {
     const userid = req.session.user_id;
     if (!userid) return;
     const promises = [];
@@ -168,7 +168,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   // Adds a favorite to the database with the current user and the quiz url given
-  router.post("/:url/result/:id/favourite", (req, res) => {
+  router.post("/:url/favourite", (req, res) => {
     const userid = req.session.user_id;
     if (!userid) return;
     const promises = [];
@@ -181,7 +181,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   // Deletes a favorite from the database belonging to the current user and the quiz url given
-  router.post("/:url/result/:id/favourite/delete", (req, res) => {
+  router.post("/:url/favourite/delete", (req, res) => {
     const userid = req.session.user_id;
     if (!userid) return;
     const promises = [];
