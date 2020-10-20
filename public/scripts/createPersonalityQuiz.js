@@ -83,16 +83,14 @@ $(() => {
     $('#addPersonalityQuestion').css({visibility: 'visible'});
     $('#reviewPersonalityQuiz').css({visibility: 'visible'});
 
-    let serialized = $('#newPersonalityForm').serialize()
-    console.log(serialized)
-    let list = serialized.split('outcome');
-    for (string of list) {
-      if (Number.isInteger(Number(string[0]))) {
-        let newString = string.substring(2);
-        let trimmed = newString.split('&');
-        outcomes.push(trimmed[0]);
-      }
+    let serialized = $('.outcome').serialize() // receive all outcome inputs as a serialized string
+    let list = serialized.split('='); // split the string into an array
+    let trimmed = list.splice(outcomeCount) // the first x number of items in array are the input names (not values), so splice at that index
+    for (let item of trimmed) {
+      let outcome = item.split('&') // split each item into another array to completely serparate the values
+      outcomes.push(decodeURIComponent(outcome[0])) // the first item in the new array is the value we are looking for
     }
+
     const question = addPersonalityQuestion();
     $('.newQuizContainer').append(question);
     outcomeDropdown(outcomes);
