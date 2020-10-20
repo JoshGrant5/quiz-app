@@ -9,13 +9,14 @@ const share = function(quiz) {
   url.setSelectionRange(0, url.value.length);
   document.execCommand('copy');
   document.body.removeChild(url);
-  if (!$('#saved').length) {
-    const div = document.createElement('div');
-    div.id = 'saved';
-    div.textContent = "Link saved to clipboard";
-    document.body.appendChild(div);
-    setTimeout(() => document.body.removeChild(div), 1000);
-  }
+  let button = '';
+  if (quiz) button = document.getElementById("share-quiz");
+  else button = document.getElementById("share-result");
+  button.innerHTML = "Link copied";
+  setTimeout(() => {
+    if (quiz) button.innerHTML = "Share Quiz";
+    else button.innerHTML = "Share Result";
+  }, 1000);
 };
 
 // Share the result to either Facebook or Twitter
