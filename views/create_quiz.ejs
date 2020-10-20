@@ -1,112 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create A Quiz!</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create A Quiz!</title>
 
-  <!-- Bootstrap stylesheet -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <!-- CSS Icon stylesheet -->
-  <link href='https://css.gg/css' rel='stylesheet'>
+    <!-- Bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- CSS Icon stylesheet -->
+    <link href='https://css.gg/css' rel='stylesheet'>
 
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/create_quiz.css" type="text/css" />
+    <!-- External stylesheet -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/create_quiz.css" type="text/css" />
 
-  <!-- Local JS scripts -->
-  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/createQuiz.js"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">    
 
-  <!-- Bootstrap JS scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Local JS scripts -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/createQuiz.js"></script>
+  </head>
 
-</head>
+  <header>
+    <%- include('./partials/header'); %>
+  </header>
 
-<header>
-  <%- include('./partials/header'); %>
-</header>
-
-<body>
-
-<form method='POST' action='/quiz/create' id='newQuizForm'>
-
-  <div class='newQuizContainer'>
-
-      <div class='newHeading'>
-        <label>Quiz Title:</label>
-        <input type='text' name='title' required='required' placeholder='The Best Quiz Ever!'>
-        <label>Thumbnail:</label>
-        <input type='url' id='thumbnail' name='thumbnail' placeholder='placeholder url?'>
-        <img id='quizPhoto' src='/imgs/temp-photo.jpg'>
-        <div class="dropdown">
-          <label>Category:</label>
-          <input type='hidden' id='categoryInput' name='category'>
-          <select id='selectedCategory'>
-            <% for (let category of categories) { %>
-              <option class='category' required='required' value='<%= category %>'><%= category %></option>
-            <% } %>
-          </select>
+  <body>
+    <main>
+      <form method='POST' action='/quiz/create' id='newQuizForm'>
+    
+        <div class='newQuizContainer'>
+    
+            <div class='newHeading'>
+              <label>Quiz Title:</label>
+              <input type='text' name='title' required='required' placeholder='The Best Quiz Ever!'>
+              <label>Thumbnail:</label>
+              <input type='url' id='thumbnail' name='thumbnail' placeholder='placeholder url?'>
+              <img id='quizPhoto' src='/imgs/temp-photo.jpg'>
+              <div class="dropdown">
+                <label>Category:</label>
+                <input type='hidden' id='categoryInput' name='category'>
+                <select id='selectedCategory'>
+                  <% for (let category of categories) { %>
+                    <option class='category' required='required' value='<%= category %>'><%= category %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div>
+                <label for='listed'>Listed?</label>
+                <input type="radio" id="listed" name="listed" value="true">
+              </div>
+            </div>
+    
+            <div class='newQuestion'>
+              <div>
+                <h2>Question 1:</h2>
+                <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion1'>X</button>
+              </div>
+              <div class='question'>
+                <input type='text' name='question1' required='required'>
+              </div>
+              <h3>Answers:</h3>
+              <div class='answers' data-toggle="buttons">
+                <div class='singleLine'>
+                  <label>A)</label>
+                  <input type='text' name='a1' required='required'>
+                  <label class='btn btn-outline-success'>
+                    <input type='radio' name='correct1' autocomplete='off' required='required' value='1'><i class="gg-check"></i>
+                  </label>
+                </div>
+                <div class='singleLine'>
+                  <label>B)</label>
+                  <input type='text' name='b1' required='required'>
+                  <label class='btn btn-outline-success'>
+                    <input type='radio' name='correct1' value='2'><i class="gg-check"></i>
+                  </label>
+                </div>
+                <div class='singleLine'>
+                  <label>C)</label>
+                  <input type='text' name='c1' required='required'>
+                  <label class='btn btn-outline-success'>
+                    <input type='radio' name='correct1' value='3'><i class="gg-check"></i>
+                  </label>
+                </div>
+                <div class='singleLine'>
+                  <label>D)</label>
+                  <input type='text' name='d1' required='required'>
+                  <label class='btn btn-outline-success'>
+                    <input type='radio' name='correct1' value='4'><i class="gg-check"></i>
+                  </label>
+                </div>
+              </div>
+            </div>
+    
         </div>
-        <div>
-          <label for='listed'>Listed?</label>
-          <input type="radio" id="listed" name="listed" value="true">
-        </div>
-      </div>
+    
+        <footer>
+          <input type='hidden' id='count' name='count' value='1'>
+          <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
+          <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
+          <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
+        </footer>
+    
+      </form>
+    </main>
 
-      <div class='newQuestion'>
-        <div>
-          <h2>Question 1:</h2>
-          <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion1'>X</button>
-        </div>
-        <div class='question'>
-          <input type='text' name='question1' required='required'>
-        </div>
-        <h3>Answers:</h3>
-        <div class='answers' data-toggle="buttons">
-          <div class='singleLine'>
-            <label>A)</label>
-            <input type='text' name='a1' required='required'>
-            <label class='btn btn-outline-success'>
-              <input type='radio' name='correct1' autocomplete='off' required='required' value='1'><i class="gg-check"></i>
-            </label>
-          </div>
-          <div class='singleLine'>
-            <label>B)</label>
-            <input type='text' name='b1' required='required'>
-            <label class='btn btn-outline-success'>
-              <input type='radio' name='correct1' value='2'><i class="gg-check"></i>
-            </label>
-          </div>
-          <div class='singleLine'>
-            <label>C)</label>
-            <input type='text' name='c1' required='required'>
-            <label class='btn btn-outline-success'>
-              <input type='radio' name='correct1' value='3'><i class="gg-check"></i>
-            </label>
-          </div>
-          <div class='singleLine'>
-            <label>D)</label>
-            <input type='text' name='d1' required='required'>
-            <label class='btn btn-outline-success'>
-              <input type='radio' name='correct1' value='4'><i class="gg-check"></i>
-            </label>
-          </div>
-        </div>
-      </div>
-
-  </div>
-
-  <footer>
-    <input type='hidden' id='count' name='count' value='1'>
-    <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
-    <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
-    <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
-  </footer>
-
-</form>
-
-</body>
+    <!-- Bootstrap JS scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
 </html>

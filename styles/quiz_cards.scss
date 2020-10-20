@@ -1,0 +1,21 @@
+#quiz-container {
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin: auto;
+  padding: 0 3rem;
+
+  .quiz {
+    height: 18rem;
+    width: 14rem;
+    margin: 20px;
+
+    .card-img-top {
+      height: 9rem;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+}

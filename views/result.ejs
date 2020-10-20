@@ -1,39 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+    <meta charset="UTF-8">
     <title>Results - <%= result.title %></title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary"></meta>
+    <meta name="twitter:title" content="Results - <%= result.title %>"></meta>
+    <meta name="twitter:description" content="Check out the quiz I just took, I got <%= result.percent %>%"></meta>
+    <meta name="twitter:image:src" content="<%= result.photo %>"></meta>
+
+    <!-- Bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- CSS Icon stylesheet -->
+    <link href='https://css.gg/css' rel='stylesheet'>
+
+    <!-- External stylesheet -->
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
 
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Local JS scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/resultButtons.js"></script>
+    <script type="text/javascript" src="/scripts/result.js"></script>
+
+    <!-- Needs to be moved to seperate file -->
+    <style>
+      .fa {
+        color: grey;
+      }
+      .fa-star.checked {
+        color: orange;
+      }
+      .fa-heart.checked {
+        color: purple;
+      }
+      img.Image { max-width: 100%; display: block; }
+      div#ImageContainer { width: 300px; }
+    </style>
   </head>
 
-  <%- include('partials/header') %>
-
+  <!-- Nav Bar -->
   <header>
-    <h1><%= result.title %></h1>
-    <% if(result.photo) { %>
-      <img src='<%= result.photo %>'>
-    <% } %>
+    <%- include('partials/header') %>
   </header>
 
+  <!-- Quiz Title and Photo -->
   <body>
+    <h1><%= result.title %></h1>
+    <% if(result.photo) { %>
+      <div id="ImageContainer">
+        <img src="<%= result.photo %>" class="Image">
+      </div>
+    <% } %>
+
+  <body>
+    <!-- Score or Result -->
     <div>
-      <h2>Your Score</h2>
-      <p><%= result.percent %>%</p>
-      <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
+      <% if(result.type === 'trivia') { %>
+        <h2>Your Score</h2>
+        <p><%= result.percent %>%</p>
+        <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
+      <% } else { %>
+        <h2>Your Result</h2>
+        <% if(outcome.photo) { %>
+          <div id="ImageContainer">
+            <img src="<%= outcome.photo %>" class="Image">
+          </div>
+        <% } %>
+        <p><%= outcome.title %></p>
+        <% if(outcome.description) { %>
+          <p><%= outcome.description %></p>
+        <% } %>
+      <% } %>
     </div>
+
+    <!-- Share Buttons -->
     <div>
       <button type='button' id='share-result'>Share Result</button>
       <button type='button' id='share-quiz'>Share Quiz</button>
       <button type='button' id='take-quiz'>Beat This Score</button>
     </div>
+    <div>
+      <img id='facebook' src='https://i.pinimg.com/originals/30/99/af/3099aff4115ee20f43e3cdad04f59c48.png' height=20 width=20>
+      <img id='twitter' src='https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png' height=20 width=20>
+    </div>
+    <div id='ratings'>
+      <% if(rating) { %>
+        <% for (let i = 1; i <= 5; i++) { %>
+          <% if (i <= rating.rating) { %>
+            <i id='star<%= i %>' class="fa fa-star checked"></i>
+          <% } else { %>
+            <i id='star<%= i %>' class="fa fa-star"></i>
+          <% } %>
+        <% } %>
+      <% } else { %>
+        <span id='star1' class="fa fa-star"></span>
+        <span id='star2' class="fa fa-star"></span>
+        <span id='star3' class="fa fa-star"></span>
+        <span id='star4' class="fa fa-star"></span>
+        <span id='star5' class="fa fa-star"></span>
+      <% } %>
+      <% if(favourite) { %>
+        <i id='heart' class="fa fa-heart checked"></i>
+      <% } else { %>
+        <i id='heart' class="fa fa-heart"></i>
+      <% } %>
+    </div>
   </body>
 
-  <!-- Change # to - to uncomment -->
-  <%# include('partials/_footer') %>
+    <!-- Bootstrap JS scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+  </body>
 </html>

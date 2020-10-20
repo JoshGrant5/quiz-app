@@ -1,8 +1,13 @@
 // See: https://sass-lang.com/
 
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
+
 html {
-  background-color: #EEE;
-  font-family: 'Roboto', sans-serif;
+  background-color: $background-color;
+  font-family: $main-font;
   font-size: 16px;
   color: #000;
 
@@ -11,7 +16,7 @@ html {
     line-height: 1.5rem;
 
     .navbar-brand {
-      font-family: 'Passion One', cursive;
+      font-family: $secondary-font;
       font-size: 32px;
     }
 
@@ -31,7 +36,7 @@ html {
     }
   }
   
-  main {
+  body {
     margin-top: 4rem;
     padding: 20px;    
   }

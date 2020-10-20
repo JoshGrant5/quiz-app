@@ -34,30 +34,39 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
+  // Displays all results for the logged in user
   router.get('/results', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
 
     if(!userid) {
-      res.redirect("/"); // send user back to home page
+      res.redirect("/"); // If not logged in redirect back to home page
     }
 
     const promises = [];
     promises.push(quizHelpers.getResultsForUser(userid));
     promises.push(userHelpers.getUserById(userid));
 
-    // get data and render page
     Promise.all(promises)
       .then(results => {
-        templateVars.results = results[0];
-        templateVars.user = results[1] || undefined;
-        for (const result of templateVars.results) {
+        const trivia = results[0][0].rows;
+        for (const result of trivia) {
           if (result.total === 0 && result.score === 0) result.percent = 0;
           else if (result.total === 0 && result.score !== 0) result.percent = 100;
           else result.percent = Math.floor(result.score/result.total * 100);
         }
-        // res.json(templateVars);
-        res.render("results", templateVars);
+        const personality = results[0][1].rows;
+        const outcomes = [];
+        personality.forEach(result => outcomes.push(quizHelpers.getOutcomeWithId(result.outcome_id)));
+        Promise.all(outcomes)
+          .then(outcomes => {
+            for (let i = 0; i < outcomes.length; i++) {
+              personality[i].outcome = outcomes[i];
+            }
+            templateVars.results = trivia.concat(personality);
+            templateVars.user = results[1] || undefined;
+            res.render("results", templateVars);
+          });
       });
   });
 

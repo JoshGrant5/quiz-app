@@ -1,0 +1,9 @@
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (16,'a', 'https://lumiere-a.akamaihd.net/v1/images/character_princess_cinderella_855a0a75.jpeg?region=0,0,450,450', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (16,'b', 'https://lumiere-a.akamaihd.net/v1/images/character_princess_mulan_square_18856_e1866aac.jpeg', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (16,'c', 'https://assets.afcdn.com/story/20150304/607745_w980h638c1cx526cy248.jpg', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (17,'a', 'https://i2.wp.com/www.4ye.co.uk/wp-content/uploads/2014/11/Stitch_by_cHaRiSmIc.jpg?resize=600%2C483', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (17,'b', 'https://d23.com/app/uploads/2016/10/780x463-101716_favorite-creepy-characters_1.jpg', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (17,'c', 'https://s7d9.scene7.com/is/image/DisneyStoreES/Character_Assets_Atmb-sq_character-aladdin_launch?$sq-c$', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (18,'a', 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1433905519i/15156249._SY540_.jpg', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (18,'b', 'https://upload.wikimedia.org/wikipedia/en/7/71/Princess_Jasmine_disney.png', 'You got ____!');
+INSERT INTO personality_outcomes (quiz_id,title,photo,description) VALUES (18,'c', 'https://d23.com/app/uploads/2015/07/010815_character-resolutions-feat-1.png', 'You got ____!');
