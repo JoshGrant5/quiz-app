@@ -9,6 +9,7 @@ $(document).ready(function() {
   const submitBottom = form.querySelector('#submit-bottom');
   const prev = form.querySelector('#prev');
   const next = form.querySelector('#next');
+  const review = form.querySelector('#review');
   let count = 1;
   submitTop.disabled = !allAnswered(form);
   submitBottom.disabled = !allAnswered(form);
@@ -47,7 +48,9 @@ $(document).ready(function() {
     $('.question').css({display: 'block'});
     next.disabled = true;
     prev.disabled = true;
+    review.disabled = true;
     next.style.display = 'none';
     prev.style.display = 'none';
+    review.style.display = 'none';
   });
 });
