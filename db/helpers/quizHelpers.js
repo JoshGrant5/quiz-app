@@ -68,13 +68,13 @@ module.exports = (db) => {
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, 'trivia', 'test'])
+    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
     .then(data => console.log(data.rows[0]))
     .catch(err => err.message);
   }
 
   // Sorts form data into questions, answers, and correct(s) - accepts and returns an object
-  const sort = function(id, info) {
+  const triviaSort = function(id, info) {
     const count = info.count;
     const questions = [];
     const answers = [];
@@ -87,42 +87,105 @@ module.exports = (db) => {
     return { questions, answers, correct, id }
   }
 
-  // Adds question to db - accepts an array
-  const createQuestion = function(info) {
+  // Sorts form data into questions, answers, and outcomes - accepts and returns an object
+  const personalitySort = function(id, info) {
+    const count = info.questionCount;
+    const questions = [];
+    const outcomes = {};
+    const answers = [];
+    const pointers = [];
+
+    for (let i = 1; i <= count; i++) {
+      questions.push(info[`question${i}`]);
+      outcomes[info[`outcome${i}`]] = [info[`photo${i}` || null], info[`description${i}`] || null];
+      answers.push([info[`a${i}`], info[`b${i}`], info[`c${i}`], info[`d${i}`]]);
+      pointers.push([info[`a${i}_pointer`], info[`b${i}_pointer`], info[`c${i}_pointer`], info[`d${i}_pointer`]]);
+    };
+    return { questions, outcomes, answers, pointers, id }
+  }
+
+  // Adds outcomes to db - accepts an array
+  const createOutcomes = function(info) {
     return db.query(`
-    INSERT INTO questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+      INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
+    `, info)
     .then(data => data.rows)
     .catch(err => err.message);
   }
 
-  // Adds answers to db - accepts a nested array
-  const createAnswer = function(info) {
+  // Adds question to trivia db - accepts an array
+  const createTriviaQuestion = function(info) {
     return db.query(`
-    INSERT INTO answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
+    INSERT INTO trivia_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
+  // Adds question to personality db - accepts an array
+  const createTriviaQuestion = function(info) {
+    return db.query(`
+    INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  }
+
+  // Adds answers to trivia db - accepts a nested array
+  const createTriviaAnswer = function(info) {
+    return db.query(`
+    INSERT INTO trivia_answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
 
-  // Goes through all questions and answers, placing in correct db - accepts an object
-  const addQuizContent = function(info) {
+  // Adds answers to personality db - accepts an array
+  const createPersonalityAnswer = function(info) {
+    return db.query(`
+    INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
+    .then(data => data.rows)
+    .catch(err => err.message);
+  };
+
+  // Goes through all questions and answers, placing in correct trivia db - accepts an object (returned from triviaSort())
+  const addTriviaQuizContent = function(info) {
     let counter = 0; // counter used for referencing all answers against correct answer
     for (let question of info.questions) {
-      createQuestion([info.id, question])
+      createTriviaQuestion([info.id, question])
       .then(questionInfo => {
         for (let i = 1; i <= 4; i++) {
           if (Number(info.correct[counter]) === i) {
-            createAnswer([questionInfo[0].id, info.answers[counter][i-1], true])
+            createTriviaAnswer([questionInfo[0].id, info.pointers[i-1], info.answers[i-1]])
             .then(answer => {
               counter++;
               return answer;
             });
           } else {
-            createAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
+            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
             .then(answer => {
               counter++;
               return answer;
             });
           }
+        }
+      });
+    }
+  }
+
+  // Goes through all questions and answers, placing in correct personality db - accepts an object (returned from personalitySort())
+  const addPersonalityQuizContent = function(info) {
+    for (let outcome in info.outcomes) {
+      let outcomeInfo = [info.id, outcome, info.outcomes[outcome][0], info.outcomes[outcome][1]];
+      createOutcomes(outcomeInfo)
+      .then(outcomes => console.log('OUTCOMES', outcomes));
+    }
+    for (let question of info.questions) {
+      createPersonalityQuestion([info.id, question])
+      .then(questionInfo => {
+        for (let i = 1; i <= 4; i++) {
+          createPersonalityAnswer([questionInfo[0].id, info.pointers[i-1], info.answers[i-1]])
+          .then(answer => {
+            counter++;
+            return answer;
+          });
         }
       });
     }
@@ -288,11 +351,17 @@ module.exports = (db) => {
     getAllQuizzes,
     getPublicQuizzes,
     getQuizzesForUser,
+    uniqueURLs,
     createNewQuiz,
-    sort,
-    createQuestion,
-    createAnswer,
-    addQuizContent,
+    triviaSort,
+    personalitySort,
+    createOutcomes,
+    createTriviaQuestion,
+    createTriviaAnswer,
+    createPersonalityQuestion,
+    createPersonalityAnswer,
+    addTriviaQuizContent,
+    addPersonalityQuizContent,
     getQuizWithId,
     getQuizWithUrl,
     getQuestions,

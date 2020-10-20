@@ -48,6 +48,11 @@ $(() => {
     `;
   };
 
+  $('#selectTrivia').on('click', function() {
+    $('#newTriviaForm').slideDown(800);
+    $('.quizType').css({display: 'none'});
+  });
+
   $('#addNewQuestion').on('click', function() {
     $('.newQuestion').css({display: 'none'});
     const question = addTriviaQuestion();
@@ -59,8 +64,8 @@ $(() => {
     $('.newQuestion').slideDown(800);
     $('#createQuizButton').css({visibility: 'visible'});
     $('html, body').animate({scrollTop:200}, 2000);
-    const category = $('#selectedCategory').find(":selected").text();
-    $('#categoryInput').val(category);
+    const category = $('#triviaCategory').find(":selected").text();
+    $('.categoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
     // Once review button is clicked and we know the number of questions, activate each delete button
     for (let i = 1; i <= count; i++) {

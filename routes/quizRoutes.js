@@ -25,6 +25,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(res => {
         templateVars.user = res[0] || undefined;
         templateVars.categories = res[1];
+        console.log('ALL CATEGORIES', templateVars)
         return templateVars;
       })
       .then(data => {
@@ -32,7 +33,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
-  router.post('/create', (req, res) => {
+  router.post('/create/trivia', (req, res) => {
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       return quizHelpers.sort(data.id ,req.body);
@@ -41,6 +42,18 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       res.redirect('/user')
       return quizHelpers.addQuizContent(sortedData);
     })
+    .catch(err => err.message);
+  })
+
+  router.post('/create/personality', (req, res) => {
+    quizHelpers.createNewQuiz(req.session.user_id, req.body)
+    .then(data => console.log(data))
+    //   return quizHelpers.sort(data.id ,req.body);
+    // })
+    // .then(sortedData => {
+    //   res.redirect('/user')
+    //   return quizHelpers.addQuizContent(sortedData);
+    // })
     .catch(err => err.message);
   })
 

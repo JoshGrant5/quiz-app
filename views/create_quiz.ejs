@@ -39,20 +39,22 @@
 </div>
 
 <!-- Trivia Quiz Template -->
-<form method='POST' action='/quiz/create' id='newTriviaForm'>
+<form method='POST' action='/quiz/create/trivia' id='newTriviaForm'>
   <div class='newQuizContainer'>
       <div class='newHeading'>
         <label>Trivia Quiz Title:</label>
-        <input type='text' name='title' required='required' placeholder='The Best Quiz Ever!'>
+        <input type='text' name='title' required='required'>
         <label>Thumbnail:</label>
-        <input type='url' id='thumbnail' name='thumbnail' placeholder='placeholder url?'>
+        <input type='url' id='thumbnail' name='thumbnail'>
         <img id='quizPhoto' src='/imgs/temp-photo.jpg'>
+        <label>Description:</label>
+        <input type='text' name='quizDescription' placeholder='Optional'>
         <div class="dropdown">
           <label>Category:</label>
-          <input type='hidden' id='categoryInput' name='category'>
-          <select id='selectedCategory'>
+          <input type='hidden' class='categoryInput' name='category'>
+          <select id='triviaCategory'>
             <% for (let category of categories) { %>
-              <option class='category' required='required' value='<%= category %>'><%= category %></option>
+              <option class='category' required='required'><%= category %></option>
             <% } %>
           </select>
         </div>
@@ -104,6 +106,7 @@
   </div>
   <footer>
     <input type='hidden' id='count' name='count' value='1'>
+    <input type='hidden' name='type' value='trivia'>
     <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
     <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
     <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
@@ -111,7 +114,7 @@
 </form>
 
 <!-- Personality Quiz Template -->
-<form method='POST' action='/quiz/create' id='newPersonalityForm'>
+<form method='POST' action='/quiz/create/personality' id='newPersonalityForm'>
   <div class='newQuizContainer'>
       <div class='newHeading'>
         <label>Personality Quiz Title:</label>
@@ -119,12 +122,14 @@
         <label>Thumbnail URL:</label>
         <input type='url' id='thumbnail' name='thumbnail'>
         <img id='quizPhoto' src='/imgs/temp-photo.jpg'>
+        <label>Description:</label>
+        <input type='text' name='quizDescription' placeholder='Optional'>
         <div class="dropdown">
           <label>Category:</label>
-          <input type='hidden' id='categoryInput' name='category'>
-          <select id='selectedCategory'>
+          <input type='hidden' class='categoryInput' name='category'>
+          <select id='personalityCategory'>
             <% for (let category of categories) { %>
-              <option class='category' required='required' value='<%= category %>'><%= category %></option>
+              <option class='category' required='required'><%= category %></option>
             <% } %>
           </select>
         </div>
@@ -151,6 +156,7 @@
   <footer>
     <input type='hidden' id='outcomeCount' name='outcomeCount' value='1'>
     <input type='hidden' id='questionCount' name='questionCount' value='1'>
+    <input type='hidden' name='type' value='personality'>
     <button type='button' id='addOutcome'>Add Another Outcome</button>
     <button type='button' id='submitOutcomes'>Submit Outcomes</button>
     <button class='btn btn-primary' id='addPersonalityQuestion' type='button' >Add Another Question</button>
