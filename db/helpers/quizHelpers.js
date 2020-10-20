@@ -27,24 +27,33 @@ module.exports = (db) => {
     
     if (sortName === "popular" || sortName === "rating") {
 
-      // choose table to join
+      // choose quiz table(s) depending on filter type
       if (sortName === "popular") {
         switch(filterType) {
           case "trivia":
-            queryString += ", count(trivia_results) AS total_count FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id";
+            queryString += `, count(trivia_results) AS total_count
+              FROM quizzes
+              JOIN trivia_results ON quiz_id = quizzes.id `;
             break;
           case "personality":
-            queryString += ", count(personality_results AS total_count FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id";
+            queryString += `, count(personality_results AS total_count
+              FROM quizzes
+              JOIN trivia_results ON quiz_id = quizzes.id `;
             break;
           default:
-            queryString += ", count("
+            queryString += `FROM quizzes JOIN(
+              SELECT quiz_id, count(*) AS count
+              FROM personality_results
+              GROUP BY quiz_id
+                UNION SELECT quiz_id, count(*) AS count
+                FROM trivia_results
+                GROUP BY quiz_id
+              ) AS most_popular ON quizzes.id = quiz_id `;
         }
-      } else {
-        table = "ratings";
       }
-      queryString += `, count(${table}) AS total_count FROM quizzes JOIN ${table} ON quiz_id = quizzes.id `
+    // sorted by create date
     } else {
-      queryString += "FROM quizzes "
+      queryString += "FROM quizzes ";
     }
 
     queryString += "WHERE listed = true ";
@@ -61,7 +70,6 @@ module.exports = (db) => {
         queryString += `AND category = $${queryParams.length} `;
       }
     }
-
 
     console.log(queryString, queryParams);
 
