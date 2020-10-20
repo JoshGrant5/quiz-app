@@ -47,62 +47,68 @@
 <!-- Trivia Quiz Template -->
 <form method='POST' action='/quiz/create/trivia' id='newTriviaForm'>
   <div class='newQuizContainer'>
-      <div class='newHeading'>
+
+    <article class="card">
+      <img class='quizPhoto' src='/imgs/temp-photo.jpg'>
+      <div class='cardbody newHeading'>
         <label>Trivia Quiz Title:</label>
-        <input type='text' name='title' required='required'>
-        <label>Thumbnail:</label>
-        <input type='url' id='thumbnail' name='thumbnail'>
-        <img id='quizPhoto' src='/imgs/temp-photo.jpg'>
+        <input type='text' name='title' required='required' autocomplete='off'>
+        <label>Thumbnail URL:</label>
+        <input type='url' class='thumbnail' name='thumbnail'>
         <label>Description:</label>
-        <input type='text' name='quizDescription' placeholder='Optional'>
-        <div class="dropdown">
-          <label>Category:</label>
-          <input type='hidden' id='tCategoryInput' name='category'>
-          <select id='triviaCategory'>
-            <% for (let category of categories) { %>
-              <option class='category' required='required'><%= category %></option>
-            <% } %>
-          </select>
-        </div>
-        <div>
-          <label for='listed'>Listed?</label>
-          <input type="radio" id="listed" name="listed" value="true">
-        </div>
+        <input type='text' name='quizDescription' placeholder='Optional' autocomplete='off'>
+        <footer>
+          <div class="dropdown">
+            <label>Category:</label>
+            <input type='hidden' id='tCategoryInput' name='category'>
+            <select id='triviaCategory'>
+              <% for (let category of categories) { %>
+                <option class='category' required='required'><%= category %></option>
+              <% } %>
+            </select>
+          </div>
+          <div>
+            <label for='listed'>Listed?</label>
+            <input type="radio" id="listed" name="listed" value="true">
+          </div>
+      </footer>
       </div>
+    </article>
+
       <div class='newQuestion'>
         <div>
           <h2>Question 1:</h2>
           <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion1'>X</button>
         </div>
         <div class='question'>
-          <input type='text' name='question1' required='required'>
+          <input type='text' name='question1' required='required' autocomplete='off'>
         </div>
         <h3>Answers:</h3>
         <div class='answers' data-toggle="buttons">
           <div class='singleLine'>
             <label>A)</label>
-            <input type='text' name='a1' required='required'>
+            <input type='text' name='a1' required='required' autocomplete='off'>
             <label class='btn btn-outline-success'>
               <input type='radio' name='correct1' autocomplete='off' required='required' value='1'><i class="gg-check"></i>
             </label>
           </div>
           <div class='singleLine'>
             <label>B)</label>
-            <input type='text' name='b1' required='required'>
+            <input type='text' name='b1' required='required' autocomplete='off'>
             <label class='btn btn-outline-success'>
               <input type='radio' name='correct1' value='2'><i class="gg-check"></i>
             </label>
           </div>
           <div class='singleLine'>
             <label>C)</label>
-            <input type='text' name='c1' required='required'>
+            <input type='text' name='c1' required='required' autocomplete='off'>
             <label class='btn btn-outline-success'>
               <input type='radio' name='correct1' value='3'><i class="gg-check"></i>
             </label>
           </div>
           <div class='singleLine'>
             <label>D)</label>
-            <input type='text' name='d1' required='required'>
+            <input type='text' name='d1' required='required' autocomplete='off'>
             <label class='btn btn-outline-success'>
               <input type='radio' name='correct1' value='4'><i class="gg-check"></i>
             </label>
@@ -122,36 +128,45 @@
 <!-- Personality Quiz Template -->
 <form method='POST' action='/quiz/create/personality' id='newPersonalityForm'>
   <div class='newQuizContainer'>
-      <div class='newHeading'>
+
+    <article class="card">
+      <img class='quizPhoto' src='/imgs/temp-photo.jpg'>
+      <div class='cardbody newHeading'>
         <label>Personality Quiz Title:</label>
-        <input type='text' name='title' required='required'>
+        <input type='text' name='title' required='required' autocomplete='off'>
         <label>Thumbnail URL:</label>
-        <input type='url' id='thumbnail' name='thumbnail'>
-        <img id='quizPhoto' src='/imgs/temp-photo.jpg'>
+        <input type='url' class='thumbnail' name='thumbnail'>
         <label>Description:</label>
-        <input type='text' name='quizDescription' placeholder='Optional'>
-        <div class="dropdown">
-          <label>Category:</label>
-          <input type='hidden' id='pCategoryInput' name='category'>
-          <select id='personalityCategory'>
-            <% for (let category of categories) { %>
-              <option class='category' required='required'><%= category %></option>
-            <% } %>
-          </select>
-        </div>
-        <div>
-          <label for='listed'>Listed?</label>
-          <input type="radio" id="listed" name="listed" value="true">
-        </div>
+        <input type='text' name='quizDescription' placeholder='Optional' autocomplete='off'>
+        <footer>
+          <div class="dropdown">
+            <label>Category:</label>
+            <input type='hidden' id='pCategoryInput' name='category'>
+            <select id='personalityCategory'>
+              <% for (let category of categories) { %>
+                <option class='category' required='required'><%= category %></option>
+              <% } %>
+            </select>
+          </div>
+          <div>
+            <label for='listed'>Listed?</label>
+            <input type="radio" id="listed" name="listed" value="true">
+          </div>
+      </footer>
+      </div>
+    </article>
+
+      <div class='outcomeHeader'>
+        <h2>Let's start with the possible outcomes:</h2>
       </div>
       <div class='outcomes'>
-          <h2>Let's start with the possible outcomes:</h2>
-          <label>Outcome 1 Title:</label>
-          <input type='text' id='outcome1' class='outcome' name='outcome1' required='required'>
-          <label>Photo URL:</label>
-          <input type='url' id='photo1' name='photo1' required='required'>
-          <label>Description:</label>
-          <input type='text' name='description1'>
+        <label>Outcome 1 Title:</label>
+        <input type='text' id='outcome1' class='outcome' name='outcome1' required='required' autocomplete='off'>
+        <label>Photo URL:</label>
+        <input type='url' id='photo1' class='photoURL' required='required'>
+        <img class=outcomePhoto src='/imgs/temp-photo.jpg'>
+        <label>Description:</label>
+        <input type='text' name='description1' autocomplete='off'>
       </div>
     </div>
   </div>
