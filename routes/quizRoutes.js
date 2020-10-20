@@ -66,7 +66,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then((answers) => {
         for (let i = 0; i < answers.length; i++) {
           quizInfo.questions[i].answers = answers[i];
-          // quizInfo.questions[i].answers = quizHelpers.shuffle(answers[i]);
+          quizInfo.questions[i].answers = quizHelpers.shuffle(answers[i]);
         }
         res.render('take_quiz', quizInfo);
       });
