@@ -182,7 +182,6 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-<<<<<<< HEAD
   // returns an array of all quiz types
   const getTypes = () => {
     return db.query(`
@@ -197,9 +196,6 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
-=======
-  // Calculates score based on the given array of answers chosen
->>>>>>> da9c39303374bc75fb535b820787e368586b08f7
   const getScore = function(answers) {
     let query = `SELECT COUNT(*) AS score FROM trivia_answers
     WHERE is_correct = true AND (`;
@@ -438,15 +434,12 @@ module.exports = (db) => {
     getResultsForUser,
     shuffle,
     getCategories,
-<<<<<<< HEAD
     getTypes,
-=======
     addFavourite,
     deleteFavourite,
     getFavourite,
     getRating,
     addRating,
     updateRating,
->>>>>>> da9c39303374bc75fb535b820787e368586b08f7
   }
 }
