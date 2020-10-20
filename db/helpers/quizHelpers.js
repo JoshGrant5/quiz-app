@@ -91,12 +91,13 @@ module.exports = (db) => {
     const date = timestamp.toDateString();
     const createdURL = Math.random().toString(20).substr(2, 8);
     return db.query(`
-    INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
-    VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
+      INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *;
     `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date,])
     .then(data => data.rows[0])
     .catch(err => err.message);
-  }
+  };
 
   // Sorts form data into questions, answers, and correct(s) - accepts and returns an object
   const sort = function(id, info) {
@@ -110,20 +111,26 @@ module.exports = (db) => {
       correct.push(info[`correct${i}`]);
     };
     return { questions, answers, correct, id }
-  }
+  };
 
   // Adds question to db - accepts an array
   const createQuestion = function(info) {
     return db.query(`
-    INSERT INTO questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+      INSERT INTO questions (quiz_id, question)
+      VALUES ($1, $2)
+      RETURNING *;
+    `, info)
     .then(data => data.rows)
     .catch(err => err.message);
-  }
+  };
 
   // Adds answers to db - accepts a nested array
   const createAnswer = function(info) {
     return db.query(`
-    INSERT INTO answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
+      INSERT INTO answers (question_id, answer, is_correct)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -151,11 +158,15 @@ module.exports = (db) => {
         }
       });
     }
-  }
+  };
 
   // Returns a quiz object with the given id
   const getQuizWithId = function(id) {
-    return db.query(`SELECT * FROM quizzes WHERE id = $1;`, [id])
+    return db.query(`
+      SELECT *
+      FROM quizzes
+      WHERE id = $1;
+    `, [id])
       .then(data => data.rows[0])
       .catch(err => err.message);
   };
@@ -174,8 +185,18 @@ module.exports = (db) => {
   // Returns all questions belonging to the given quiz, with the given type
   const getQuestions = (quiz_id, type) => {
     let query = ``;
-    if (type === 'trivia') query += `SELECT * FROM trivia_questions WHERE quiz_id = $1 ORDER BY id;`;
-    else query += `SELECT * FROM personality_questions WHERE quiz_id = $1 ORDER BY id;`;
+    if (type === 'trivia') query += `
+      SELECT *
+      FROM trivia_questions
+      WHERE quiz_id = $1
+      ORDER BY id;
+    `;
+    else query += `
+      SELECT *
+      FROM personality_questions
+      WHERE quiz_id = $1
+      ORDER BY id;
+    `;
     return db.query(query, [quiz_id])
       .then(data => data.rows)
       .catch(err => err.message);
@@ -184,8 +205,18 @@ module.exports = (db) => {
   // Returns all answers belonging to the given question, with the given type
   const getAnswers = (question_id, type) => {
     let query = ``;
-    if (type === 'trivia') query += `SELECT * FROM trivia_answers WHERE question_id = $1 ORDER BY id;`;
-    else query += `SELECT * FROM personality_answers WHERE question_id = $1 ORDER BY id;`;
+    if (type === 'trivia') query += `
+      SELECT *
+      FROM trivia_answers
+      WHERE question_id = $1
+      ORDER BY id;
+    `;
+    else query += `
+      SELECT *
+      FROM personality_answers
+      WHERE question_id = $1
+      ORDER BY id;
+    `;
     return db.query(query, [question_id])
       .then(data => data.rows)
       .catch(err => err.message);
@@ -194,8 +225,20 @@ module.exports = (db) => {
   // Returns all answers belonging to the given quiz, with the given type
   const getAnswersForQuiz = (quiz_id, type) => {
     let query = ``;
-    if (type === 'trivia') query += `SELECT * FROM trivia_answers JOIN trivia_questions ON question_id = trivia_questions.id WHERE quiz_id = $1 ORDER BY id;`;
-    else query += `SELECT * FROM personality_answers JOIN personality_questions ON question_id = personality_questions.id WHERE quiz_id = $1 ORDER BY id;`;
+    if (type === 'trivia') query += `
+      SELECT *
+      FROM trivia_answers
+      JOIN trivia_questions ON question_id = trivia_questions.id
+      WHERE quiz_id = $1
+      ORDER BY id;
+    `;
+    else query += `
+      SELECT *
+      FROM personality_answers
+      JOIN personality_questions ON question_id = personality_questions.id
+      WHERE quiz_id = $1
+      ORDER BY id;
+    `;
     return db.query(query, [quiz_id])
       .then(data => data.rows)
       .catch(err => err.message);
@@ -221,8 +264,8 @@ module.exports = (db) => {
   // returns an array of all quiz types
   const getTypes = () => {
     return db.query(`
-    SELECT DISTINCT type
-    FROM quizzes;
+      SELECT DISTINCT type
+      FROM quizzes;
     `)
     .then(data => {
       const types = [];
@@ -231,11 +274,14 @@ module.exports = (db) => {
     })
     .catch(err => err.message);
   };
-  
+
   // Calculates score based on the given array of answers chosen
   const getScore = function(answers) {
-    let query = `SELECT COUNT(*) AS score FROM trivia_answers
-    WHERE is_correct = true AND (`;
+    let query = `
+      SELECT COUNT(*) AS score
+      FROM trivia_answers
+      WHERE is_correct = true AND (
+    `;
     const values = [];
 
     for (const answer in answers) {
@@ -249,12 +295,15 @@ module.exports = (db) => {
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Calculates outcome based on the given array of answers chosen
   const getOutcome = function(answers) {
-    let query = `SELECT outcome_id, COUNT(*) AS score FROM personality_answers
-    WHERE (`;
+    let query = `
+      SELECT outcome_id, COUNT(*) AS score
+      FROM personality_answers
+      WHERE (
+    `;
     const values = [];
 
     for (const answer in answers) {
@@ -263,22 +312,30 @@ module.exports = (db) => {
       query += ` id = $${values.length}`;
     }
 
-    query += `) GROUP BY outcome_id ORDER BY score DESC, outcome_id LIMIT 1;`
+    query += `
+      ) GROUP BY outcome_id
+      ORDER BY score DESC, outcome_id
+      LIMIT 1;
+    `
 
     return db.query(query, values)
       .then(data => data.rows[0].outcome_id)
       .catch(err => err.message);
-  }
+  };
 
   // Returns an outcome object with the given id
   const getOutcomeWithId = function(outcome_id) {
-    const query = `SELECT * FROM personality_outcomes WHERE id = $1;`;
+    const query = `
+      SELECT *
+      FROM personality_outcomes
+      WHERE id = $1;
+    `;
     const values = [outcome_id];
 
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Creates and returns a result for a trivia quiz with the given quiz, user, score and total possible score
   const createTriviaResult = function(quiz_id, user_id, score, total) {
@@ -288,20 +345,26 @@ module.exports = (db) => {
     let query = '';
     let values = [];
     if (user_id) {
-      query += `INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed)
-      VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
+      query += `
+        INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+      `;
       values = [quiz_id, user_id, score, total, date];
     }
     else {
-      query += `INSERT INTO trivia_results (quiz_id, score, total, date_completed)
-      VALUES ($1, $2, $3, $4) RETURNING *;`;
+      query += `
+        INSERT INTO trivia_results (quiz_id, score, total, date_completed)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+      `;
       values = [quiz_id, score, total, date];
     }
 
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Creates and returns a result for a personality quiz with the given quiz, user, and outcome
   const createPersonalityResult = function(quiz_id, user_id, outcome_id) {
@@ -311,75 +374,116 @@ module.exports = (db) => {
     let query = '';
     let values = [];
     if (user_id) {
-      query += `INSERT INTO personality_results (quiz_id, user_id, outcome_id, date_completed)
-      VALUES ($1, $2, $3, $4) RETURNING *;`;
+      query += `
+        INSERT INTO personality_results (quiz_id, user_id, outcome_id, date_completed)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+      `;
       values = [quiz_id, user_id, outcome_id, date];
     }
     else {
-      query += `INSERT INTO personality_results (quiz_id, outcome_id, date_completed)
-      VALUES ($1, $2, $3) RETURNING *;`;
+      query += `
+        INSERT INTO personality_results (quiz_id, outcome_id, date_completed)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+      `;
       values = [quiz_id, outcome_id, date];
     }
 
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Returns a result object with the given id from the table with the given type
   const getResult = function(result_id, type) {
-    let query = `SELECT * FROM quizzes JOIN `;
+    let query = `
+      SELECT *
+      FROM quizzes
+    `;
     const values = [result_id];
     if (type === 'trivia') {
-      query += `trivia_results ON quiz_id = quizzes.id WHERE trivia_results.id = $1;`
+      query += `
+        JOIN trivia_results ON quiz_id = quizzes.id
+        WHERE trivia_results.id = $1;
+      `
     }
     else {
-      query += `personality_results ON quiz_id = quizzes.id WHERE personality_results.id = $1;`
+      query += `
+        JOIN personality_results ON quiz_id = quizzes.id
+        WHERE personality_results.id = $1;
+      `
     }
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Returns all results that match the given quiz from the table with the given type
   const getAllResultsForQuiz = function(quiz_id, type) {
-    let query = `SELECT * FROM `
+    let query = `
+      SELECT *
+    `
     const values = [quiz_id];
-    if (type === 'trivia') query += `trivia_results WHERE quiz_id = $1;`
-    else query += `personality_results WHERE quiz_id = $1;`;
+    if (type === 'trivia') query += `
+      FROM trivia_results
+      WHERE quiz_id = $1;
+    `
+    else query += `
+      FROM personality_results
+      WHERE quiz_id = $1;
+    `;
     return db.query(query, values)
       .then(data => data.rows)
       .catch(err => err.message);
-  }
+  };
 
   // Returns the count of how many results belong to the given quiz
   const getNumResultsForQuiz = function(quiz_id) {
-    const query = `SELECT COUNT(*) FROM trivia_results WHERE quiz_id = $1;`
+    const query = `
+      SELECT COUNT(*)
+      FROM trivia_results
+      WHERE quiz_id = $1;
+    `
     const values = [quiz_id];
     return db.query(query, values)
       .then(data => Number(data.rows[0].count))
       .catch(err => err.message);
-  }
+  };
 
   // Returns the count of how many results that belong to the given quiz have a lower score than the given score
   const getNumScoresBeatenForQuiz = function(quiz_id, score) {
-    const query = `SELECT COUNT(*) FROM trivia_results WHERE quiz_id = $1 AND score < $2;`
+    const query = `
+      SELECT COUNT(*)
+      FROM trivia_results
+      WHERE quiz_id = $1 AND score < $2;
+    `
     const values = [quiz_id, score];
     return db.query(query, values)
       .then(data => Number(data.rows[0].count))
       .catch(err => err.message);
-  }
+  };
 
   // Returns all results belonging to the given user
   const getResultsForUser = function(user_id) {
     const promises = [];
     const values = [user_id];
-    let query = `SELECT * FROM quizzes JOIN trivia_results ON quiz_id = quizzes.id WHERE user_id = $1;`
+    let query = `
+      SELECT *
+      FROM quizzes
+      JOIN trivia_results ON quiz_id = quizzes.id
+      WHERE user_id = $1;
+    `
     promises.push(db.query(query, values));
-    query = `SELECT * FROM quizzes JOIN personality_results ON quiz_id = quizzes.id WHERE user_id = $1;`
+    query = `
+      SELECT *
+      FROM quizzes
+      JOIN personality_results ON quiz_id = quizzes.id
+      WHERE user_id = $1;
+    `
     promises.push(db.query(query, values));
     return Promise.all(promises);
-  }
+  };
 
   //Shuffles an array
   const shuffle = function(answers) {
@@ -389,61 +493,127 @@ module.exports = (db) => {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
-  }
+  };
 
   // Adds a favorite with the given user and quiz
   const addFavourite = function(user_id, quiz_id) {
-    const query = `INSERT INTO favourites (user_id, quiz_id) VALUES ($1, $2) RETURNING *;`
+    const query = `
+      INSERT INTO favourites (user_id, quiz_id)
+      VALUES ($1, $2)
+      RETURNING *;
+    `
     const values = [user_id, quiz_id];
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Returns the favorite belonging to the given user and quiz
   const getFavourite = function(user_id, quiz_id) {
-    const query = `SELECT * FROM favourites WHERE user_id = $1 AND quiz_id = $2;`
+    const query = `
+      SELECT *
+      FROM favourites
+      WHERE user_id = $1 AND quiz_id = $2;
+    `
     const values = [user_id, quiz_id];
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Deletes the favorite belonging to the given user and quiz
   const deleteFavourite = function(user_id, quiz_id) {
-    const query = `DELETE FROM favourites WHERE user_id = $1 AND quiz_id = $2;`
+    const query = `
+      DELETE FROM favourites
+      WHERE user_id = $1 AND quiz_id = $2;
+    `
     const values = [user_id, quiz_id];
     return db.query(query, values)
       .then()
       .catch(err => err.message);
-  }
+  };
 
   // Adds a rating with the given user and quiz
   const addRating = function(user_id, quiz_id, rating) {
-    const query = `INSERT INTO ratings (user_id, quiz_id, rating) VALUES ($1, $2, $3) RETURNING *;`
+    const query = `
+      INSERT INTO ratings (user_id, quiz_id, rating)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `
     const values = [user_id, quiz_id, rating];
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Returns the rating belonging to the given user and quiz
   const getRating = function(user_id, quiz_id) {
-    const query = `SELECT * FROM ratings WHERE user_id = $1 AND quiz_id = $2;`
+    const query = `
+      SELECT *
+      FROM ratings
+      WHERE user_id = $1 AND quiz_id = $2;
+    `
     const values = [user_id, quiz_id];
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   // Updates the rating belonging to the given user and quiz
   const updateRating = function(user_id, quiz_id, rating) {
-    const query = `UPDATE ratings SET rating = $3 WHERE user_id = $1 AND quiz_id = $2 RETURNING *;`
+    const query = `
+      UPDATE ratings
+      SET rating = $3
+      WHERE user_id = $1 AND quiz_id = $2
+      RETURNING *;
+    `
     const values = [user_id, quiz_id, rating];
     return db.query(query, values)
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
+
+  // Returns quizzes in order of most favourites
+  const getMostFavourited = function() {
+    const query = `
+      SELECT quiz_id, COUNT(*) AS count
+      FROM favourites
+      GROUP BY quiz_id
+      ORDER BY count DESC, quiz_id;
+    `
+    return db.query(query)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
+
+  // Returns quizzes in order of most results
+  const getMostPopular = function() {
+    const query = `
+      SELECT quiz_id, COUNT(*) AS count
+      FROM personality_results
+      GROUP BY quiz_id
+        UNION SELECT quiz_id, COUNT(*) AS count
+        FROM trivia_results
+        GROUP BY quiz_id
+      ORDER BY count DESC, quiz_id;
+    `
+    return db.query(query)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
+
+  // Returns quizzes in order of best average rating
+  const getBestRated = function() {
+    const query = `
+      SELECT quiz_id, AVG(rating) AS avg_rating
+      FROM ratings
+      GROUP BY quiz_id
+      ORDER BY avg_rating DESC, quiz_id;
+    `
+    return db.query(query)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
 
   return {
     getAllQuizzes,
@@ -478,5 +648,8 @@ module.exports = (db) => {
     getRating,
     addRating,
     updateRating,
+    getMostFavourited,
+    getMostPopular,
+    getBestRated,
   }
 }

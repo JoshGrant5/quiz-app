@@ -1,0 +1,43 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center
+}
+
+.fa {
+  color: grey;
+
+  .fa-star.checked {
+    color: orange;
+  }
+
+  .fa-heart.checked {
+    color: purple;
+  }
+}
+
+#result {
+  border: 3px solid black;
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.social {
+  margin: 0.5em;
+}
+
+#social {
+  display: flex;
+}
+
+.photo {
+  max-width: 100%;
+  display: block;
+}
+
+#photo {
+  display: flex;
+  justify-content: center;
+  width: 400px;
+}

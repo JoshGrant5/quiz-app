@@ -17,6 +17,8 @@
 
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/quiz_cards.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/title.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -24,12 +26,6 @@
 
     <!-- Local JS scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-
-    <!-- Needs to be moved to seperate file -->
-    <style>
-      img.Image { max-width: 100%; display: block; }
-      div#ImageContainer { width: 300px; }
-    </style>
   </head>
 
   <!-- Nav Bar -->
@@ -38,38 +34,30 @@
   </header>
 
   <body>
-    <h1>My Results</h1>
-    <% for (const result of results) { %>
-
-        <article class="result">
+    <h2>My Results</h2>
+    <div id='quiz-container'>
+      <% for (const result of results) { %>
+        <article class="card quiz">
           <a href="/quiz/<%= result.url %>">
-          <header>
-            <%= result.title %>
-          </header>
-          <body>
             <% if(!result.photo) result.photo = "../assets/quiz-placeholder.png" %>
-            <div id="ImageContainer">
-              <img src="<%= result.photo %>" class="Image">
-            </div>
-          </body>
+            <img src="<%= result.photo %>" class="card-img-top">
           </a>
           <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
-          <footer>
-            <% if(result.type === 'trivia') { %>
-              Score was <%= result.percent %>%
-            <% } else { %>
-              <p>Result was <%= result.outcome.title %></p>
-              <% if(result.outcome.photo) { %>
-                <div id="ImageContainer">
-                  <img src="<%= result.outcome.photo %>" class="Image">
-                </div>
-              <% } %>
-            <% } %>
-          <p></p>
-          </footer>
+            <div class="card-body">
+              <h3><%= result.title %></h3>
+              <footer>
+                <% if(result.type === 'trivia') { %>
+                  <p>You got <%= result.percent %>%</p>
+                <% } else { %>
+                  <p>You got <%= result.outcome.title %></p>
+                <% } %>
+              </footer>
+            </div>
+          </a>
         </article>
-      </a>
-    <% } %>
+      <% } %>
+    </div>
+  </body>
 
     <!-- Bootstrap JS scripts -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
