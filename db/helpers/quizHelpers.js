@@ -1,5 +1,6 @@
 module.exports = (db) => {
 
+  // not used as far as I know - Helen
   const getAllQuizzes = () => {
     return db.query(`
       SELECT *
@@ -36,6 +37,7 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // given userid, returns quizzes that user created
   const getQuizzesForUser = (id) => {
     return db.query(`
       SELECT * FROM quizzes
@@ -182,6 +184,20 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // returns an array of all quiz types
+  const getTypes = () => {
+    return db.query(`
+      SELECT DISTINCT type
+      FROM quizzes;
+    `)
+      .then(data => {
+        const types = [];
+        data.rows.forEach((item) => types.push(item.type));
+        return types;
+      })
+      .catch(err => err.message);
+  };
+
   const getScore = function(answers) {
     let query = `SELECT COUNT(*) AS score FROM answers
     WHERE is_correct = true AND (`;
@@ -294,5 +310,6 @@ module.exports = (db) => {
     getResultsForUser,
     shuffle,
     getCategories,
+    getTypes,
   }
 }

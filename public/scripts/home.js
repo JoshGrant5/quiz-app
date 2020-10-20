@@ -33,7 +33,7 @@ $(() => {
     // gets an array of quizzes based on filter and adds them to quiz container
     $.ajax({
       method: "GET",
-      url: "/category",
+      url: "/api/category",
       data: { categoryFilter }
     }).then((res) => {
       $quizContainer.empty();

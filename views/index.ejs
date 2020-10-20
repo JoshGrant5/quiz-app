@@ -29,8 +29,11 @@
   <body>
     <main>
       <div class="filters">
-        <span>Filter by:</span>
+        <span>Filter:</span>
         <button type="button" class="btn btn-primary">All</button>
+        <% for (const type of types) { %>
+          <button type="button" class="btn btn-outline-primary"><%= type %></button>
+        <% } %>
         <% for (const category of categories) { %>
           <button type="button" class="btn btn-primary"><%= category %></button>
         <% } %>
