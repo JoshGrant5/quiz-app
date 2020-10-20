@@ -9,9 +9,11 @@ $(document).ready(function() {
   const submitBottom = form.querySelector('#submit-bottom');
   const prev = form.querySelector('#prev');
   const next = form.querySelector('#next');
+  const review = form.querySelector('#review');
   let count = 1;
   submitTop.disabled = !allAnswered(form);
   submitBottom.disabled = !allAnswered(form);
+  submitBottom.style.display = 'none';
   prev.disabled = true;
   $('.question').css({display: 'none'});
   $('#question1').css({display: 'block'});
@@ -47,7 +49,10 @@ $(document).ready(function() {
     $('.question').css({display: 'block'});
     next.disabled = true;
     prev.disabled = true;
+    review.disabled = true;
     next.style.display = 'none';
     prev.style.display = 'none';
+    review.style.display = 'none';
+    submitBottom.style.display = 'block';
   });
 });

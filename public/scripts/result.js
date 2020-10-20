@@ -51,7 +51,9 @@ const stars = function(num) {
       stars[i].removeClass("checked")
     }
   }
-  let url = document.URL + '/rating';
+  let url = document.URL;
+  url = url.split('/').slice(0, -2).join('/')
+  url += '/rating';
   let star = {stars: document.querySelectorAll('.fa-star.checked').length}
   $.ajax({
     method: "POST",
@@ -64,7 +66,9 @@ const stars = function(num) {
 const heart = function() {
   const heart = $("#heart");
   heart.toggleClass("checked");
-  let url = document.URL + '/favourite';
+  let url = document.URL;
+  url = url.split('/').slice(0, -2).join('/')
+  url += '/favourite';
   if (!heart.hasClass("checked")) url += '/delete';
   $.ajax({
     method: "POST",

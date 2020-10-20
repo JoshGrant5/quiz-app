@@ -51,10 +51,14 @@
   <body>
     <form id='quiz' method='POST' action='/quiz/<%= quiz.url %>'>
       <p></p>
-      <button id='submit-top' type='submit'>Submit Answers</button>
-      <button id='review' type='button'>All Questions</button>
-      <button id='prev' type='button'>Previous Question</button>
-      <button id='next' type='button'>Next Question</button>
+      <div>
+        <button id='submit-top' type='submit'>Submit Answers</button>
+        <button id='review' type='button'>All Questions</button>
+      </div>
+      <div>
+        <button id='prev' type='button'>Previous Question</button>
+        <button id='next' type='button'>Next Question</button>
+      </div>
       <p></p>
       <div id='questions'>
         <% questions.forEach((question, index) => { %>
