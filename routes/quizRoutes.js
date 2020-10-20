@@ -140,7 +140,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         return Promise.all(promises);
       })
       .then(results => {
-        console.log(results);
         resultInfo.rating = results[0];
         resultInfo.favourite = results[1];
         res.render('result', resultInfo);
@@ -158,7 +157,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     Promise.all(promises)
       .then(results => {
         rating.user = results[0];
-        rating.quiz = results[0];
+        rating.quiz = results[1];
         return quizHelpers.getRating(rating.user.id, rating.quiz.id);
       })
       .then(stars => {
