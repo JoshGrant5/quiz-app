@@ -135,6 +135,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
         else resultInfo.outcome = results[0];
         const promises = [];
+        if (!userid) return Promise.all(promises);
         promises.push(quizHelpers.getRating(resultInfo.user.id, resultInfo.quiz.id));
         promises.push(quizHelpers.getFavourite(resultInfo.user.id, resultInfo.quiz.id));
         return Promise.all(promises);
