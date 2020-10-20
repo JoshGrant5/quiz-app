@@ -672,6 +672,17 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Returns the query text for quizzes in order of most favourites
+  const mostFavouritedQuery = function() {
+    return `
+      SELECT quizzes.id, COUNT(quiz_id) AS count
+      FROM quizzes
+      LEFT JOIN favourites on quiz_id = quizzes.id
+      GROUP BY quizzes.id
+      ORDER BY count DESC, quizzes.id;
+    `
+  }
+
   // Returns quizzes in order of most results
   const getMostPopular = function() {
     const query = `
@@ -690,6 +701,21 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Returns the query text for quizzes in order of most results
+  const mostPopularQuery = function() {
+    return `
+      SELECT quizzes.id, COUNT(quiz_id) AS count
+      FROM quizzes
+      LEFT JOIN personality_results ON quizzes.id = quiz_id
+      GROUP BY quizzes.id
+        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        GROUP BY quizzes.id
+      ORDER BY count DESC, id;
+    `
+  }
+
   // Returns quizzes in order of best average rating
   const getBestRated = function() {
     const query = `
@@ -707,6 +733,21 @@ module.exports = (db) => {
       .then(data => data.rows)
       .catch(err => err.message);
   };
+
+  // Returns the query text for quizzes in order of best average rating
+  const bestRatedQuery = function() {
+    return `
+      SELECT quizzes.id, CASE
+        WHEN AVG(rating) IS NULL
+        THEN 0
+        ELSE AVG(rating) END
+        AS avg_rating
+      FROM quizzes
+      LEFT JOIN ratings on quiz_id = quizzes.id
+      GROUP BY quizzes.id
+      ORDER BY avg_rating DESC, quizzes.id;
+    `
+  }
 
   return {
     getAllQuizzes,
