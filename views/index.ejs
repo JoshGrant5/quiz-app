@@ -37,10 +37,13 @@
     <main>
       <h2>Quizzes</h2>
       <div class="filters">
-        <span>Filter by:</span>
+        <span>Filter:</span>
         <button type="button" class="btn btn-primary">All</button>
+        <% for (const type of types) { %>
+          <button type="button" class="btn btn-outline-primary" name="type"><%= type %></button>
+        <% } %>
         <% for (const category of categories) { %>
-          <button type="button" class="btn btn-outline-primary"><%= category %></button>
+          <button type="button" class="btn btn-outline-primary" name="category"><%= category %></button>
         <% } %>
       </div>
 

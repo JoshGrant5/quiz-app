@@ -31,15 +31,16 @@ $(() => {
   const $filterBtns = $(".filters button");
 
   // click handler on quiz category filter
-  $filterBtns.on("click", (e) => {
+  $filterBtns.on("click", function(e) {
     // gets category button text
-    const categoryFilter = $(e.target).text();
+    const filterType = $(this).attr("name");
+    const filterName = $(this).text();
     
     // gets an array of quizzes based on filter and adds them to quiz container
     $.ajax({
       method: "GET",
-      url: "/category",
-      data: { categoryFilter }
+      url: "/api/filter",
+      data: { filterType, filterName }
     }).then((res) => {
       // empty quiz container and show filtered ones
       $quizContainer.empty();

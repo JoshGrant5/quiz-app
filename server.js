@@ -42,6 +42,7 @@ app.use(cookieSession({
 const userRoutes = require("./routes/userRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const homeRoutes = require("./routes/homeRoutes");
+const apiRoutes = require("./routes/apiRoutes");
 
 // User & Quiz Helpers
 const userHelpers = require("./db/helpers/userHelpers")(db);
@@ -51,6 +52,7 @@ const quizHelpers = require("./db/helpers/quizHelpers")(db);
 app.use("/user", userRoutes({ userHelpers, quizHelpers }));
 app.use("/quiz", quizRoutes({ userHelpers, quizHelpers }));
 app.use("/", homeRoutes({ userHelpers, quizHelpers }));
+app.use("/api", apiRoutes({ userHelpers, quizHelpers }));
 // Note: mount other resources here, using the same pattern above
 
 

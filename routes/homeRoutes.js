@@ -21,6 +21,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const promises = [];
     promises.push(quizHelpers.getPublicQuizzes(category));
     promises.push(quizHelpers.getCategories());
+    promises.push(quizHelpers.getTypes());
     if(userid) promises.push(userHelpers.getUserById(userid));
 
     Promise.all(promises)
@@ -28,21 +29,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(res => {
         templateVars.quizzes = res[0];
         templateVars.categories = res[1];
-        templateVars.user = res[2] || undefined;
+        templateVars.types = res[2];
+        templateVars.user = res[3] || undefined;
         return templateVars;
       })
       .then(data => {
         res.render("index", data);
       });
   });
-
-  // api route that returns an array of quiz objects
-  router.get("/category", (req, res) => {
-    const category = req.query;
-    quizHelpers.getPublicQuizzes(category)
-      .then(data => res.send(data))
-      .catch(err => err.message);
-  })
 
   // not used
   router.get("/login", (req, res) => {
