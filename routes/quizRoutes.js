@@ -42,7 +42,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       return quizHelpers.addQuizContent(sortedData);
     })
     .catch(err => err.message);
-  })
+  });
 
   // Displays the quiz with the given url, to be taken
   router.get("/:url", (req, res) => {
@@ -71,7 +71,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         res.render('take_quiz', quizInfo);
       });
   });
-
 
   // Posts the answers selected to the quiz with the given url, to be stored in the database as a result
   router.post("/:url", (req, res) => {

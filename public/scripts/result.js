@@ -16,7 +16,7 @@ const share = function(quiz) {
     document.body.appendChild(div);
     setTimeout(() => document.body.removeChild(div), 1000);
   }
-}
+};
 
 // Share the result to either Facebook or Twitter
 const shareSocial = function(fb) {
@@ -32,13 +32,13 @@ const shareSocial = function(fb) {
     url += "&hashtags=quiz,beatme";
   }
   window.open(url);
-}
+};
 
 // Retake the quiz, redirecting to quiz page
 const takeQuiz = function() {
   url = document.URL;
   $(location).attr('href',url.split('/').slice(0, -2).join('/'))
-}
+};
 
 // Adjusts the rating based on the star clicked
 const stars = function(num) {
@@ -60,7 +60,7 @@ const stars = function(num) {
     url: url,
     data: star,
   });
-}
+};
 
 // Toggles the favourite status of the quiz
 const heart = function() {
@@ -74,7 +74,7 @@ const heart = function() {
     method: "POST",
     url: url,
   });
-}
+};
 
 $(document).ready(function() {
   $("#share-result").click(() => share(false));

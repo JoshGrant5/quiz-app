@@ -1,7 +1,7 @@
 //Returns true or false based on if all questions have been answered
 const allAnswered = function(form) {
   return form.querySelectorAll('input[type="radio"]:checked').length === form.querySelectorAll('.question').length;
-}
+};
 
 $(document).ready(function() {
   const form = document.forms.quiz;
