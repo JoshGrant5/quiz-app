@@ -175,9 +175,8 @@ module.exports = (db) => {
 
   // Goes through all questions and answers, placing in correct personality db - accepts an object (returned from personalitySort())
   const addPersonalityQuizContent = function(info) {
-    let outcomeCounter = 1; // outcome counter
-    // let questionCounter = 0;
-    let x = 0;
+    let outcomeCounter = 1; // starts at 1 because grabbing looking for # of outcomes, not index
+    let questionIndex = 0;
     let outcomePairs = {};
     for (let outcome in info.outcomes) {
       let outcomeInfo = [info.id, outcome, info.outcomes[outcome][0], info.outcomes[outcome][1]];
@@ -190,15 +189,13 @@ module.exports = (db) => {
         if (outcomeCounter === Object.keys(info.outcomes).length) {
           console.log('The outcome pairs object', outcomePairs);
           for (let question of info.questions) {
-            // questionCounter++;
             createPersonalityQuestion([info.id, question])
             .then(questionInfo => {
               console.log('QUESTINO INFO', questionInfo)
               for (let i = 1; i <= 4; i++) {
-                // console.log(`The pointer is ${info.pointers[questionCounter-1][i-1]}`)
-                createPersonalityAnswer([questionInfo[0].id, outcomePairs[info.pointers[x][i-1]], info.answers[x][i-1]])
+                createPersonalityAnswer([questionInfo[0].id, outcomePairs[info.pointers[questionIndex][i-1]], info.answers[questionIndex][i-1]])
                 .then(answer => {
-                  x++;
+                  questionIndex++;
                   console.log('Answersssssssss', answer)
                   return answer;
                 });
