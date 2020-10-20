@@ -674,15 +674,17 @@ module.exports = (db) => {
   // Returns quizzes in order of most results
   const getMostPopular = function() {
     const query = `
-      SELECT quizzes.id, COUNT(quiz_id) AS count
-      FROM quizzes
-      LEFT JOIN personality_results ON quizzes.id = quiz_id
-      GROUP BY quizzes.id
-        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+      SELECT counts.id, SUM(counts.count) AS total_count
+      FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
         FROM quizzes
-        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        LEFT JOIN personality_results ON quizzes.id = quiz_id
         GROUP BY quizzes.id
-      ORDER BY count DESC, id;
+          UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+          FROM quizzes
+          LEFT JOIN trivia_results ON quizzes.id = quiz_id
+          GROUP BY quizzes.id) as counts
+      GROUP BY counts.id
+      ORDER BY total_count DESC, counts.id;
     `
     return db.query(query)
       .then(data => data.rows)
@@ -692,15 +694,17 @@ module.exports = (db) => {
   // Returns the query text for quizzes in order of most results
   const mostPopularQuery = function() {
     return `
-      SELECT quizzes.id, COUNT(quiz_id) AS count
-      FROM quizzes
-      LEFT JOIN personality_results ON quizzes.id = quiz_id
-      GROUP BY quizzes.id
-        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+      SELECT counts.id, SUM(counts.count) AS total_count
+      FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
         FROM quizzes
-        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        LEFT JOIN personality_results ON quizzes.id = quiz_id
         GROUP BY quizzes.id
-      ORDER BY count DESC, id;
+          UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+          FROM quizzes
+          LEFT JOIN trivia_results ON quizzes.id = quiz_id
+          GROUP BY quizzes.id) as counts
+      GROUP BY counts.id
+      ORDER BY total_count DESC, counts.id;
     `
   }
 
