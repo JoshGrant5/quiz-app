@@ -15,11 +15,13 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
     const templateVars = {};
     const userid = req.session.user_id;
-    const category = { categoryFilter: 'All' }; // on first load
+    const quizOptions = { 
+      filterName: 'All'
+    }; // on first load
 
     // data needed for home page
     const promises = [];
-    promises.push(quizHelpers.getPublicQuizzes(category));
+    promises.push(quizHelpers.getPublicQuizzes(quizOptions));
     promises.push(quizHelpers.getCategories());
     promises.push(quizHelpers.getTypes());
     if(userid) promises.push(userHelpers.getUserById(userid));

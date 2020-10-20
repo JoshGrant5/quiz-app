@@ -28,15 +28,39 @@ $(() => {
     })
   };
 
-  const $filterBtns = $(".filters button");
-
+  const $sortAndFilterBtns = $(".quiz-view-options button");
+  
   // click handler on quiz category filter
-  $filterBtns.on("click", function(e) {
-    // gets category button text
-    const filterType = $(this).attr("name");
-    const filterName = $(this).text();
+  $sortAndFilterBtns.on("click", function(e) {
+    const $filterBtns = $(".quiz-filter button");
+    // const $sortBtns = $(".quiz-sort button");
+    // console.log('filters>>', $filterBtns);
+    // console.log('sorts>>', $sortBtns);
+
+    const selectionType = $(this).parent().attr("class");
+    let filterName, filterType, sortBy;
+    // if filter selected, filter = target, sort = styled
+    if (selectionType === "quiz-filter") {
+      filterName = $(this).text();
+      filterType = $(this).attr("name");
+      sortBy = $(".quiz-sort button.btn-primary").text();
     
-    // gets an array of quizzes based on filter and adds them to quiz container
+    // if sort selected, sort = target, filter = styled
+    } else {
+      filterName = $(".quiz-filter button.btn-primary").text();
+      filterType = $(".quiz-filter button.btn-primary").attr("name");
+      sortBy = $(this).text();
+    }
+
+    console.log('filterName>>', filterName);
+    console.log('filterType>>', filterType);
+    console.log('sortby>>', sortBy);
+
+    // gets category button text
+    // const filterType = $(this).attr("name");
+    // const filterName = $(this).text();
+    
+    // renders new quiz view based on filter and sort options
     $.ajax({
       method: "GET",
       url: "/api/filter",
