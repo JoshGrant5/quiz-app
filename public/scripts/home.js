@@ -4,6 +4,22 @@ $(() => {
   const $sortAndFilterBtns = $(".quiz-view-options button");
   const $filterBtns = $(".quiz-filter button");
   const $sortBtns = $(".quiz-sort button");
+  
+  const loadQuizzes = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/quizzes",
+      data: {
+        filterName: 'All',
+        sortName: 'created',
+        sortOrder: 'desc'
+      }
+    }).then((res) => {
+      renderQuizzes(res);
+    })
+  };
+  // on page load
+  loadQuizzes();
 
   // click handler on quiz filtering and sorting
   $sortAndFilterBtns.on("click", function(e) {
@@ -29,7 +45,7 @@ $(() => {
     // send sort and filter options, returns an array of quizzes
     $.ajax({
       method: "GET",
-      url: "/api/filterAndSort",
+      url: "/api/quizzes",
       data: { filterType, filterName, sortName, sortOrder }
     }).then((res) => {
       // empty quiz container and show filtered quizzes in sort order
@@ -56,6 +72,7 @@ $(() => {
 
   // creates a quiz article element
   const createQuizElement = (quiz) => {
+    // set a filler photo and description if null
     if (!quiz.photo) {
       quiz.photo = '/imgs/temp-photo.jpg';
     }
