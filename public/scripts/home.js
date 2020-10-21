@@ -9,6 +9,23 @@ $(() => {
   let sortName = "created"
   let sortOrder = "desc";
 
+  const loadQuizzes = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/quizzes",
+      data: {
+        filterName: 'All',
+        sortName: 'created',
+        sortOrder: 'desc',
+        offset: 0,
+      }
+    }).then((res) => {
+      renderQuizzes(res);
+    })
+  };
+  // on page load
+  loadQuizzes();
+
   // click handler on quiz filtering and sorting
   $sortAndFilterBtns.on("click", function(e) {
     count = 0;
@@ -33,7 +50,7 @@ $(() => {
     // send sort and filter options, returns an array of quizzes
     $.ajax({
       method: "GET",
-      url: "/api/filterAndSort",
+      url: "/api/quizzes",
       data: { filterType, filterName, sortName, sortOrder }
     }).then((res) => {
       // empty quiz container and show filtered quizzes in sort order
@@ -60,11 +77,25 @@ $(() => {
 
   // creates a quiz article element
   const createQuizElement = (quiz) => {
+    // set a filler photo and description if null
     if (!quiz.photo) {
       quiz.photo = '/imgs/temp-photo.jpg';
     }
     if (!quiz.description) {
       quiz.description = '';
+    }
+
+    const titleChar = quiz.title.length;
+    const descChar = quiz.description.length;
+    // truncate title if it's longer than 2 lines
+    if (titleChar >= 40) {
+      quiz.title = truncate(quiz.title, 40);
+    }
+    // truncate description depending on whether title takes up 1 or 2 lines
+    if (titleChar >= 20 && descChar >= 54) {
+      quiz.description = truncate(quiz.description, 54);
+    } else if (quiz.description.length >= 80) {
+      quiz.description = truncate(quiz.description, 80);
     }
 
     let $quiz = $(`
@@ -103,11 +134,16 @@ $(() => {
       if (currentOffset > offset * pageLimit) return;
       $.ajax({
         method: "GET",
-        url: "/api/filterAndSort",
+        url: "/api/quizzes",
         data: { filterType, filterName, sortName, sortOrder, offset: currentOffset }
       }).then((res) => {
         renderQuizzes(res);
       }).catch((err) => err.message);
     }
  });
+  // truncate string given the string and character limit
+  const truncate = (string, limit) => {
+    const shorten = string.slice(0, limit);
+    return shorten.concat("...");
+  }
 });

@@ -15,16 +15,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
     const templateVars = {};
     const userid = req.session.user_id;
-    const quizOptions = { // set sort order on first load
-      filterName: 'All',
-      sortName: 'created',
-      sortOrder: 'desc',
-      offset: 0,
-    };
 
     // data needed for home page
     const promises = [];
-    promises.push(quizHelpers.getPublicQuizzes(quizOptions));
     promises.push(quizHelpers.getCategories());
     promises.push(quizHelpers.getTypes());
     if(userid) promises.push(userHelpers.getUserById(userid));
@@ -32,10 +25,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     Promise.all(promises)
       // populate templateVars with data responses
       .then(res => {
-        templateVars.quizzes = res[0];
-        templateVars.categories = res[1];
-        templateVars.types = res[2];
-        templateVars.user = res[3] || undefined;
+        templateVars.categories = res[0];
+        templateVars.types = res[1];
+        templateVars.user = res[2] || undefined;
         return templateVars;
       })
       .then(data => {

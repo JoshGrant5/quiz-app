@@ -4,9 +4,19 @@ $font-color: #000;
 $background-color: #EEE;
 
 input {
+  font-family: $main-font;
+  font-size: 1.5em;
   border-style: hidden;
   border-bottom: 3px solid #000433;
   outline: none;
+}
+
+h3, label, button {
+  font-family: $secondary-font;
+}
+
+.footerBtn {
+  font-size: 1.5em;
 }
 
 .quizType {
@@ -17,6 +27,7 @@ input {
   margin: auto;
   padding: 2em;
   border: 3px solid black;
+  border-radius: 0.5em;
 }
 .quizType button {
   padding: 1em;
@@ -29,12 +40,18 @@ input {
 
 .card {
   margin: auto;
-  width: 35vw;
+  width: 50vw;
+  border: 3px solid black;
+  border-radius: 0.5em;
+}
+.card label {
+  font-size: 1.5em;
+  margin-bottom: 0;
 }
 
 .quizPhoto {
   height: 20em;
-  object-fit: contain;
+  width: -webkit-fill-available;
 }
 
 .newHeading {
@@ -55,43 +72,130 @@ input {
   margin-left: auto;
   margin-right: auto;
   border: 3px solid black;
+  border-radius: 0.5em;
   background: lightblue;
 }
 .newQuestion div {
   display: flex;
   justify-content: space-between;
 }
-
-.newPersonalityQuestion {
-  @extend .newQuestion;
-}
-.newPersonalityQuestion input {
-  width: 100%;
+.newQuestion input {
+  width: 90%;
   background: lightblue;
+}
+
+.correct {
+  border-style: hidden;
+}
+
+.categoryDropdown {
+  position: relative;
+  margin-top: auto;
+}
+
+// .newPersonalityQuestion {
+//   @extend .newQuestion;
+// }
+// .newQuestion div {
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+.outcomeHeader {
+  font-family: $secondary-font;
+  margin-left: 5em;
+  margin-top: 2em;
 }
 
 .outcomes {
   @extend .newQuestion;
 }
+.outcomes label {
+  font-size: 1.5em;
+  width: 5em;
+}
 .outcomes input {
-  width: 100%;
-  background: lightblue;
+  margin-right: 2em;
 }
 
-.question input {
-  width: 100%;
+.outcomePhoto img {
+  margin: auto;
+  padding-top: 2em;
+  width: -webkit-max-content;
+  height: min-content;
 }
+
+
+.switch input[type="radio"] {
+  -webkit-appearance: none;
+}
+
+.listed {
+  color: white;
+  background-color: lightblue;
+}
+.listed:hover {
+  background-color: blue;
+}
+
+
+
+// .outcomes input {
+//   width: 100%;
+//   background: lightblue;
+// }
+
+// .question input {
+//   width: 100%;
+// }
 
 .answers {
   flex-direction: column;
 }
 
-.singleLine {
+.check {
   display: flex;
+  flex-direction: column;
+}
+
+.deleteQuestion {
+  margin: auto;
+  height: 2.3em;
+  width: 3em;
+}
+
+.question {
+  padding-bottom: 1em;
+}
+.question label {
+  width: 4.5em;
+  font-size: 2em;
+}
+.question input {
+  width: 80%;
+  margin: auto;
+  margin-right: 1.5em;
+  margin-left: 0.5em;
+}
+
+.selectedOutcome {
+  margin-left: 1em;
+}
+
+.answerP {
+  width: 80%;
+}
+
+.singleLine {
   align-items: stretch;
+  padding-top: 0.5em;
+}
+.singleLine label {
+  font-size: 1.5em;
+  margin-top: auto;
 }
 .singleLine input {
-  width: 100%;
+  width: 90%;
 }
 .singleLine input[type="radio"] {
   -webkit-appearance: none;
@@ -107,5 +211,5 @@ input {
 
 footer {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
