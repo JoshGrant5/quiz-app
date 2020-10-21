@@ -28,10 +28,6 @@
     <script type="text/javascript" src="/scripts/createTriviaQuiz.js"></script>
     <script type="text/javascript" src="/scripts/createPersonalityQuiz.js"></script>
 
-    <!-- Bootstrap JS scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 </head>
 
 <header>
@@ -138,7 +134,7 @@
         <input type='text' name='title' required='required' autocomplete='off'>
         <label>Thumbnail URL:</label>
         <input type='url' class='thumbnail' name='thumbnail'>
-        <input type="file" class="cover" name="filename">
+        <input type="file" class="cover" name="filename"> <!-- Need to fix bug with this (file too large) -->
         <label>Description:</label>
         <input type='text' name='quizDescription' placeholder='Optional' autocomplete='off'>
         <footer>
@@ -166,12 +162,10 @@
         <label>Outcome 1 Title:</label>
         <input type='text' id='outcome1' class='outcome' name='outcome1' required='required' autocomplete='off'>
         <label>Photo URL:</label>
-        <input type='url' id='photo1' class='photoURL' required='required'>
-        <input type="file" id="myFile" name="filename">
-        <div class=outcomePhoto >
+        <input type='url' id='photo1' class='photoURL'>
+        <div class='outcomePhoto' id='outcomePhoto1'>
           <img src='/imgs/temp-photo.jpg'>
         </div>
-
 
         <label>Description:</label>
         <input type='text' name='description1' autocomplete='off'>

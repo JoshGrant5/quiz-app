@@ -1,7 +1,20 @@
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
+$primary-color: #007bff;
+
 body {
   height: 100%;
-}
 
-main {
-  height: 100vw;
+  main {
+    height: 100vw;
+  }
+
+  h2 {
+    font-family: $secondary-font;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+  }
 }
