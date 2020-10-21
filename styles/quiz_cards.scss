@@ -29,7 +29,7 @@ $primary-color: #007bff;
 
   .quiz {
     height: 18rem;
-    width: 14rem;
+    width: 15rem;
     margin: 20px;
     word-wrap: break-word;
 
@@ -44,8 +44,7 @@ $primary-color: #007bff;
       
       .card-title {
         font-size: 1.25rem;
-        max-height: calc(2 * 1.5rem);
-        overflow: hidden;
+        max-height: 3rem;
       }
 
       .card-subtitle {

@@ -79,6 +79,19 @@ $(() => {
     if (!quiz.description) {
       quiz.description = '';
     }
+    
+    const titleChar = quiz.title.length;
+    const descChar = quiz.description.length;
+    // truncate title if it's longer than 2 lines
+    if (titleChar >= 40) {
+      quiz.title = truncate(quiz.title, 40);
+    }
+    // truncate description depending on whether title takes up 1 or 2 lines
+    if (titleChar >= 20 && descChar >= 54) {
+      quiz.description = truncate(quiz.description, 54);
+    } else if (quiz.description.length >= 80) {
+      quiz.description = truncate(quiz.description, 80);
+    }
 
     let $quiz = $(`
     <article class="card quiz">
@@ -103,4 +116,13 @@ $(() => {
       $quizContainer.append($quiz);
     })
   };
+<<<<<<< Updated upstream
 });
+=======
+
+  const truncate = (string, limit) => {
+    const shorten = string.slice(0, limit);
+    return shorten.concat("...");
+  }
+});
+>>>>>>> Stashed changes
