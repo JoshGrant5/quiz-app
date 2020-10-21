@@ -56,6 +56,13 @@ $(() => {
 
   // creates a quiz article element
   const createQuizElement = (quiz) => {
+    if (!quiz.photo) {
+      quiz.photo = '/imgs/temp-photo.jpg';
+    }
+    if (!quiz.description) {
+      quiz.description = '';
+    }
+
     let $quiz = $(`
     <article class="card quiz">
       <a href="/quiz/${quiz.url$}">
