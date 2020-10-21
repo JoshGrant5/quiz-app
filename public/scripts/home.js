@@ -116,13 +116,10 @@ $(() => {
       $quizContainer.append($quiz);
     })
   };
-<<<<<<< Updated upstream
-});
-=======
 
+  // truncate string given the string and character limit
   const truncate = (string, limit) => {
     const shorten = string.slice(0, limit);
     return shorten.concat("...");
   }
 });
->>>>>>> Stashed changes
