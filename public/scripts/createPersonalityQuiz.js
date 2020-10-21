@@ -7,13 +7,15 @@ $(() => {
   let outcomes = [];
 
   const addOutcome = () => {
-    outcomeCount++;
     return `
     <div class='outcomes'>
       <label>Outcome ${outcomeCount} Title:</label>
       <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
       <label>Photo URL:</label>
-      <input type='url' id='photo${outcomeCount}' name='photo${outcomeCount}' required='required'>
+      <input type='url' id='photo${outcomeCount}' name='photo${outcomeCount}'>
+      div class='outcomePhoto' id='outcomePhoto${outcomeCount}'>
+         <img src='/imgs/temp-photo.jpg'>
+      </div>
       <label>Description:</label>
       <input type='text' name='description${outcomeCount}' autocomplete='off'>
     </div>
@@ -72,8 +74,10 @@ $(() => {
 
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
+    outcomeCount++;
     $('.outcomes').css({display: 'none'});
-    const outcome = addOutcome();
+    const outcome = addOutcome()
+
     $('.newQuizContainer').append(outcome);
     $('#outcomeCount').val(outcomeCount);
   });
@@ -121,11 +125,9 @@ $(() => {
     $('#pCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
 
-    for (let i = 1; i <= questionCount; i++) {
-      $('.deleteQuestion').on('click', function() {
-        $(this).parent().parent().remove();
-      });
-    }
+    $('.deleteQuestion').on('click', function() {
+      $(this).parent().parent().remove();
+    });
   });
 
   // Show image as soon as user inputs a URL
@@ -138,24 +140,43 @@ $(() => {
     $(this).select();
   })
 
-  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
-  const readURL = input => {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        $('.outcomePhoto').children('img').attr('src', event.target.result);
-        $(`#photo${outcomeCount}`).val(event.target.result);
-        console.log($(`#photo${outcomeCount}`).val())
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
+  //TODO Upload images as files - bugs with size of absolute path and with adding each input image to photo container
 
-  // Use helper function to upload image and show on screen
-  $('#myFile').on('change', function() {
-    readURL(this);
-    url = this.value;
-    $(this).text(url);
-  });
+  // <input type="file" id='x${outcomeCount}' class="myFile" name="filename">
+  //     <div class='outcomePhoto' id='outcomePhoto${outcomeCount}'>
+  //       <img src='/imgs/temp-photo.jpg'>
+  //     </div>
+
+  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
+  // const readURL = input => {
+  //   console.log('calling')
+  //   if (input.files && input.files[0]) {
+  //     const reader = new FileReader();
+  //     reader.onload = function(event) {
+  //       $('.outcomePhoto').children('img').attr('src', event.target.result);
+  //       $(`#photo${outcomeCount}`).val(event.target.result)
+  //       console.log($(`#photo${outcomeCount}`))
+  //       console.log($(`#photo${outcomeCount}`).val(event.target.result))
+  //     }
+  //     reader.readAsDataURL(input.files[0]);
+  //   }
+  // }
+
+  // // Use helper function to upload image and show on screen
+  //   // $('.myFile').on('change', function() {
+  //   $(`#x${outcomeCount}`).on('change', function() {
+  //     readURL(this);
+  //     url = this.value;
+  //     $(this).text(url);
+  //   });
+
+
+    // $("input[id][name='filename']").on('change', function() {
+    //   readURL(this);
+    //   console.log(this)
+    //   url = this.value;
+    //   $(this).text(url);
+    //   // $(this).removeClass('.myFile');
+    // });
 
 });
