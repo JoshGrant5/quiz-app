@@ -7,98 +7,105 @@ module.exports = (db) => {
    * @param {{filterType:string, filterName:string, sortName:string, sortOrder: string}} options
    */
   const getPublicQuizzes = (options) => {
-    // {"filterType":"category","filterName":"TV/Movies","sortName":"created",sortOrder: "asc"}
-    console.log('options>>', options);
 
     const { filterType, filterName, sortName, sortOrder } = options;
     const queryParams = [];
     let orderCol;
-    let queryString = '';
+    let queryString = "";
 
-    // join with popularity table (count of quiz results)
+    // sort based on selected option
     if (sortName === "popular") {
+      // join with popularity table (count of quiz results)
       queryString += `
-      SELECT quizzes.*, count.*
-      FROM quizzes JOIN(
-        SELECT counts.id, SUM(counts.count) AS total_count
-        FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
-        FROM quizzes
-        LEFT JOIN personality_results ON quizzes.id = quiz_id
-        GROUP BY quizzes.id
-        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
-        FROM quizzes
-        LEFT JOIN trivia_results ON quizzes.id = quiz_id
-        GROUP BY quizzes.id) as counts
-        GROUP BY counts.id
-        ) AS count ON count.id = quizzes.id
+        SELECT quizzes.*, popular_counts.*
+        FROM quizzes JOIN(
+          SELECT counts.id, SUM(counts.count) AS total_count
+          FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
+            FROM quizzes
+              LEFT JOIN personality_results ON quizzes.id = quiz_id
+              GROUP BY quizzes.id
+              UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+                FROM quizzes
+                LEFT JOIN trivia_results ON quizzes.id = quiz_id
+              GROUP BY quizzes.id) as counts
+            GROUP BY counts.id
+          ) AS popular_counts ON popular_counts.id = quizzes.id
       `;
         
-      orderCol = "count.total_count";
+      orderCol = "total_count";
 
-    // join with ratings table (average of quiz ratings)
     } else if (sortName === "rating") {
+      // join with ratings table (average of quiz ratings)
       queryString += `
-      SELECT quizzes.*, count.*
-      FROM quizzes JOIN(
+        SELECT quizzes.*, rating_counts.*
+        FROM quizzes JOIN(
           SELECT quizzes.id, CASE
-          WHEN AVG(rating) IS NULL
-          THEN 0
-          ELSE AVG(rating) END
-          AS avg_rating
-        FROM quizzes
-        LEFT JOIN ratings on quiz_id = quizzes.id
-        GROUP BY quizzes.id
-        ) AS count ON count.id = quizzes.id
-      `;
+            WHEN AVG(rating) IS NULL
+            THEN 0
+            ELSE AVG(rating) END
+            AS avg_rating
+          FROM quizzes
+          LEFT JOIN ratings ON quiz_id = quizzes.id
+          GROUP BY quizzes.id
+          ) AS rating_counts ON rating_counts.id = quizzes.id     
+        `;
 
-      orderCol = "count.avg_rating";
+      orderCol = "avg_rating";
     
-    // join with favourites table (count of quiz favourites)
-    } else if (sortName === 'favourite') {
+    } else if (sortName === "favourite") {
+      // join with favourites table (count of quiz favourites)
       queryString += `
-      SELECT quizzes.*, count.*
-      FROM quizzes JOIN(
-        SELECT quizzes.id, COUNT(quiz_id) AS count
-        FROM quizzes
-          LEFT JOIN favourites on quiz_id = quizzes.id
-        GROUP BY quizzes.id
-        ) AS count ON count.id = quizzes.id
-      `;
+        SELECT quizzes.*, favourite_count.*
+        FROM quizzes JOIN(
+          SELECT quizzes.id, COUNT(quiz_id) AS total_count
+          FROM quizzes
+            LEFT JOIN favourites on quiz_id = quizzes.id
+          GROUP BY quizzes.id
+          ) AS favourite_count ON favourite_count.id = quizzes.id
+        `;
       
-      orderCol = "count.count";
+      orderCol = "total_count";
 
-    // sort by create date
+    // default sort: by create date
     } else {
-      queryString += "SELECT quizzes.* FROM quizzes "
+      queryString += `
+        SELECT quizzes.* FROM quizzes
+      `;
       orderCol = "date_created";
     }
 
-    queryString += "WHERE listed = true ";
+    // choose only publicly listed quizzes
+    queryString += `
+      WHERE listed = true
+    `;
 
+    // filter based on selected option (no filter is All is selected)
     if (filterName !== "All") {
-      // filter by quiz type
+      queryParams.push(filterName);
       if (filterType === "type") {
-        queryParams.push(filterName);
-        queryString += `AND type = $${queryParams.length} `;
-
-      // filter by quiz category
+        queryString += `
+          AND type = $${queryParams.length}
+        `;
       } else if (filterType === "category") {
-        queryParams.push(filterName);
-        queryString += `AND category = $${queryParams.length} `;
+        queryString += `
+          AND category = $${queryParams.length}
+        `;
       }
     }
 
-    queryString += `
-      ORDER BY ${orderCol} ${sortOrder.toUpperCase()}
+    // set sort order based on selection
+    if (sortOrder === "desc") {
+      queryString += `
+        ORDER BY ${orderCol} DESC
       `;
-
-    console.log(queryString, queryParams);
+    } else {
+      queryString += `
+        ORDER BY ${orderCol} ASC
+      `;
+    }
 
     return db.query(queryString, queryParams)
-      .then(data => {
-        console.log('data>>', data.rows);
-        return data.rows
-      })
+      .then(data => data.rows)
       .catch(err => err.message);
   };
 
