@@ -19,7 +19,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
     // quiz and user data needed to render page
     const promises = [];
-    promises.push(quizHelpers.getQuizzesForUser(userid));
+    promises.push(quizHelpers.getQuizzesForUser(userid, 0));
     promises.push(userHelpers.getUserById(userid));
 
     // get data and render page

@@ -4,12 +4,16 @@ $(() => {
   const $sortAndFilterBtns = $(".quiz-view-options button");
   const $filterBtns = $(".quiz-filter button");
   const $sortBtns = $(".quiz-sort button");
+  let filterName = "All"
+  let filterType = undefined
+  let sortName = "created"
+  let sortOrder = "desc";
 
   // click handler on quiz filtering and sorting
   $sortAndFilterBtns.on("click", function(e) {
+    count = 0;
 
     const selectionType = $(this).parent().attr("class");
-    let filterName, filterType, sortName, sortOrder;
 
     // if filter selected, filter = target, sort = styled
     if (selectionType === "quiz-filter") {
@@ -86,4 +90,24 @@ $(() => {
       $quizContainer.append($quiz);
     })
   };
+
+  let count = 0;
+  const offset = 12;
+  const pageLimit = 10;
+  const buffer = 50;
+
+  $(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() > $(document).height() - buffer) {
+      count++;
+      const currentOffset = offset * count;
+      if (currentOffset > offset * pageLimit) return;
+      $.ajax({
+        method: "GET",
+        url: "/api/filterAndSort",
+        data: { filterType, filterName, sortName, sortOrder, offset: currentOffset }
+      }).then((res) => {
+        renderQuizzes(res);
+      }).catch((err) => err.message);
+    }
+ });
 });
