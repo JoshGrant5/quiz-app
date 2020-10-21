@@ -1,3 +1,9 @@
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
+$primary-color: #007bff;
+
 #quiz-container {
 
   display: flex;
@@ -7,15 +13,42 @@
   margin: auto;
   padding: 0 3rem;
 
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration: none;
+    color: $font-color;
+  }
+
+  a:hover {
+    .card {
+      text-decoration: none;
+      border-color: $primary-color;
+    }
+  }
+
   .quiz {
     height: 18rem;
     width: 14rem;
     margin: 20px;
+    word-wrap: break-word;
 
     .card-img-top {
       height: 9rem;
       width: 100%;
       object-fit: cover;
+    }
+
+    .card-body {
+      .card-title {
+        font-size: 1.25rem;
+      }
+
+      .card-subtitle {
+        text-transform: capitalize;
+        font-size: 0.75rem;
+        color: $primary-color;
+      }
     }
   }
 
