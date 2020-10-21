@@ -39,7 +39,7 @@
       <% for (const result of results) { %>
         <article class="card quiz">
           <a href="/quiz/<%= result.url %>">
-            <% if(!result.photo) result.photo = "../assets/quiz-placeholder.png" %>
+            <% if(!result.photo) result.photo = "../imgs/temp-photo.jpg" %>
             <img src="<%= result.photo %>" class="card-img-top">
           </a>
           <a href="/quiz/<%= result.url %>/result/<%= result.id %>">

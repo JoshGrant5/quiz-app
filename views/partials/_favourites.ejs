@@ -4,7 +4,7 @@
   <% for (const quiz of favourites) { %>
     <article class="card quiz">
       <a href="/quiz/<%= quiz.url %>">
-        <% if(!quiz.photo) quiz.photo = "../assets/quiz-placeholder.png" %>
+        <% if(!quiz.photo) quiz.photo = "../imgs/temp-photo.jpg" %>
         <img class="card-img-top" src="<%= quiz.photo %>">
         <div class="card-body">
           <h3 class="card-title"><%= quiz.title %></h3>

@@ -70,7 +70,7 @@ $(() => {
         <div class="card-body">
           <h3 class="card-title">${quiz.title}</h3>
           <p class="card-subtitle">${quiz.type} | ${quiz.category}</p>
-          <p class="card-text">${quiz.description || ""}</p>
+          <p class="card-text">${quiz.description}</p>
         </div>
       </a>
     </article>
