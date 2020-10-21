@@ -7,43 +7,70 @@ module.exports = (db) => {
    * @param {{filterType:string, filterName:string, sortName:string, sortOrder: string}} options
    */
   const getPublicQuizzes = (options) => {
-    // {"filterType":"category","filterName":"TV/Movies","sortName":"created-desc"}
+    // {"filterType":"category","filterName":"TV/Movies","sortName":"created",sortOrder: "asc"}
     console.log('options>>', options);
 
     const { filterType, filterName, sortName, sortOrder } = options;
     const queryParams = [];
+    let orderCol;
+    let queryString = '';
 
-    let queryString = "SELECT quizzes.* ";
+    // join with popularity table (count of quiz results)
+    if (sortName === "popular") {
+      queryString += `
+      SELECT quizzes.*, count.*
+      FROM quizzes JOIN(
+        SELECT counts.id, SUM(counts.count) AS total_count
+        FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+        LEFT JOIN personality_results ON quizzes.id = quiz_id
+        GROUP BY quizzes.id
+        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        GROUP BY quizzes.id) as counts
+        GROUP BY counts.id
+        ) AS count ON count.id = quizzes.id
+      `;
+        
+      orderCol = "count.total_count";
 
-    if (sortName === "popular" || sortName === "rating") {
+    // join with ratings table (average of quiz ratings)
+    } else if (sortName === "rating") {
+      queryString += `
+      SELECT quizzes.*, count.*
+      FROM quizzes JOIN(
+          SELECT quizzes.id, CASE
+          WHEN AVG(rating) IS NULL
+          THEN 0
+          ELSE AVG(rating) END
+          AS avg_rating
+        FROM quizzes
+        LEFT JOIN ratings on quiz_id = quizzes.id
+        GROUP BY quizzes.id
+        ) AS count ON count.id = quizzes.id
+      `;
 
-      // choose quiz table(s) depending on filter type
-      if (sortName === "popular") {
-        switch(filterType) {
-          case "trivia":
-            queryString += `, count(trivia_results) AS total_count
-              FROM quizzes
-              JOIN trivia_results ON quiz_id = quizzes.id `;
-            break;
-          case "personality":
-            queryString += `, count(personality_results AS total_count
-              FROM quizzes
-              JOIN trivia_results ON quiz_id = quizzes.id `;
-            break;
-          default:
-            queryString += `FROM quizzes JOIN(
-              SELECT quiz_id, count(*) AS count
-              FROM personality_results
-              GROUP BY quiz_id
-                UNION SELECT quiz_id, count(*) AS count
-                FROM trivia_results
-                GROUP BY quiz_id
-              ) AS most_popular ON quizzes.id = quiz_id `;
-        }
-      }
-    // sorted by create date
+      orderCol = "count.avg_rating";
+    
+    // join with favourites table (count of quiz favourites)
+    } else if (sortName === 'favourite') {
+      queryString += `
+      SELECT quizzes.*, count.*
+      FROM quizzes JOIN(
+        SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+          LEFT JOIN favourites on quiz_id = quizzes.id
+        GROUP BY quizzes.id
+        ) AS count ON count.id = quizzes.id
+      `;
+      
+      orderCol = "count.count";
+
+    // sort by create date
     } else {
-      queryString += "FROM quizzes ";
+      queryString += "SELECT quizzes.* FROM quizzes "
+      orderCol = "date_created";
     }
 
     queryString += "WHERE listed = true ";
@@ -61,11 +88,15 @@ module.exports = (db) => {
       }
     }
 
+    queryString += `
+      ORDER BY ${orderCol} ${sortOrder.toUpperCase()}
+      `;
+
     console.log(queryString, queryParams);
 
     return db.query(queryString, queryParams)
       .then(data => {
-        console.log('data>>', data.rows.length);
+        console.log('data>>', data.rows);
         return data.rows
       })
       .catch(err => err.message);
@@ -701,7 +732,7 @@ module.exports = (db) => {
   // Returns the query text for quizzes in order of most results
   const mostPopularQuery = function() {
     return `
-      SELECT counts.id, SUM(counts.count) AS total_count
+    SELECT counts.id, SUM(counts.count) AS total_count
       FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
         FROM quizzes
         LEFT JOIN personality_results ON quizzes.id = quiz_id
@@ -712,7 +743,16 @@ module.exports = (db) => {
           GROUP BY quizzes.id) as counts
       GROUP BY counts.id
       ORDER BY total_count DESC, counts.id;
-    `
+      `
+      // SELECT quizzes.id, COUNT(quiz_id) AS count
+      // FROM quizzes
+      // LEFT JOIN personality_results ON quizzes.id = quiz_id
+      // GROUP BY quizzes.id
+      //   UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+      //   FROM quizzes
+      //   LEFT JOIN trivia_results ON quizzes.id = quiz_id
+      //   GROUP BY quizzes.id
+      // ORDER BY count DESC, id;
   }
 
   // Returns quizzes in order of best average rating
