@@ -39,6 +39,7 @@
       <% for (const quiz of quizzes) { %>
         <article class="card quiz">
           <a href="/quiz/<%= quiz.url %>">
+            <% if(!quiz.photo) quiz.photo = "../assets/quiz-placeholder.png" %>
             <img class="card-img-top" src="<%= quiz.photo %>">
             <div class="card-body">
               <h3 class="card-title"><%= quiz.title %></h3>
