@@ -11,8 +11,12 @@ input {
   outline: none;
 }
 
-h3, label {
+h3, label, button {
   font-family: $secondary-font;
+}
+
+.footerBtn {
+  font-size: 1.5em;
 }
 
 .quizType {
@@ -23,6 +27,7 @@ h3, label {
   margin: auto;
   padding: 2em;
   border: 3px solid black;
+  border-radius: 0.5em;
 }
 .quizType button {
   padding: 1em;
@@ -35,12 +40,18 @@ h3, label {
 
 .card {
   margin: auto;
-  width: 35vw;
+  width: 50vw;
+  border: 3px solid black;
+  border-radius: 0.5em;
+}
+.card label {
+  font-size: 1.5em;
+  margin-bottom: 0;
 }
 
 .quizPhoto {
   height: 20em;
-  object-fit: contain;
+  width: -webkit-fill-available;
 }
 
 .newHeading {
@@ -61,6 +72,7 @@ h3, label {
   margin-left: auto;
   margin-right: auto;
   border: 3px solid black;
+  border-radius: 0.5em;
   background: lightblue;
 }
 .newQuestion div {
@@ -76,6 +88,11 @@ h3, label {
   border-style: hidden;
 }
 
+.categoryDropdown {
+  position: relative;
+  margin-top: auto;
+}
+
 // .newPersonalityQuestion {
 //   @extend .newQuestion;
 // }
@@ -84,14 +101,28 @@ h3, label {
 //   justify-content: space-between;
 // }
 
+.outcomeHeader {
+  font-family: $secondary-font;
+  margin-left: 5em;
+  margin-top: 2em;
+}
+
 .outcomes {
   @extend .newQuestion;
+}
+.outcomes label {
+  font-size: 1.5em;
+  width: 5em;
+}
+.outcomes input {
+  margin-right: 2em;
 }
 
 .outcomePhoto img {
   margin: auto;
   padding-top: 2em;
-  max-width: 100%;
+  width: -webkit-fill-available;
+  height: fit-content;
 }
 
 
@@ -147,6 +178,14 @@ h3, label {
   margin-left: 0.5em;
 }
 
+.selectedOutcome {
+  margin-left: 1em;
+}
+
+.answerP {
+  width: 80%;
+}
+
 .singleLine {
   align-items: stretch;
   padding-top: 0.5em;
@@ -172,5 +211,5 @@ h3, label {
 
 footer {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }

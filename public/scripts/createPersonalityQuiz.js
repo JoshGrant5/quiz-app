@@ -26,32 +26,30 @@ $(() => {
     questionCount++;
     return `
     <div class='newQuestion' newPersonalityQuestion'>
-      <div>
-        <h2>Question ${questionCount}:</h2>
-        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${questionCount}'>X</button>
-      </div>
       <div class='question'>
+        <label>Question ${questionCount}:</label>
         <input type='text' name='question${questionCount}' required='required' autocomplete='off'>
+        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${questionCount}'>X</button>
       </div>
       <h3>Answers:</h3>
         <div class='singleLine'>
           <label>A)</label>
-          <input type='text' name='a${questionCount}' required='required' autocomplete='off'>
+          <input type='text' class='answerP' name='a${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='a${questionCount}_pointer' required='required'></select>
         </div>
         <div class='singleLine'>
           <label>B)</label>
-          <input type='text' name='b${questionCount}' required='required' autocomplete='off'>
+          <input type='text' class='answerP' name='b${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='b${questionCount}_pointer' required='required'></select>
         </div>
         <div class='singleLine'>
           <label>C)</label>
-          <input type='text' name='c${questionCount}' required='required' autocomplete='off'>
+          <input type='text' class='answerP' name='c${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='c${questionCount}_pointer' required='required'></select>
         </div>
         <div class='singleLine'>
           <label>D)</label>
-          <input type='text' name='d${questionCount}' required='required' autocomplete='off'>
+          <input type='text' class='answerP' name='d${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='d${questionCount}_pointer' required='required'></select>
         </div>
     </div>
@@ -90,6 +88,7 @@ $(() => {
     $('#submitOutcomes').css({display: 'none'});
     $('#addPersonalityQuestion').css({visibility: 'visible'});
     $('#reviewPersonalityQuiz').css({visibility: 'visible'});
+    $('.outcomeHeader').children().text('Select an outcome that each answer points to:');
 
     /* Without the form submitting, the outcome inputs are stored in the outcome array */
     let serialized = $('.outcome').serialize() // receive all outcome inputs as a serialized string

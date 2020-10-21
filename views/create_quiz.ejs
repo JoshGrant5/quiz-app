@@ -55,7 +55,7 @@
         <label>Description:</label>
         <input type='text' name='quizDescription' placeholder='Optional' autocomplete='off'>
         <footer>
-          <div class="dropdown">
+          <div class='categoryDropdown'>
             <label>Category:</label>
             <input type='hidden' id='tCategoryInput' name='category'>
             <select id='triviaCategory'>
@@ -118,9 +118,9 @@
   <footer>
     <input type='hidden' id='count' name='count' value='1'>
     <input type='hidden' name='type' value='trivia'>
-    <button class='btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
-    <button class='btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
-    <button class='btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
+    <button class='footerBtn btn btn-primary' id='addNewQuestion' type='button' >Add Another Question</button>
+    <button class='footerBtn btn btn-primary' id='reviewQuiz' type='button'>Review Quiz</button>
+    <button class='footerBtn btn btn-success' id='createQuizButton' type='submit'>Create Quiz</button>
   </footer>
 </form>
 
@@ -163,12 +163,18 @@
         <h2>Let's start with the possible outcomes:</h2>
       </div>
       <div class='outcomes'>
-        <label>Outcome 1 Title:</label>
-        <input type='text' id='outcome1' class='outcome' name='outcome1' required='required' autocomplete='off'>
-        <label>Description:</label>
-        <input type='text' name='description1' autocomplete='off'>
-        <label>Photo URL:</label>
-        <input type='text' id='photo1' class='photoURL'>
+        <div class='singleLine'>
+          <label>Outcome 1:</label>
+          <input type='text' id='outcome1' class='outcome' name='outcome1' required='required' autocomplete='off'>
+        </div>
+        <div class='singleLine'>
+          <label>Description:</label>
+          <input type='text' name='description1' autocomplete='off'>
+        </div>
+        <div class='singleLine'>
+          <label>Photo URL:</label>
+          <input type='text' id='photo1' class='photoURL'>
+        </div>
         <div class='outcomePhoto' id='outcomePhoto1'>
           <img src='/imgs/temp-photo.jpg'>
         </div>
@@ -180,11 +186,11 @@
     <input type='hidden' id='outcomeCount' name='outcomeCount' value='1'>
     <input type='hidden' id='questionCount' name='questionCount' value='1'>
     <input type='hidden' name='type' value='personality'>
-    <button type='button' id='addOutcome'>Add Another Outcome</button>
-    <button type='button' id='submitOutcomes'>Submit Outcomes</button>
-    <button class='btn btn-primary' id='addPersonalityQuestion' type='button' >Add Another Question</button>
-    <button class='btn btn-primary' id='reviewPersonalityQuiz' type='button'>Review Quiz</button>
-    <button class='btn btn-success' id='createPersonalityQuiz' type='submit'>Create Quiz</button>
+    <button class='footerBtn btn btn-primary'  id='addOutcome'>Add Another Outcome</button>
+    <button class='footerBtn btn btn-primary'  id='submitOutcomes'>Submit Outcomes</button>
+    <button class='footerBtn btn btn-primary' id='addPersonalityQuestion' type='button' >Add Another Question</button>
+    <button class='footerBtn btn btn-primary' id='reviewPersonalityQuiz' type='button'>Review Quiz</button>
+    <button class='footerBtn btn btn-success' id='createPersonalityQuiz' type='submit'>Create Quiz</button>
   </footer>
 </form>
 
