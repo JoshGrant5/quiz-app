@@ -7,20 +7,21 @@
 
 .fa {
   color: grey;
+}
 
-  .fa-star.checked {
-    color: orange;
-  }
+.fa-star.checked {
+  color: orange;
+}
 
-  .fa-heart.checked {
-    color: purple;
-  }
+.fa-heart.checked {
+  color: purple;
 }
 
 #result {
   border: 3px solid black;
   margin: 1em;
   padding: 0.5em;
+  background: lightblue;
 }
 
 .social {

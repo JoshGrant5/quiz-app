@@ -9,11 +9,6 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
-
-  router.get("/", (req, res) => {
-    helpers.getAllQuizzes().then(info => res.json(info));
-  });
-
   router.get('/create', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
@@ -33,6 +28,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   router.post('/create/trivia', (req, res) => {
+    console.log(req.body)
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       console.log(req.body)
@@ -47,6 +43,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   })
 
   router.post('/create/personality', (req,res) => {
+    console.log(req.body)
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       return quizHelpers.personalitySort(data.id ,req.body);

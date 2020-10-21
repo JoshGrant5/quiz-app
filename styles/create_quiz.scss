@@ -1,9 +1,12 @@
-#newTriviaForm {
-  display: none;
-}
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
 
-#newPersonalityForm {
-  display: none;
+input {
+  border-style: hidden;
+  border-bottom: 3px solid #000433;
+  outline: none;
 }
 
 .quizType {
@@ -24,27 +27,34 @@
   margin: 2em;
 }
 
+.card {
+  margin: auto;
+  width: 35vw;
+}
+
+.quizPhoto {
+  object-fit: cover;
+}
+
 .newHeading {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 50vw;
-  margin: auto;
-  padding: 2em;
-  border: 3px solid black;
+  padding:0.5em;
 }
-.newHeading div {
+.newHeading footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  padding: 0.5em;
 }
 
-.newQuestion, .outcomes {
+.newQuestion {
   width: 80vw;
   padding: 2em;
   margin-top: 2em;
   margin-left: auto;
   margin-right: auto;
   border: 3px solid black;
+  background: lightblue;
 }
 .newQuestion div {
   display: flex;
@@ -52,12 +62,19 @@
 }
 
 .newPersonalityQuestion {
-  width: 80vw;
-  padding: 2em;
-  margin-top: 2em;
-  margin-left: auto;
-  margin-right: auto;
-  border: 3px solid black;
+  @extend .newQuestion;
+}
+.newPersonalityQuestion input {
+  width: 100%;
+  background: lightblue;
+}
+
+.outcomes {
+  @extend .newQuestion;
+}
+.outcomes input {
+  width: 100%;
+  background: lightblue;
 }
 
 .question input {
@@ -79,11 +96,11 @@
   -webkit-appearance: none;
 }
 
-.deleteQuestion {
-  visibility: hidden;
+#newTriviaForm, #newPersonalityForm {
+  display: none;
 }
 
-#createQuizButton, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz {
+#createQuizButton, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, .deleteQuestion {
   visibility: hidden;
 }
 

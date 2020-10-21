@@ -2,17 +2,7 @@ const { query } = require("express");
 
 module.exports = (db) => {
 
-  // not used as far as I know - Helen
-  const getAllQuizzes = () => {
-    return db.query(`
-      SELECT *
-      FROM quizzes;
-    `)
-      .then(data => data.rows)
-      .catch(err => err.message);
-  };
-
-  /**
+   /**
    * Gets listed quizzes given filter and sort options
    * @param {{filterType:string, filterName:string, sortName:string, sortOrder: string}} options
    */
@@ -142,8 +132,8 @@ module.exports = (db) => {
     const createdURL = createURL();
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;
-    `, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+     RETURNING *;`, [id, info.title, info.thumbnail, info.listed, createdURL, info.category, date, info.type, info.quizDescription || null])
     .then(data => data.rows[0])
     .catch(err => err.message);
   };
@@ -165,7 +155,9 @@ module.exports = (db) => {
   // Adds question to trivia db - accepts an array
   const createTriviaQuestion = function(info) {
     return db.query(`
-    INSERT INTO trivia_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    INSERT INTO trivia_questions (quiz_id, question)
+    VALUES ($1, $2)
+    RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -173,7 +165,9 @@ module.exports = (db) => {
   // Adds answers to trivia db - accepts a nested array
   const createTriviaAnswer = function(info) {
     return db.query(`
-    INSERT INTO trivia_answers (question_id, answer, is_correct) VALUES ($1, $2, $3) RETURNING *;`, info)
+    INSERT INTO trivia_answers (question_id, answer, is_correct)
+    VALUES ($1, $2, $3)
+    RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -224,8 +218,9 @@ module.exports = (db) => {
   // Adds outcomes to personality db - accepts an array
   const createOutcomes = function(info) {
     return db.query(`
-      INSERT INTO personality_outcomes (quiz_id, title, photo, description) VALUES ($1, $2, $3, $4) RETURNING *;
-    `, info)
+      INSERT INTO personality_outcomes (quiz_id, title, photo, description)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   }
@@ -233,7 +228,8 @@ module.exports = (db) => {
   // Adds question to personality db - accepts an array
   const createPersonalityQuestion = function(info) {
     return db.query(`
-    INSERT INTO personality_questions (quiz_id, question) VALUES ($1, $2) RETURNING *;`, info)
+    INSERT INTO personality_questions (quiz_id, question)
+    VALUES ($1, $2) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   }
@@ -241,7 +237,8 @@ module.exports = (db) => {
   // Adds answers to personality db - accepts an array
   const createPersonalityAnswer = function(info) {
     return db.query(`
-    INSERT INTO personality_answers (question_id, outcome_id, answer) VALUES ($1, $2, $3) RETURNING *;`, info)
+    INSERT INTO personality_answers (question_id, outcome_id, answer)
+    VALUES ($1, $2, $3) RETURNING *;`, info)
     .then(data => data.rows)
     .catch(err => err.message);
   };
@@ -455,9 +452,8 @@ module.exports = (db) => {
 
   // Creates and returns a result for a trivia quiz with the given quiz, user, score and total possible score
   const createTriviaResult = function(quiz_id, user_id, score, total) {
-    const dateString = Date.now();
-    const timestamp = new Date(dateString);
-    const date = timestamp.toDateString();
+    let date = new Date();
+    date = date.toISOString();
     let query = '';
     let values = [];
     if (user_id) {
@@ -484,9 +480,8 @@ module.exports = (db) => {
 
   // Creates and returns a result for a personality quiz with the given quiz, user, and outcome
   const createPersonalityResult = function(quiz_id, user_id, outcome_id) {
-    const dateString = Date.now();
-    const timestamp = new Date(dateString);
-    const date = timestamp.toDateString();
+    let date = new Date();
+    date = date.toISOString();
     let query = '';
     let values = [];
     if (user_id) {
@@ -717,15 +712,17 @@ module.exports = (db) => {
   // Returns quizzes in order of most results
   const getMostPopular = function() {
     const query = `
-      SELECT quizzes.id, COUNT(quiz_id) AS count
-      FROM quizzes
-      LEFT JOIN personality_results ON quizzes.id = quiz_id
-      GROUP BY quizzes.id
-        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+      SELECT counts.id, SUM(counts.count) AS total_count
+      FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
         FROM quizzes
-        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        LEFT JOIN personality_results ON quizzes.id = quiz_id
         GROUP BY quizzes.id
-      ORDER BY count DESC, id;
+          UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+          FROM quizzes
+          LEFT JOIN trivia_results ON quizzes.id = quiz_id
+          GROUP BY quizzes.id) as counts
+      GROUP BY counts.id
+      ORDER BY total_count DESC, counts.id;
     `
     return db.query(query)
       .then(data => data.rows)
@@ -792,7 +789,6 @@ module.exports = (db) => {
   }
 
   return {
-    getAllQuizzes,
     getPublicQuizzes,
     getQuizzesForUser,
     uniqueURLs,

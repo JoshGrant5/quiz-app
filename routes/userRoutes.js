@@ -64,6 +64,13 @@ module.exports = ({ userHelpers, quizHelpers }) => {
               personality[i].outcome = outcomes[i];
             }
             templateVars.results = trivia.concat(personality);
+            templateVars.results = templateVars.results.sort((a, b) => {
+              if (a.date_completed < b.date_completed) return 1;
+              if (a.date_completed > b.date_completed) return -1;
+              if (a.id < b.id) return 1;
+              if (a.id > b.id) return -1;
+              return 0;
+            });
             templateVars.user = results[1] || undefined;
             res.render("results", templateVars);
           });

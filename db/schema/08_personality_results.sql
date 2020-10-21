@@ -5,5 +5,5 @@ CREATE TABLE personality_results (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
   outcome_id INTEGER REFERENCES personality_outcomes(id) ON DELETE CASCADE,
-  date_completed DATE NOT NULL
+  date_completed TIMESTAMP NOT NULL
 );
