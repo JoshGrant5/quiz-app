@@ -33,23 +33,7 @@
   </header>
 
   <body>
-    <h2>My Favourites</h2>
-
-    <div id="quiz-container">
-      <% for (const quiz of favourites) { %>
-        <article class="card quiz">
-          <a href="/quiz/<%= quiz.url %>">
-            <% if(!quiz.photo) quiz.photo = "../imgs/temp-photo.jpg" %>
-            <img class="card-img-top" src="<%= quiz.photo %>">
-            <div class="card-body">
-              <h3 class="card-title"><%= quiz.title %></h3>
-              <p class="card-subtitle"><%= quiz.type %> | <%= quiz.category %></p>
-              <p class="card-text"><%= quiz.description %></p>
-            </div>
-          </a>
-        </article>
-      <% } %>
-    </div>
+    <%- include('./partials/_favourites'); %>
 
     <!-- Bootstrap JS scripts -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
