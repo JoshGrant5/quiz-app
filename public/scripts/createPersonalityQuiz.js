@@ -13,8 +13,8 @@ $(() => {
       <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
       <label>Photo URL:</label>
       <input type='url' id='photo${outcomeCount}' name='photo${outcomeCount}'>
-      div class='outcomePhoto' id='outcomePhoto${outcomeCount}'>
-         <img src='/imgs/temp-photo.jpg'>
+      <div class='outcomePhoto' id='outcomePhoto${outcomeCount}'>
+        <img src='/imgs/temp-photo.jpg'>
       </div>
       <label>Description:</label>
       <input type='text' name='description${outcomeCount}' autocomplete='off'>
@@ -25,7 +25,7 @@ $(() => {
   const addPersonalityQuestion = () => {
     questionCount++;
     return `
-    <div class='newPersonalityQuestion'>
+    <div class='newQuestion' newPersonalityQuestion'>
       <div>
         <h2>Question ${questionCount}:</h2>
         <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${questionCount}'>X</button>
@@ -140,23 +140,27 @@ $(() => {
     $(this).select();
   })
 
+  $('.listed').on('click', function() {
+    $(this).css({backgroundColor:'blue'});
+    $(this).siblings().css({backgroundColor:'lightblue'});
+  })
+
   //TODO Upload images as files - bugs with size of absolute path and with adding each input image to photo container
 
   // <input type="file" id='x${outcomeCount}' class="myFile" name="filename">
-  //     <div class='outcomePhoto' id='outcomePhoto${outcomeCount}'>
-  //       <img src='/imgs/temp-photo.jpg'>
-  //     </div>
 
-  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
+  // //Helper function for file uploader. Sets img src to the absolute path of the uploaded image
   // const readURL = input => {
   //   console.log('calling')
   //   if (input.files && input.files[0]) {
   //     const reader = new FileReader();
   //     reader.onload = function(event) {
+
+  //       console.log(reader);
+
   //       $('.outcomePhoto').children('img').attr('src', event.target.result);
   //       $(`#photo${outcomeCount}`).val(event.target.result)
-  //       console.log($(`#photo${outcomeCount}`))
-  //       console.log($(`#photo${outcomeCount}`).val(event.target.result))
+
   //     }
   //     reader.readAsDataURL(input.files[0]);
   //   }
@@ -171,12 +175,12 @@ $(() => {
   //   });
 
 
-    // $("input[id][name='filename']").on('change', function() {
-    //   readURL(this);
-    //   console.log(this)
-    //   url = this.value;
-    //   $(this).text(url);
-    //   // $(this).removeClass('.myFile');
-    // });
+  //   $("input[id][name='filename']").on('change', function() {
+  //     readURL(this);
+
+  //     url = this.value;
+  //     $(this).text(url);
+  //     // $(this).removeClass('.myFile');
+  //   });
 
 });

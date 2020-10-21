@@ -61,26 +61,52 @@ input {
   display: flex;
   justify-content: space-between;
 }
-
-.newPersonalityQuestion {
-  @extend .newQuestion;
-}
-.newPersonalityQuestion input {
+.newQuestion input {
   width: 100%;
   background: lightblue;
 }
+
+// .newPersonalityQuestion {
+//   @extend .newQuestion;
+// }
+// .newQuestion div {
+//   display: flex;
+//   justify-content: space-between;
+// }
 
 .outcomes {
   @extend .newQuestion;
 }
-.outcomes input {
-  width: 100%;
-  background: lightblue;
+
+.outcomePhoto img {
+  margin: auto;
+  padding-top: 2em;
+  max-width: 100%;
 }
 
-.question input {
-  width: 100%;
+
+.switch input[type="radio"] {
+  -webkit-appearance: none;
 }
+
+.listed {
+  color: white;
+  background-color: lightblue;
+}
+.listed:hover {
+  background-color: blue;
+}
+
+
+
+// .outcomes input {
+//   width: 100%;
+//   background: lightblue;
+// }
+
+// .question input {
+//   width: 100%;
+// }
 
 .answers {
   flex-direction: column;
