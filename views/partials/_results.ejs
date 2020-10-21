@@ -9,12 +9,12 @@
       </a>
       <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
         <div class="card-body">
-          <h3><%= result.title %></h3>
+          <h3 class="card-title"><%= result.title %></h3>
           <footer>
             <% if(result.type === 'trivia') { %>
-              <p>You got <%= result.percent %>%</p>
+              <p class="card-text">You got <%= result.percent %>%</p>
             <% } else { %>
-              <p>You got <%= result.outcome.title %></p>
+              <p class="card-text">You got <%= result.outcome.title %></p>
             <% } %>
           </footer>
         </div>
