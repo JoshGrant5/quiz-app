@@ -88,4 +88,23 @@ $(() => {
     $(this).select();
   })
 
+  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
+  const thumbnailReadURL = input => {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        $('.quizPhoto').attr('src', event.target.result);
+        $('.thumbnail').val(event.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Use helper function to upload image and show on screen
+  $('.cover').on('change', function() {
+    thumbnailReadURL(this);
+    url = this.value;
+    $(this).text(url);
+  });
+
 });

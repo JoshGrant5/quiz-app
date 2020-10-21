@@ -130,13 +130,32 @@ $(() => {
 
   // Show image as soon as user inputs a URL
   $('.photoURL').on('input', function() {
-    $(this).next().attr('src', $(this).val());
+    $('.outcomePhoto').children('img').attr('src', $(this).val());
   })
 
   // Select the entire input field on click
   $('.photoURL').on('click', function() {
     $(this).select();
-    $('option:selected', this).css({backgroundColor:'lightblue'});
-
   })
+
+  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
+  const readURL = input => {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        $('.outcomePhoto').children('img').attr('src', event.target.result);
+        $(`#photo${outcomeCount}`).val(event.target.result);
+        console.log($(`#photo${outcomeCount}`).val())
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Use helper function to upload image and show on screen
+  $('#myFile').on('change', function() {
+    readURL(this);
+    url = this.value;
+    $(this).text(url);
+  });
+
 });
