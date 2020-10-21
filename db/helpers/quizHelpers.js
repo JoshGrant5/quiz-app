@@ -40,13 +40,29 @@ module.exports = (db) => {
         LEFT JOIN trivia_results ON quizzes.id = quiz_id
         GROUP BY quizzes.id) as counts
         GROUP BY counts.id
-        ) AS count ON count.id = quizzes.id `;
+        ) AS count ON count.id = quizzes.id
+      `;
         
       orderCol = "count.total_count";
 
     // join with ratings table (average of quiz ratings)
     } else if (sortName === "rating") {
+      queryString += `
+      SELECT quizzes.*, count.*
+      FROM quizzes JOIN(
+          SELECT quizzes.id, CASE
+          WHEN AVG(rating) IS NULL
+          THEN 0
+          ELSE AVG(rating) END
+          AS avg_rating
+        FROM quizzes
+        LEFT JOIN ratings on quiz_id = quizzes.id
+        GROUP BY quizzes.id
+        ) AS count ON count.id = quizzes.id
+      `;
 
+      orderCol = "count.avg_rating";
+      
     // sort by create date
     } else {
       queryString += "SELECT quizzes.* FROM quizzes "
