@@ -25,7 +25,9 @@ main {
 
     .btn {
       margin: 5px;
+      padding: 0.25rem 0.5rem;
       text-transform: capitalize;
+      font-size: 14px;
     }
 
     // override bootstrap hover effect
