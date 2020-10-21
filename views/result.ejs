@@ -102,30 +102,32 @@
           <div class="fb-share-button" data-layout="button_count"></div>
           <img id='twitter' src='https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png' height=20 width=20>
         </div>
-        <div id='star' class='social'>
-          <% if(rating) { %>
-            <% for (let i = 1; i <= 5; i++) { %>
-              <% if (i <= rating.rating) { %>
-                <i id='star<%= i %>' class="fa fa-star checked"></i>
-              <% } else { %>
-                <i id='star<%= i %>' class="fa fa-star"></i>
+        <% if(user) { %>
+          <div id='star' class='social'>
+            <% if(rating) { %>
+              <% for (let i = 1; i <= 5; i++) { %>
+                <% if (i <= rating.rating) { %>
+                  <i id='star<%= i %>' class="fa fa-star checked"></i>
+                <% } else { %>
+                  <i id='star<%= i %>' class="fa fa-star"></i>
+                <% } %>
               <% } %>
+            <% } else { %>
+              <span id='star1' class="fa fa-star"></span>
+              <span id='star2' class="fa fa-star"></span>
+              <span id='star3' class="fa fa-star"></span>
+              <span id='star4' class="fa fa-star"></span>
+              <span id='star5' class="fa fa-star"></span>
             <% } %>
-          <% } else { %>
-            <span id='star1' class="fa fa-star"></span>
-            <span id='star2' class="fa fa-star"></span>
-            <span id='star3' class="fa fa-star"></span>
-            <span id='star4' class="fa fa-star"></span>
-            <span id='star5' class="fa fa-star"></span>
-          <% } %>
-        </div>
-        <div id='favourite' class='social'>
-          <% if(favourite) { %>
-            <i id='heart' class="fa fa-heart checked"></i>
-          <% } else { %>
-            <i id='heart' class="fa fa-heart"></i>
-          <% } %>
-        </div>
+          </div>
+          <div id='favourite' class='social'>
+            <% if(favourite) { %>
+              <i id='heart' class="fa fa-heart checked"></i>
+            <% } else { %>
+              <i id='heart' class="fa fa-heart"></i>
+            <% } %>
+          </div>
+        <% } %>
       </div>
     </div>
   </body>
