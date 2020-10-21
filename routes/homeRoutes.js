@@ -58,7 +58,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         if (password === user.password) {
           // Set a cookie
           req.session.user_id = user.id;
-          res.redirect("/");
+          res.redirect("back");
         } else {
           res.status(401).send('Incorrect password');
         }
@@ -68,7 +68,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.post("/logout", (req, res) => {
     // clear cookie
     req.session = null;
-    res.redirect("/");
+    res.redirect("back");
   })
 
   // not used
