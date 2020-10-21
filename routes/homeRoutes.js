@@ -18,7 +18,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     const quizOptions = { // set sort order on first load
       filterName: 'All',
       sortName: 'created',
-      sortOrder: 'asc'
+      sortOrder: 'desc'
     };
 
     // data needed for home page
