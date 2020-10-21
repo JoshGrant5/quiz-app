@@ -3,5 +3,3 @@ public/styles
 .env*
 *.log
 *.sqlite3
-todo
-script
