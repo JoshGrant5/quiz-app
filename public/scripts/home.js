@@ -8,7 +8,7 @@ $(() => {
   const loadQuizzes = () => {
     $.ajax({
       method: "GET",
-      url: "/api/filter",
+      url: "/api/quizzes",
       data: {
         filterName: 'All',
         sortName: 'created',
@@ -45,7 +45,7 @@ $(() => {
     // send sort and filter options, returns an array of quizzes
     $.ajax({
       method: "GET",
-      url: "/api/filterAndSort",
+      url: "/api/quizzes",
       data: { filterType, filterName, sortName, sortOrder }
     }).then((res) => {
       // empty quiz container and show filtered quizzes in sort order
