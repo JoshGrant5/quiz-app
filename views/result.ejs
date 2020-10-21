@@ -33,7 +33,6 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/result.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/title.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -60,76 +59,78 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
-    <!-- Quiz Title and Photo -->
-    <div id='container'>
-      <div>
-        <h2><%= result.title %></h2>
-        <% if(result.photo) { %>
-          <div id='photo'>
-            <img src="<%= result.photo %>" id='result-photo' class='photo'>
-          </div>
-        <% } %>
-      </div>
-
-      <!-- Score or Result -->
-      <div id='result'>
-        <% if(result.type === 'trivia') { %>
-          <h2>Your Score</h2>
-          <h3><%= result.percent %>%</h3>
-          <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
-        <% } else { %>
-          <h2>Your Result</h2>
-          <% if(outcome.photo) { %>
+    <main>
+      <!-- Quiz Title and Photo -->
+      <div id='container'>
+        <div>
+          <h2><%= result.title %></h2>
+          <% if(result.photo) { %>
             <div id='photo'>
-              <img src="<%= outcome.photo %>" class='photo'>
+              <img src="<%= result.photo %>" id='result-photo' class='photo'>
             </div>
           <% } %>
-          <p><%= outcome.title %></p>
-          <% if(outcome.description) { %>
-            <p><%= outcome.description %></p>
-          <% } %>
-        <% } %>
-      </div>
-
-      <!-- Share Buttons -->
-      <div>
-        <button type='button' class='btn btn-primary' id='share-result'>Share Result</button>
-        <button type='button' class='btn btn-primary' id='share-quiz'>Share Quiz</button>
-        <button type='button' class='btn btn-primary' id='take-quiz'>Beat This Score</button>
-      </div>
-      <div id='social'>
-        <div id='media' class='social'>
-          <div class="fb-share-button" data-layout="button_count"></div>
-          <img id='twitter' src='https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png' height=20 width=20>
         </div>
-        <% if(user) { %>
-          <div id='star' class='social'>
-            <% if(rating) { %>
-              <% for (let i = 1; i <= 5; i++) { %>
-                <% if (i <= rating.rating) { %>
-                  <i id='star<%= i %>' class="fa fa-star checked"></i>
-                <% } else { %>
-                  <i id='star<%= i %>' class="fa fa-star"></i>
+
+        <!-- Score or Result -->
+        <div id='result'>
+          <% if(result.type === 'trivia') { %>
+            <h2>Your Score</h2>
+            <h3><%= result.percent %>%</h3>
+            <p>Your score is better than <%= result.numBeaten %>% of quiz takers.</p>
+          <% } else { %>
+            <h2>Your Result</h2>
+            <% if(outcome.photo) { %>
+              <div id='photo'>
+                <img src="<%= outcome.photo %>" class='photo'>
+              </div>
+            <% } %>
+            <p><%= outcome.title %></p>
+            <% if(outcome.description) { %>
+              <p><%= outcome.description %></p>
+            <% } %>
+          <% } %>
+        </div>
+
+        <!-- Share Buttons -->
+        <div>
+          <button type='button' class='btn btn-primary' id='share-result'>Share Result</button>
+          <button type='button' class='btn btn-primary' id='share-quiz'>Share Quiz</button>
+          <button type='button' class='btn btn-primary' id='take-quiz'>Beat This Score</button>
+        </div>
+        <div id='social'>
+          <div id='media' class='social'>
+            <div class="fb-share-button" data-layout="button_count"></div>
+            <img id='twitter' src='https://www.creativefreedom.co.uk/wp-content/uploads/2017/06/Twitter-featured.png' height=20 width=20>
+          </div>
+          <% if(user) { %>
+            <div id='star' class='social'>
+              <% if(rating) { %>
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <% if (i <= rating.rating) { %>
+                    <i id='star<%= i %>' class="fa fa-star checked"></i>
+                  <% } else { %>
+                    <i id='star<%= i %>' class="fa fa-star"></i>
+                  <% } %>
                 <% } %>
+              <% } else { %>
+                <span id='star1' class="fa fa-star"></span>
+                <span id='star2' class="fa fa-star"></span>
+                <span id='star3' class="fa fa-star"></span>
+                <span id='star4' class="fa fa-star"></span>
+                <span id='star5' class="fa fa-star"></span>
               <% } %>
-            <% } else { %>
-              <span id='star1' class="fa fa-star"></span>
-              <span id='star2' class="fa fa-star"></span>
-              <span id='star3' class="fa fa-star"></span>
-              <span id='star4' class="fa fa-star"></span>
-              <span id='star5' class="fa fa-star"></span>
-            <% } %>
-          </div>
-          <div id='favourite' class='social'>
-            <% if(favourite) { %>
-              <i id='heart' class="fa fa-heart checked"></i>
-            <% } else { %>
-              <i id='heart' class="fa fa-heart"></i>
-            <% } %>
-          </div>
-        <% } %>
+            </div>
+            <div id='favourite' class='social'>
+              <% if(favourite) { %>
+                <i id='heart' class="fa fa-heart checked"></i>
+              <% } else { %>
+                <i id='heart' class="fa fa-heart"></i>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 
     <!-- Bootstrap JS scripts -->
