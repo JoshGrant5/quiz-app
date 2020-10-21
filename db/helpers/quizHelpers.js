@@ -645,7 +645,8 @@ module.exports = (db) => {
       SELECT *
       FROM quizzes
       JOIN favourites ON quizzes.id = quiz_id
-      WHERE user_id = $1;
+      WHERE user_id = $1
+      ORDER BY favourites.id DESC;
     `
     const values = [user_id];
     return db.query(query, values)
