@@ -3,6 +3,10 @@ $secondary-font: Passion One, cursive;
 $font-color: #000;
 $background-color: #EEE;
 
+body {
+  background-color: $background-color;
+}
+
 input {
   font-family: $main-font;
   font-size: 1em;
@@ -25,7 +29,7 @@ h3, label, button {
 
 .card {
   margin: auto;
-  width: 50vw;
+  width: 40vw;
   border: 3px solid black;
   border-radius: 0.5em;
 }
@@ -51,7 +55,7 @@ h3, label, button {
 }
 
 .newQuestion {
-  width: 80vw;
+  width: 60vw;
   padding: 2em;
   margin-top: 2em;
   margin-left: auto;
@@ -78,17 +82,9 @@ h3, label, button {
   margin-top: auto;
 }
 
-// .newPersonalityQuestion {
-//   @extend .newQuestion;
-// }
-// .newQuestion div {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
 .outcomeHeader {
   font-family: $secondary-font;
-  margin-left: 5em;
+  text-align: center;
   margin-top: 2em;
 }
 
@@ -106,10 +102,9 @@ h3, label, button {
 .outcomePhoto img {
   margin: auto;
   padding-top: 2em;
-  width: -webkit-max-content;
-  height: min-content;
+  max-width: 100%;
+  max-height: 100%;
 }
-
 
 .switch input[type="radio"] {
   -webkit-appearance: none;
@@ -122,17 +117,6 @@ h3, label, button {
 .listed:hover {
   background-color: blue;
 }
-
-
-
-// .outcomes input {
-//   width: 100%;
-//   background: lightblue;
-// }
-
-// .question input {
-//   width: 100%;
-// }
 
 .answers {
   flex-direction: column;
@@ -174,6 +158,7 @@ h3, label, button {
 .singleLine {
   align-items: stretch;
   padding-top: 0.5em;
+  padding-right: 1em;
 }
 .singleLine label {
   font-size: 1.5em;
