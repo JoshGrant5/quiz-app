@@ -9,7 +9,31 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
+
   router.get('/create', (req, res) => {
+    const templateVars = {user: req.session.user_id}
+    res.render('options', templateVars);
+  });
+
+  router.get('/create/trivia', (req, res) => {
+    const templateVars = { };
+    const userid = req.session.user_id;
+    const promises = [];
+    promises.push(userHelpers.getUserById(userid));
+    promises.push(quizHelpers.getCategories());
+    Promise.all(promises)
+      // populate templateVars with data responses
+      .then(res => {
+        templateVars.user = res[0] || undefined;
+        templateVars.categories = res[1];
+        return templateVars;
+      })
+      .then(data => {
+        res.render("create_quiz", data);
+      });
+  });
+
+  router.get('/create/personality', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
     const promises = [];

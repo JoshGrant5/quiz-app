@@ -70,13 +70,10 @@ $(() => {
     }
   };
 
-  // Personality template is shown instead of the trivia template
-  $('#selectPersonality').on('click', function() {
-    $('#newPersonalityForm').slideDown(800);
-    $('.quizType').css({display: 'none'});
+  if (document.location.pathname == "/quiz/create/personality") {
+    $('#newPersonalityForm').slideDown(600);
     outcomes = [];
-  })
-
+  }
 
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
@@ -86,22 +83,6 @@ $(() => {
 
     $('.newQuizContainer').append(outcome);
     $('#outcomeCount').val(outcomeCount);
-
-    // $('#outcomeForm').submit();
-    // $('#outcomeForm').on('submit', function(event) {
-    //   event.preventDefault();
-    //   $.ajax('/quiz/outcomes', {
-    //     method: 'POST',
-    //     data: $('#outcomeForm').serialize()
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   })
-    // })
-
 
   });
 
@@ -156,11 +137,6 @@ $(() => {
     });
   });
 
-  // Show image as soon as user inputs a URL
-  // $(`photo${outcomeCount}`).on('input', function() {
-  //   $('.outcomePhoto').children('img').attr('src', $(this).val());
-  // })
-
   /* Hardcoding for photo generation on outcomes ... until solution found */
   $('.photoURL').on('input', function() {
     photos.push($(this).val());
@@ -173,6 +149,7 @@ $(() => {
     $(this).select();
   })
 
+  // Change color of public/private button based on choice
   $('.listed').on('click', function() {
     $(this).css({backgroundColor:'blue'});
     $(this).siblings().css({backgroundColor:'lightblue'});

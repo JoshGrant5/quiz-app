@@ -1,0 +1,27 @@
+html body {
+  margin-top: 25vh;
+  background-color: #EEE;
+}
+
+h1 {
+  text-align: center;
+}
+
+.quizType {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50vw;
+  margin: auto;
+  padding: 2em;
+  border: 3px solid black;
+  border-radius: 0.5em;
+}
+.quizType button {
+  padding: 1em;
+  margin: 1em;
+}
+.quizType div {
+  flex-direction: row;
+  margin: auto;
+}

@@ -47,10 +47,9 @@ $(() => {
   };
 
   // Display trivia template
-  $('#selectTrivia').on('click', function() {
-    $('.quizType').css({display: 'none'});
-    $('#newTriviaForm').slideDown(800);
-  });
+  if (document.location.pathname == "/quiz/create/trivia") {
+    $('#newTriviaForm').slideDown(600);
+  }
 
   // Hide previous question container and replace with a new one
   $('#addNewQuestion').on('click', function() {
@@ -85,24 +84,5 @@ $(() => {
   $('.thumbnail').on('click', function() {
     $(this).select();
   })
-
-  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
-  const thumbnailReadURL = input => {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        $('.quizPhoto').attr('src', event.target.result);
-        $('.thumbnail').val(event.target.result);
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  // Use helper function to upload image and show on screen
-  $('.cover').on('change', function() {
-    thumbnailReadURL(this);
-    url = this.value;
-    $(this).text(url);
-  });
 
 });
