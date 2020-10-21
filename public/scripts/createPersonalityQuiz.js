@@ -7,6 +7,12 @@ $(() => {
   let outcomes = [];
   let photos = [];
 
+  if (document.location.pathname == "/quiz/create/personality") {
+    console.log('yo')
+    $('#newPersonalityForm').slideDown(600);
+    outcomes = [];
+  }
+
   const addOutcome = () => {
     return `
     <div class='outcomes'>
@@ -70,11 +76,6 @@ $(() => {
     }
   };
 
-  if (document.location.pathname == "/quiz/create/personality") {
-    $('#newPersonalityForm').slideDown(600);
-    outcomes = [];
-  }
-
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
     outcomeCount++;
@@ -92,11 +93,9 @@ $(() => {
     $('.newPersonalityQuestion').slideDown(800);
     $('#addOutcome').css({display: 'none'});
     $('#submitOutcomes').css({display: 'none'});
-    $('#addPersonalityQuestion').css({visibility: 'visible'});
-    $('#reviewPersonalityQuiz').css({visibility: 'visible'});
+    $('#addPersonalityQuestion').css({display:'block'});
+    $('#reviewPersonalityQuiz').css({display:'block'});
     $('.outcomeHeader').children().text('Select an outcome that each answer points to:');
-
-    console.log(photos)
 
     /* Without the form submitting, the outcome inputs are stored in the outcome array */
     let serialized = $('.outcome').serialize() // receive all outcome inputs as a serialized string
@@ -124,9 +123,7 @@ $(() => {
   // All outcomes and questions are shown for user to review
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
-    $('.newPersonalityQuestion').slideDown(800);
-    $('#addOutcome').slideDown(800);
-    $('#createPersonalityQuiz').css({visibility: 'visible'});
+    $('#createPersonalityQuiz').css({display: 'inline'});
     $('html, body').animate({scrollTop:200}, 1500);
     const category = $('#personalityCategory').find(":selected").text();
     $('#pCategoryInput').val(category);

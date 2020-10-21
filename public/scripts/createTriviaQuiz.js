@@ -2,6 +2,11 @@ $(() => {
   // Question count: Starts at 1 since we already have 1 question in viewport at start
   let count = 1;
 
+  // Display trivia template
+  if (document.location.pathname == "/quiz/create/trivia") {
+    $('#newTriviaForm').slideDown(600);
+  }
+
   const addTriviaQuestion = () => {
     count++;
     return `
@@ -46,11 +51,6 @@ $(() => {
     `;
   };
 
-  // Display trivia template
-  if (document.location.pathname == "/quiz/create/trivia") {
-    $('#newTriviaForm').slideDown(600);
-  }
-
   // Hide previous question container and replace with a new one
   $('#addNewQuestion').on('click', function() {
     $('.newQuestion').css({display: 'none'});
@@ -62,7 +62,7 @@ $(() => {
   // Show all previously hidden questions to review
   $('#reviewQuiz').on('click', function() {
     $('.newQuestion').slideDown(800);
-    $('#createQuizButton').css({visibility: 'visible'});
+    $('#createQuizButton').css({display:'block'});
     $('html, body').animate({scrollTop:200}, 1500);
     const category = $('#triviaCategory').find(":selected").text();
     $('#tCategoryInput').val(category);

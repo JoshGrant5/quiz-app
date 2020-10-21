@@ -5,7 +5,7 @@ $background-color: #EEE;
 
 input {
   font-family: $main-font;
-  font-size: 1.5em;
+  font-size: 1em;
   border-style: hidden;
   border-bottom: 3px solid #000433;
   outline: none;
@@ -186,11 +186,12 @@ h3, label, button {
   -webkit-appearance: none;
 }
 
-#newTriviaForm, #newPersonalityForm {
+#newTriviaForm, #newPersonalityForm, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, #createQuizButton {
   display: none;
 }
 
-#createQuizButton, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, .deleteQuestion {
+
+.deleteQuestion {
   visibility: hidden;
 }
 
