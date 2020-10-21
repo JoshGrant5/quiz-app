@@ -3,13 +3,13 @@ $(document).ready(function() {
 
   $(".quiz-filter button").click(function(e) {
     const $button = $(this);
-    $("#container").empty();
     let partial
     $.ajax({
       method: "GET",
       url: `/api/partial/${$button.attr("name")}`,
     })
       .then(res => {
+        $("#container").empty();
         partial = res;
         $("#container").append(partial)
 
