@@ -65,7 +65,7 @@ $(() => {
 
     let $quiz = $(`
     <article class="card quiz">
-      <a href="/quiz/${quiz.url$}">
+      <a href="/quiz/${quiz.url}">
         <img class="card-img-top" src="${quiz.photo}">
         <div class="card-body">
           <h3 class="card-title">${quiz.title}</h3>
