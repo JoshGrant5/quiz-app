@@ -34,6 +34,31 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
+  router.get("/quizzes", (req, res) => {
+    const templateVars = { };
+    const userid = req.session.user_id;
+
+    if(!userid) {
+      res.redirect("/"); // send user back to home page
+    }
+
+    // quiz and user data needed to render page
+    const promises = [];
+    promises.push(quizHelpers.getQuizzesForUser(userid));
+    promises.push(userHelpers.getUserById(userid));
+
+    // get data and render page
+    Promise.all(promises)
+      .then(res => {
+        templateVars.quizzes = res[0];
+        templateVars.user = res[1] || undefined;
+        return templateVars;
+      })
+      .then(data => {
+        res.render("quizzes", data);
+      });
+  });
+
   // Displays all favourites for the logged in user
   router.get('/favourites', (req, res) => {
     const templateVars = { };
