@@ -1,4 +1,16 @@
 $(document).ready(function() {
+
+  // show My Quizzes on page load
+  const loadMyQuizzes = () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/partial/_quizzes"
+    }).then((res) => {
+      $("#container").append(res);
+    })
+  };
+  loadMyQuizzes();
+
   const $filterBtns = $(".quiz-filter button");
   let currentFilter = '_quizzes';
 
