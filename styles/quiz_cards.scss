@@ -40,8 +40,12 @@ $primary-color: #007bff;
     }
 
     .card-body {
+      padding: 10px;
+      
       .card-title {
         font-size: 1.25rem;
+        max-height: calc(2 * 1.5rem);
+        overflow: hidden;
       }
 
       .card-subtitle {
