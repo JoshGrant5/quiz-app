@@ -62,7 +62,21 @@ module.exports = (db) => {
       `;
 
       orderCol = "count.avg_rating";
+    
+    // join with favourites table (count of quiz favourites)
+    } else if (sortName === 'favourite') {
+      queryString += `
+      SELECT quizzes.*, count.*
+      FROM quizzes JOIN(
+        SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+          LEFT JOIN favourites on quiz_id = quizzes.id
+        GROUP BY quizzes.id
+        ) AS count ON count.id = quizzes.id
+      `;
       
+      orderCol = "count.count";
+
     // sort by create date
     } else {
       queryString += "SELECT quizzes.* FROM quizzes "
