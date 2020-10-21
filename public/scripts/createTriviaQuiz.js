@@ -6,41 +6,39 @@ $(() => {
     count++;
     return `
     <div class='newQuestion'>
-      <div>
-        <h2>Question ${count}:</h2>
-        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${count}'>X</button>
-      </div>
       <div class='question'>
+        <label>Question ${count}:</label>
         <input type='text' name='question${count}' required='required' autocomplete='off'>
+        <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${count}'>X</button>
       </div>
       <h3>Answers:</h3>
       <div class='answers' data-toggle="buttons">
         <div class='singleLine'>
           <label>A)</label>
           <input type='text' name='a${count}' required='required' autocomplete='off'>
-          <label class='btn btn-outline-success'>
-            <input type='radio' name='correct${count}' required='required' value='1'><i class="gg-check"></i>
+          <label class='check btn btn-outline-success'>
+            <input type='radio' class='correct' name='correct${count}' autocomplete='off' required='required' value='1'><i class="gg-check"></i>
           </label>
         </div>
         <div class='singleLine'>
           <label>B)</label>
           <input type='text' name='b${count}' required='required' autocomplete='off'>
-          <label class='btn btn-outline-success'>
-            <input type='radio' name='correct${count}' value='2'><i class="gg-check"></i>
-          </label>
+          <label class='check btn btn-outline-success'>
+            <input type='radio' class='correct' name='correct${count}' value='2'><i class="gg-check"></i>
+           </label>
         </div>
         <div class='singleLine'>
           <label>C)</label>
           <input type='text' name='c${count}' required='required' autocomplete='off'>
-          <label class='btn btn-outline-success'>
-            <input type='radio' name='correct${count}' value='3'><i class="gg-check"></i>
+          <label class='check btn btn-outline-success'>
+            <input type='radio' class='correct' name='correct${count}' value='3'><i class="gg-check"></i>
           </label>
         </div>
         <div class='singleLine'>
           <label>D)</label>
           <input type='text' name='d${count}' required='required' autocomplete='off'>
-          <label class='btn btn-outline-success'>
-            <input type='radio' name='correct${count}' value='4'><i class="gg-check"></i>
+          <label class='check btn btn-outline-success'>
+            <input type='radio' class='correct' name='correct${count}' value='4'><i class="gg-check"></i>
           </label>
         </div>
       </div>

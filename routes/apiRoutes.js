@@ -2,16 +2,18 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
-  
-  // returns an array of quiz objects given filter options
+
   router.get("/quizzes", (req, res) => {
     const options = req.query;
+    if (!options.offset) options.offset = 0
     quizHelpers.getPublicQuizzes(options)
       .then(data => res.send(data))
       .catch(err => err.message);
   });
 
   router.get('/partial/_favourites', (req, res) => {
+    const options = req.query;
+    if (!options.offset) options.offset = 0;
     const templateVars = { };
     const userid = req.session.user_id;
 
@@ -20,7 +22,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     }
 
     const promises = [];
-    promises.push(quizHelpers.getFavourites(userid));
+    promises.push(quizHelpers.getFavourites(userid, options.offset));
     promises.push(userHelpers.getUserById(userid));
 
     Promise.all(promises)
@@ -32,6 +34,8 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   })
 
   router.get('/partial/_quizzes', (req, res) => {
+    const options = req.query;
+    if (!options.offset) options.offset = 0;
     const templateVars = { };
     const userid = req.session.user_id;
 
@@ -41,7 +45,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
     // quiz and user data needed to render page
     const promises = [];
-    promises.push(quizHelpers.getQuizzesForUser(userid));
+    promises.push(quizHelpers.getQuizzesForUser(userid, options.offset));
     promises.push(userHelpers.getUserById(userid));
 
     // get data and render page
@@ -57,6 +61,8 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   })
 
   router.get('/partial/_results', (req, res) => {
+    const options = req.query;
+    if (!options.offset) options.offset = 0;
     const templateVars = { };
     const userid = req.session.user_id;
 
@@ -93,6 +99,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
               return 0;
             });
             templateVars.user = results[1] || undefined;
+            templateVars.results = templateVars.results.slice(options.offset, options.offset + 12);
             res.render("partials/_results", templateVars);
           });
       });

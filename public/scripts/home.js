@@ -4,7 +4,11 @@ $(() => {
   const $sortAndFilterBtns = $(".quiz-view-options button");
   const $filterBtns = $(".quiz-filter button");
   const $sortBtns = $(".quiz-sort button");
-  
+  let filterName = "All"
+  let filterType = undefined
+  let sortName = "created"
+  let sortOrder = "desc";
+
   const loadQuizzes = () => {
     $.ajax({
       method: "GET",
@@ -12,7 +16,8 @@ $(() => {
       data: {
         filterName: 'All',
         sortName: 'created',
-        sortOrder: 'desc'
+        sortOrder: 'desc',
+        offset: 0,
       }
     }).then((res) => {
       renderQuizzes(res);
@@ -23,9 +28,9 @@ $(() => {
 
   // click handler on quiz filtering and sorting
   $sortAndFilterBtns.on("click", function(e) {
+    count = 0;
 
     const selectionType = $(this).parent().attr("class");
-    let filterName, filterType, sortName, sortOrder;
 
     // if filter selected, filter = target, sort = styled
     if (selectionType === "quiz-filter") {
@@ -80,6 +85,19 @@ $(() => {
       quiz.description = '';
     }
 
+    const titleChar = quiz.title.length;
+    const descChar = quiz.description.length;
+    // truncate title if it's longer than 2 lines
+    if (titleChar >= 40) {
+      quiz.title = truncate(quiz.title, 40);
+    }
+    // truncate description depending on whether title takes up 1 or 2 lines
+    if (titleChar >= 20 && descChar >= 54) {
+      quiz.description = truncate(quiz.description, 54);
+    } else if (quiz.description.length >= 80) {
+      quiz.description = truncate(quiz.description, 80);
+    }
+
     let $quiz = $(`
     <a href="/quiz/${quiz.url}">
       <article class="card quiz">
@@ -103,4 +121,29 @@ $(() => {
       $quizContainer.append($quiz);
     })
   };
+
+  let count = 0;
+  const offset = 12;
+  const pageLimit = 10;
+  const buffer = 50;
+
+  $(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() > $(document).height() - buffer) {
+      count++;
+      const currentOffset = offset * count;
+      if (currentOffset > offset * pageLimit) return;
+      $.ajax({
+        method: "GET",
+        url: "/api/quizzes",
+        data: { filterType, filterName, sortName, sortOrder, offset: currentOffset }
+      }).then((res) => {
+        renderQuizzes(res);
+      }).catch((err) => err.message);
+    }
+ });
+  // truncate string given the string and character limit
+  const truncate = (string, limit) => {
+    const shorten = string.slice(0, limit);
+    return shorten.concat("...");
+  }
 });
