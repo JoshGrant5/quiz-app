@@ -11,11 +11,11 @@ $(() => {
     return `
     <div class='outcomes'>
       <label>Outcome ${outcomeCount} Title:</label>
-      <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required'>
+      <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
       <label>Photo URL:</label>
       <input type='url' id='photo${outcomeCount}' name='photo${outcomeCount}' required='required'>
       <label>Description:</label>
-      <input type='text' name='description${outcomeCount}'>
+      <input type='text' name='description${outcomeCount}' autocomplete='off'>
     </div>
     `;
   };
@@ -29,27 +29,27 @@ $(() => {
         <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${questionCount}'>X</button>
       </div>
       <div class='question'>
-        <input type='text' name='question${questionCount}' required='required'>
+        <input type='text' name='question${questionCount}' required='required' autocomplete='off'>
       </div>
       <h3>Answers:</h3>
         <div class='singleLine'>
           <label>A)</label>
-          <input type='text' name='a${questionCount}' required='required'>
+          <input type='text' name='a${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='a${questionCount}_pointer' required='required'></select>
         </div>
         <div class='singleLine'>
           <label>B)</label>
-          <input type='text' name='b${questionCount}' required='required'>
+          <input type='text' name='b${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='b${questionCount}_pointer' required='required'></select>
         </div>
         <div class='singleLine'>
           <label>C)</label>
-          <input type='text' name='c${questionCount}' required='required'>
+          <input type='text' name='c${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='c${questionCount}_pointer' required='required'></select>
         </div>
         <div class='singleLine'>
           <label>D)</label>
-          <input type='text' name='d${questionCount}' required='required'>
+          <input type='text' name='d${questionCount}' required='required' autocomplete='off'>
           <select class='selectedOutcome' name='d${questionCount}_pointer' required='required'></select>
         </div>
     </div>
@@ -126,6 +126,36 @@ $(() => {
         $(this).parent().parent().remove();
       });
     }
+  });
+
+  // Show image as soon as user inputs a URL
+  $('.photoURL').on('input', function() {
+    $('.outcomePhoto').children('img').attr('src', $(this).val());
+  })
+
+  // Select the entire input field on click
+  $('.photoURL').on('click', function() {
+    $(this).select();
+  })
+
+  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
+  const readURL = input => {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        $('.outcomePhoto').children('img').attr('src', event.target.result);
+        $(`#photo${outcomeCount}`).val(event.target.result);
+        console.log($(`#photo${outcomeCount}`).val())
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Use helper function to upload image and show on screen
+  $('#myFile').on('change', function() {
+    readURL(this);
+    url = this.value;
+    $(this).text(url);
   });
 
 });
