@@ -19,7 +19,7 @@ $(document).ready(function() {
           }
         });
 
-        $button.addClass("btn-primary");
+        $button.removeClass("btn-outline-primary").addClass("btn-primary");
       });
   });
 });
