@@ -1,6 +1,7 @@
 const { query } = require("express");
 
 module.exports = (db) => {
+  const limit = 12;
 
    /**
    * Gets listed quizzes given filter and sort options
@@ -104,18 +105,30 @@ module.exports = (db) => {
       `;
     }
 
+    if (options.offset !== undefined) {
+      queryParams.push(options.offset);
+      queryString += `LIMIT ${limit} OFFSET $${queryParams.length}`
+    }
+
     return db.query(queryString, queryParams)
       .then(data => data.rows)
       .catch(err => err.message);
   };
 
   // given userid, returns quizzes that user created
-  const getQuizzesForUser = (id) => {
-    return db.query(`
+  const getQuizzesForUser = (id, offset) => {
+    const params = [id];
+    let query = `
       SELECT * FROM quizzes
       JOIN users ON users.id = creator_id
-      WHERE creator_id = '${id}';
-    `)
+      WHERE creator_id = $1
+    `
+    if (offset !== undefined) {
+      params.push(offset);
+      query += `LIMIT ${limit} OFFSET $2`;
+    }
+    console.log(query, params);
+    return db.query(query, params)
       .then(data => data.rows)
       .catch(err => err.message);
   };
@@ -640,15 +653,19 @@ module.exports = (db) => {
   };
 
   // Returns all favorites belonging to the given user
-  const getFavourites = function(user_id) {
-    const query = `
+  const getFavourites = function(user_id, offset) {
+    const values = [user_id];
+    let query = `
       SELECT *
       FROM quizzes
       JOIN favourites ON quizzes.id = quiz_id
       WHERE user_id = $1
-      ORDER BY favourites.id DESC;
+      ORDER BY favourites.id DESC
     `
-    const values = [user_id];
+    if (offset !== undefined) {
+      values.push(offset);
+      query += `LIMIT ${limit} OFFSET $2`
+    }
     return db.query(query, values)
       .then(data => data.rows)
       .catch(err => err.message);
