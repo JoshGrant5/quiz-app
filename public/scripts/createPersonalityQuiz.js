@@ -5,21 +5,28 @@ $(() => {
   let questionCount = 0;
   // Array for storing all given outcomes
   let outcomes = [];
+  let photos = [];
 
   const addOutcome = () => {
     return `
     <div class='outcomes'>
-      <label>Outcome ${outcomeCount} Title:</label>
-      <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
-      <label>Photo URL:</label>
-      <input type='url' id='photo${outcomeCount}' name='photo${outcomeCount}'>
-      <div class='outcomePhoto' id='outcomePhoto${outcomeCount}'>
-        <img src='/imgs/temp-photo.jpg'>
+      <div class='singleLine'>
+        <label>Outcome ${outcomeCount}:</label>
+        <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
       </div>
-      <label>Description:</label>
-      <input type='text' name='description${outcomeCount}' autocomplete='off'>
+      <div class='singleLine'>
+        <label>Description:</label>
+        <input type='text' name='description${outcomeCount}' autocomplete='off'>
+      </div>
+      <div class='singleLine'>
+        <label>Photo URL:</label>
+        <input type='text' id='photo${outcomeCount}' name='photo${outcomeCount}' class='photoURL'>
+      </div>
+      <div class='outcomePhoto'>
+        <img id='outcomePhoto${outcomeCount}' src='/imgs/temp-photo.jpg'>
+      </div>
     </div>
-    `;
+  `;
   };
 
   const addPersonalityQuestion = () => {
@@ -70,6 +77,7 @@ $(() => {
     outcomes = [];
   })
 
+
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
     outcomeCount++;
@@ -78,6 +86,23 @@ $(() => {
 
     $('.newQuizContainer').append(outcome);
     $('#outcomeCount').val(outcomeCount);
+
+    // $('#outcomeForm').submit();
+    // $('#outcomeForm').on('submit', function(event) {
+    //   event.preventDefault();
+    //   $.ajax('/quiz/outcomes', {
+    //     method: 'POST',
+    //     data: $('#outcomeForm').serialize()
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   })
+    // })
+
+
   });
 
   // All outcome containers are hidden and the question container is shown
@@ -89,6 +114,8 @@ $(() => {
     $('#addPersonalityQuestion').css({visibility: 'visible'});
     $('#reviewPersonalityQuiz').css({visibility: 'visible'});
     $('.outcomeHeader').children().text('Select an outcome that each answer points to:');
+
+    console.log(photos)
 
     /* Without the form submitting, the outcome inputs are stored in the outcome array */
     let serialized = $('.outcome').serialize() // receive all outcome inputs as a serialized string
@@ -130,8 +157,15 @@ $(() => {
   });
 
   // Show image as soon as user inputs a URL
+  // $(`photo${outcomeCount}`).on('input', function() {
+  //   $('.outcomePhoto').children('img').attr('src', $(this).val());
+  // })
+
+  /* Hardcoding for photo generation on outcomes ... until solution found */
   $('.photoURL').on('input', function() {
-    $('.outcomePhoto').children('img').attr('src', $(this).val());
+    photos.push($(this).val());
+    $(`#outcomePhoto${outcomeCount}`).attr('src', $(this).val());
+    $(this).parent().next().children('img').attr('src', $(this).val());
   })
 
   // Select the entire input field on click
@@ -143,43 +177,5 @@ $(() => {
     $(this).css({backgroundColor:'blue'});
     $(this).siblings().css({backgroundColor:'lightblue'});
   })
-
-  //TODO Upload images as files - bugs with size of absolute path and with adding each input image to photo container
-
-  // <input type="file" id='x${outcomeCount}' class="myFile" name="filename">
-
-  // //Helper function for file uploader. Sets img src to the absolute path of the uploaded image
-  // const readURL = input => {
-  //   console.log('calling')
-  //   if (input.files && input.files[0]) {
-  //     const reader = new FileReader();
-  //     reader.onload = function(event) {
-
-  //       console.log(reader);
-
-  //       $('.outcomePhoto').children('img').attr('src', event.target.result);
-  //       $(`#photo${outcomeCount}`).val(event.target.result)
-
-  //     }
-  //     reader.readAsDataURL(input.files[0]);
-  //   }
-  // }
-
-  // // Use helper function to upload image and show on screen
-  //   // $('.myFile').on('change', function() {
-  //   $(`#x${outcomeCount}`).on('change', function() {
-  //     readURL(this);
-  //     url = this.value;
-  //     $(this).text(url);
-  //   });
-
-
-  //   $("input[id][name='filename']").on('change', function() {
-  //     readURL(this);
-
-  //     url = this.value;
-  //     $(this).text(url);
-  //     // $(this).removeClass('.myFile');
-  //   });
 
 });

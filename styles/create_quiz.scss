@@ -121,8 +121,8 @@ h3, label, button {
 .outcomePhoto img {
   margin: auto;
   padding-top: 2em;
-  width: -webkit-fill-available;
-  height: fit-content;
+  width: -webkit-max-content;
+  height: min-content;
 }
 
 
