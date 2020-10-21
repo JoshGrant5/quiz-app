@@ -25,32 +25,32 @@ module.exports = (db) => {
     let orderCol;
     let queryString = '';
 
-    // sort by quiz popularity (number of quiz results)
     // join with popularity table (count of quiz results)
     if (sortName === "popular") {
-      orderCol = "count.total_count";
       queryString += `
-        SELECT quizzes.*, count.*
-          FROM quizzes JOIN(
-            SELECT counts.id, SUM(counts.count) AS total_count
-            FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
-              FROM quizzes
-              LEFT JOIN personality_results ON quizzes.id = quiz_id
-              GROUP BY quizzes.id
-                UNION SELECT quizzes.id, COUNT(quiz_id) AS count
-                FROM quizzes
-                LEFT JOIN trivia_results ON quizzes.id = quiz_id
-                GROUP BY quizzes.id) as counts
-            GROUP BY counts.id
-          ) AS count ON count.id = quizzes.id `;
+      SELECT quizzes.*, count.*
+      FROM quizzes JOIN(
+        SELECT counts.id, SUM(counts.count) AS total_count
+        FROM (SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+        LEFT JOIN personality_results ON quizzes.id = quiz_id
+        GROUP BY quizzes.id
+        UNION SELECT quizzes.id, COUNT(quiz_id) AS count
+        FROM quizzes
+        LEFT JOIN trivia_results ON quizzes.id = quiz_id
+        GROUP BY quizzes.id) as counts
+        GROUP BY counts.id
+        ) AS count ON count.id = quizzes.id `;
+        
+      orderCol = "count.total_count";
 
     // join with ratings table (average of quiz ratings)
     } else if (sortName === "rating") {
 
     // sort by create date
     } else {
-      orderCol = "date_created";
       queryString += "SELECT quizzes.* FROM quizzes "
+      orderCol = "date_created";
     }
 
     queryString += "WHERE listed = true ";
@@ -76,7 +76,7 @@ module.exports = (db) => {
 
     return db.query(queryString, queryParams)
       .then(data => {
-        console.log('data>>', data.rows.length);
+        console.log('data>>', data.rows);
         return data.rows
       })
       .catch(err => err.message);
