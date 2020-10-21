@@ -4,9 +4,15 @@ $font-color: #000;
 $background-color: #EEE;
 
 input {
+  font-family: $main-font;
+  font-size: 1.5em;
   border-style: hidden;
   border-bottom: 3px solid #000433;
   outline: none;
+}
+
+h3, label {
+  font-family: $secondary-font;
 }
 
 .quizType {
@@ -62,8 +68,12 @@ input {
   justify-content: space-between;
 }
 .newQuestion input {
-  width: 100%;
+  width: 90%;
   background: lightblue;
+}
+
+.correct {
+  border-style: hidden;
 }
 
 // .newPersonalityQuestion {
@@ -112,12 +122,41 @@ input {
   flex-direction: column;
 }
 
-.singleLine {
+.check {
   display: flex;
+  flex-direction: column;
+}
+
+.deleteQuestion {
+  margin: auto;
+  height: 2.3em;
+  width: 3em;
+}
+
+.question {
+  padding-bottom: 1em;
+}
+.question label {
+  width: 4.5em;
+  font-size: 2em;
+}
+.question input {
+  width: 80%;
+  margin: auto;
+  margin-right: 1.5em;
+  margin-left: 0.5em;
+}
+
+.singleLine {
   align-items: stretch;
+  padding-top: 0.5em;
+}
+.singleLine label {
+  font-size: 1.5em;
+  margin-top: auto;
 }
 .singleLine input {
-  width: 100%;
+  width: 90%;
 }
 .singleLine input[type="radio"] {
   -webkit-appearance: none;
