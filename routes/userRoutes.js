@@ -34,6 +34,27 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
+  // Displays all favourites for the logged in user
+  router.get('/favourites', (req, res) => {
+    const templateVars = { };
+    const userid = req.session.user_id;
+
+    if(!userid) {
+      res.redirect("/"); // If not logged in redirect back to home page
+    }
+
+    const promises = [];
+    promises.push(quizHelpers.getFavourites(userid));
+    promises.push(userHelpers.getUserById(userid));
+
+    Promise.all(promises)
+      .then(results => {
+        templateVars.favourites = results[0];
+        templateVars.user = results[1] || undefined;
+        res.render("favourites", templateVars);
+      });
+  });
+
   // Displays all results for the logged in user
   router.get('/results', (req, res) => {
     const templateVars = { };
