@@ -1,0 +1,24 @@
+<h2>My Results</h2>
+
+<div id='quiz-container'>
+  <% for (const result of results) { %>
+    <article class="card quiz">
+      <a href="/quiz/<%= result.url %>">
+        <% if(!result.photo) result.photo = "../assets/quiz-placeholder.png" %>
+        <img src="<%= result.photo %>" class="card-img-top">
+      </a>
+      <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
+        <div class="card-body">
+          <h3 class="card-title"><%= result.title %></h3>
+          <footer>
+            <% if(result.type === 'trivia') { %>
+              <p class="card-text">You got <%= result.percent %>%</p>
+            <% } else { %>
+              <p class="card-text">You got <%= result.outcome.title %></p>
+            <% } %>
+          </footer>
+        </div>
+      </a>
+    </article>
+  <% } %>
+</div>

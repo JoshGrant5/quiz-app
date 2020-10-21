@@ -4,20 +4,20 @@ $(() => {
   const $sortAndFilterBtns = $(".quiz-view-options button");
   const $filterBtns = $(".quiz-filter button");
   const $sortBtns = $(".quiz-sort button");
-  
+
   // click handler on quiz filtering and sorting
   $sortAndFilterBtns.on("click", function(e) {
 
     const selectionType = $(this).parent().attr("class");
     let filterName, filterType, sortName, sortOrder;
-    
+
     // if filter selected, filter = target, sort = styled
     if (selectionType === "quiz-filter") {
       filterName = $(this).text();
       filterType = $(this).attr("name");
       sortName = $(".quiz-sort button.btn-primary").attr("name").split("-")[0];
       sortOrder = $(".quiz-sort button.btn-primary").attr("name").split("-")[1];
-    
+
     // if sort selected, sort = target, filter = styled
     } else {
       filterName = $(".quiz-filter button.btn-primary").text();
@@ -46,7 +46,7 @@ $(() => {
   const toggleBtns = (selection) => {
     let buttons;
     (selection === 'quiz-filter') ? buttons = $filterBtns : buttons = $sortBtns;
-    
+
     buttons.each(function() {
       if($(this).hasClass("btn-primary")) {
         $(this).removeClass("btn-primary").addClass("btn-outline-primary");
@@ -70,7 +70,7 @@ $(() => {
         <div class="card-body">
           <h3 class="card-title">${quiz.title}</h3>
           <p class="card-subtitle">${quiz.type} | ${quiz.category}</p>
-          <p class="card-text">${quiz.description}</p>
+          <p class="card-text">${quiz.description || ""}</p>
         </div>
       </a>
     </article>

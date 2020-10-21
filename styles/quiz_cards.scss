@@ -20,11 +20,9 @@ $primary-color: #007bff;
     color: $font-color;
   }
 
-  a:hover {
-    .card {
+  .card:hover {
       text-decoration: none;
       border-color: $primary-color;
-    }
   }
 
   .quiz {

@@ -31,7 +31,7 @@ module.exports = (db) => {
             GROUP BY counts.id
           ) AS popular_counts ON popular_counts.id = quizzes.id
       `;
-        
+
       orderCol = "total_count";
 
     } else if (sortName === "rating") {
@@ -47,11 +47,11 @@ module.exports = (db) => {
           FROM quizzes
           LEFT JOIN ratings ON quiz_id = quizzes.id
           GROUP BY quizzes.id
-          ) AS rating_counts ON rating_counts.id = quizzes.id     
+          ) AS rating_counts ON rating_counts.id = quizzes.id
         `;
 
       orderCol = "avg_rating";
-    
+
     } else if (sortName === "favourite") {
       // join with favourites table (count of quiz favourites)
       queryString += `
@@ -63,7 +63,7 @@ module.exports = (db) => {
           GROUP BY quizzes.id
           ) AS favourite_count ON favourite_count.id = quizzes.id
         `;
-      
+
       orderCol = "total_count";
 
     // default sort: by create date
@@ -639,6 +639,21 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  // Returns all favorites belonging to the given user
+  const getFavourites = function(user_id) {
+    const query = `
+      SELECT *
+      FROM quizzes
+      JOIN favourites ON quizzes.id = quiz_id
+      WHERE user_id = $1
+      ORDER BY favourites.id DESC;
+    `
+    const values = [user_id];
+    return db.query(query, values)
+      .then(data => data.rows)
+      .catch(err => err.message);
+  };
+
   // Deletes the favorite belonging to the given user and quiz
   const deleteFavourite = function(user_id, quiz_id) {
     const query = `
@@ -751,15 +766,6 @@ module.exports = (db) => {
       GROUP BY counts.id
       ORDER BY total_count DESC, counts.id;
       `
-      // SELECT quizzes.id, COUNT(quiz_id) AS count
-      // FROM quizzes
-      // LEFT JOIN personality_results ON quizzes.id = quiz_id
-      // GROUP BY quizzes.id
-      //   UNION SELECT quizzes.id, COUNT(quiz_id) AS count
-      //   FROM quizzes
-      //   LEFT JOIN trivia_results ON quizzes.id = quiz_id
-      //   GROUP BY quizzes.id
-      // ORDER BY count DESC, id;
   }
 
   // Returns quizzes in order of best average rating
@@ -830,6 +836,7 @@ module.exports = (db) => {
     addFavourite,
     deleteFavourite,
     getFavourite,
+    getFavourites,
     getRating,
     addRating,
     updateRating,
