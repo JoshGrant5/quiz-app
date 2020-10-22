@@ -68,14 +68,9 @@ jQuery(function() {
   });
 
   // Show all questions
-<<<<<<< HEAD
-  $('#review').on('click',() => {
-    $('.question').css({display: 'block'});
-=======
   $('#review').click(() => {
     $('.question').css({display:'none'});
     $('.question').slideDown(800);
->>>>>>> josh/create/personality
     next.disabled = true;
     prev.disabled = true;
     review.disabled = true;
