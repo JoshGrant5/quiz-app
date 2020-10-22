@@ -24,12 +24,25 @@
       <% if (titleChar >= 40) card.title = card.title.slice(0, 40).concat("...") %>
 
       <!-- Truncate card body (description or outcome) -->
-      <% let bodyText %>
-      <% (locals.quizzes) ? bodyText = card.description : bodyText = card.outcome.title %>
-      <% if (titleChar >= 20 && bodyText.length >= 50) { %>
-        <% bodyText = bodyText.slice(0, 50).concat("...") %>
-      <% } else if (bodyText.length >= 80) { %>
-        <% bodyText = bodyText.slice(0, 80).concat("...") %>
+      <% let bodyText, maxBodyCharShort, maxBodyCharLong %>
+      <% if (locals.quizzes) { %>
+        <% bodyText = card.description %>
+        <% maxBodyCharShort = 55 %>
+        <% maxBodyCharLong = 80 %>
+      <% } else if (locals.results && card.type === "trivia") { %>
+        <% bodyText = card.percent %>
+        <% maxBodyCharShort = 55 %>
+        <% maxBodyCharLong = 80 %>
+      <% } else { %>
+        <% bodyText = card.outcome.title %>
+        <% maxBodyCharShort = 45 %>
+        <% maxBodyCharLong = 70 %>
+      <% } %>
+
+      <% if (titleChar >= 20 && bodyText.length >= maxBodyCharShort) { %>
+        <% bodyText = bodyText.slice(0, maxBodyCharShort).concat("...") %>
+      <% } else if (bodyText.length >= maxBodyCharLong) { %>
+        <% bodyText = bodyText.slice(0, maxBodyCharLong).concat("...") %>
       <% } %>
     
         <img class="card-img-top" src="<%= card.photo %>">
@@ -40,9 +53,7 @@
         <!-- Set card text depending on quiz or result -->
         <% if (locals.quizzes) { %>
           <p class="card-text"><%= bodyText %></p>
-        <% } else if (locals.results && card.type === "trivia") { %>
-          <p class="card-text">You got: <%= card.percent %></p>
-        <% } else if (locals.results && card.type === "personality") { %>
+        <% } else { %>
           <p class="card-text">You got: <%= bodyText %></p>
         <% } %>
         
