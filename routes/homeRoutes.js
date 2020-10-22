@@ -71,7 +71,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     if (userid) res.redirect("/");
 
     const templateVars = { user: undefined };
-    res.render("sign_up", templateVars);
+    res.render("signup", templateVars);
   });
 
   router.post("/signup", (req, res) => {
