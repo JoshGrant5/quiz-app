@@ -19,8 +19,10 @@ $(() => {
         sortName: 'created',
         sortOrder: 'desc'
       }
-    }).then(res => $("#container").append(res))
-      .catch(err => err.message);
+    }).then(res => {
+      $("#container").append(res);
+      checkScroll();
+    }).catch(err => err.message);
   };
   // run on page load
   loadQuizzes();
@@ -127,10 +129,14 @@ $(() => {
       if (currentOffset > offset * pageLimit) return;
       $.ajax({
         method: "GET",
-        url: "/api/quizzes",
+        url: "/api/partial/view_quizzes",
         data: { filterType, filterName, sortName, sortOrder, offset: currentOffset }
       }).then((res) => {
-        renderQuizzes(res);
+        const $res = $(res).wrap('<div/>').parent();
+        if ($res.find('.quiz').length < 1) return;
+        $res.find('.card').each(function() {
+          $("#quiz-container").append($(this));
+        });
       }).catch((err) => err.message);
     }
   }
