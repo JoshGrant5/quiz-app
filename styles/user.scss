@@ -12,4 +12,18 @@ body {
     text-align: center;
     text-transform: uppercase;
   }
+
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btn-group {
+    margin: 1rem auto;
+    justify-content: center;
+
+    .btn {
+      width: 14rem;
+    }
+  }
 }
