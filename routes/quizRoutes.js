@@ -15,24 +15,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     res.render('options', templateVars);
   });
 
-  router.get('/create/personality', (req, res) => {
-    const templateVars = { };
-    const userid = req.session.user_id;
-    const promises = [];
-    promises.push(userHelpers.getUserById(userid));
-    promises.push(quizHelpers.getCategories());
-    Promise.all(promises)
-      // populate templateVars with data responses
-      .then(res => {
-        templateVars.user = res[0] || undefined;
-        templateVars.categories = res[1];
-        return templateVars;
-      })
-      .then(data => {
-        res.render("create_quiz", data);
-      });
-  });
-
   router.get('/create/trivia', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
@@ -51,17 +33,30 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
-
+  router.get('/create/personality', (req, res) => {
+    const templateVars = { };
+    const userid = req.session.user_id;
+    const promises = [];
+    promises.push(userHelpers.getUserById(userid));
+    promises.push(quizHelpers.getCategories());
+    Promise.all(promises)
+      // populate templateVars with data responses
+      .then(res => {
+        templateVars.user = res[0] || undefined;
+        templateVars.categories = res[1];
+        return templateVars;
+      })
+      .then(data => {
+        res.render("create_quiz", data);
+      });
+  });
 
   router.post('/create/trivia', (req, res) => {
-    console.log(req.body)
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
-      console.log(req.body)
       return quizHelpers.triviaSort(data.id, req.body);
     })
     .then(sortedData => {
-      console.log('Sorted data', sortedData)
       res.redirect('/user')
       return quizHelpers.addTriviaQuizContent(sortedData);
     })
@@ -69,7 +64,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   })
 
   router.post('/create/personality', (req,res) => {
-    console.log(req.body)
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       return quizHelpers.personalitySort(data.id ,req.body);

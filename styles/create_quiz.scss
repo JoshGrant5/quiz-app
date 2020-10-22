@@ -125,6 +125,7 @@ h3, label, button {
 .check {
   display: flex;
   flex-direction: column;
+  margin-left: 1em;
 }
 
 .deleteQuestion {
@@ -137,13 +138,13 @@ h3, label, button {
   padding-bottom: 1em;
 }
 .question label {
-  width: 4.5em;
-  font-size: 2em;
+  width: 12vw;
+  font-size: 1.8em;
 }
 .question input {
   width: 80%;
   margin: auto;
-  margin-right: 1.5em;
+  margin-right: 5vw;
   margin-left: 0.5em;
 }
 
@@ -165,6 +166,7 @@ h3, label, button {
   margin-top: auto;
 }
 .singleLine input {
+  margin-left: 1em;
   width: 90%;
 }
 .singleLine input[type="radio"] {

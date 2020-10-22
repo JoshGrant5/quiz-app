@@ -1,6 +1,11 @@
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
+
 html body {
   margin-top: 25vh;
-  background-color: #EEE;
+  background-color: $background-color;
 }
 
 h1 {
@@ -11,17 +16,22 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 50vw;
+  width: 40vw;
   margin: auto;
   padding: 2em;
   border: 3px solid black;
   border-radius: 0.5em;
-}
-.quizType button {
-  padding: 1em;
-  margin: 1em;
+  font-family: $secondary-font;
 }
 .quizType div {
   flex-direction: row;
   margin: auto;
+}
+
+.quizType a {
+  font-size: 2em;
+}
+
+#selectTrivia {
+  margin-right: 2em;
 }

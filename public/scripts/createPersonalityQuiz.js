@@ -5,10 +5,10 @@ $(() => {
   let questionCount = 0;
   // Array for storing all given outcomes
   let outcomes = [];
-  let photos = [];
+  let photos;
 
+  // Display Personality Template
   if (document.location.pathname == "/quiz/create/personality") {
-    console.log('yo')
     $('#newPersonalityForm').slideDown(600);
     outcomes = [];
   }
@@ -79,12 +79,10 @@ $(() => {
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
     outcomeCount++;
-    $('.outcomes').css({display: 'none'});
     const outcome = addOutcome()
-
+    $('.outcomes').css({display: 'none'});
     $('.newQuizContainer').append(outcome);
     $('#outcomeCount').val(outcomeCount);
-
   });
 
   // All outcome containers are hidden and the question container is shown
@@ -105,7 +103,6 @@ $(() => {
       let outcome = item.split('&') // split each item into another array to completely serparate the values
       outcomes.push(decodeURIComponent(outcome[0])) // the first item in the new array is the value we are looking for
     }
-
     const question = addPersonalityQuestion();
     $('.newQuizContainer').append(question);
     outcomeDropdown(outcomes);
@@ -124,7 +121,7 @@ $(() => {
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
     $('#createPersonalityQuiz').css({display: 'inline'});
-    $('html, body').animate({scrollTop:200}, 1500);
+    $('html, body').animate({scrollTop:400}, 1500);
     const category = $('#personalityCategory').find(":selected").text();
     $('#pCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
@@ -136,7 +133,14 @@ $(() => {
 
   /* Hardcoding for photo generation on outcomes ... until solution found */
   $('.photoURL').on('input', function() {
-    photos.push($(this).val());
+
+    console.log($(this))
+
+    // let serialized = $(this).serialize() // receive all outcome inputs as a serialized string
+    // let list = serialized.split('='); // split the string into an array
+    // let trimmed = list.splice(outcomeCount)
+    // console.log(trimmed)
+
     $(`#outcomePhoto${outcomeCount}`).attr('src', $(this).val());
     $(this).parent().next().children('img').attr('src', $(this).val());
   })
