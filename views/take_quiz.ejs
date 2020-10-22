@@ -82,7 +82,7 @@
                   <% } %>
                   <% count++; %>
                   <p class='answerText'><%= answer.answer%></p>
-                  <label for='answer<%= answer.id %>' class='check btn btn-outline-success'>
+                  <label for='answer<%= answer.id %>' class='check btn btn-outline-success question<%= question.id %>'>
                     <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>' autocomplete='off' required='required'><i class="gg-check"></i>
                   </label>
                   <% if(answer.photo) { %>

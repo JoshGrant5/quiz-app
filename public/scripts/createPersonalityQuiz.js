@@ -96,10 +96,15 @@ $(() => {
 
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
+    $('.outcomes').animate({width:'0px', opacity: '0'}, 'slow');
+    // $('.outcomes').fadeOut(600);
+    $('.outcomes').css({display: 'none', width: '0'});
     outcomeCount++;
     const outcome = addOutcome()
-    $('.outcomes').css({display: 'none'});
+
     $('.newQuizContainer').append(outcome);
+
+    $('.outcomes').animate({width:'70vw', opacity: '1'}, 'slow');
     $('#outcomeCount').val(outcomeCount);
 
     // Create listener for the next outcome img to fill on input
@@ -152,7 +157,7 @@ $(() => {
     $('.newPersonalityQuestion').slideDown(800);
     $('#createPersonalityQuiz').css({display: 'inline'});
     $('html, body').animate({scrollTop:0}, 1200);
-    const category = $('#personalityCategory').find(":selected").text();
+    const category = $('#personalitySelect').find(":selected").text();
     $('#pCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
 
