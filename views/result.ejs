@@ -95,7 +95,11 @@
         <div>
           <button type='button' class='btn btn-primary' id='share-result'>Share Result</button>
           <button type='button' class='btn btn-primary' id='share-quiz'>Share Quiz</button>
-          <button type='button' class='btn btn-primary' id='take-quiz'>Beat This Score</button>
+          <% if(result.type === 'trivia') { %>
+            <button type='button' class='btn btn-primary' id='take-quiz'>Beat This Score</button>
+          <% } else { %>
+            <button type='button' class='btn btn-primary' id='take-quiz'>Take Again</button>
+          <% } %>
         </div>
         <div id='social'>
           <div id='media' class='social'>
