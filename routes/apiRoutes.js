@@ -3,15 +3,7 @@ const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
 
-  router.get("/quizzes", (req, res) => {
-    const options = req.query;
-    if (!options.offset) options.offset = 0
-    quizHelpers.getPublicQuizzes(options)
-      .then(data => res.send(data))
-      .catch(err => err.message);
-  });
-
-  // Returns EJS partial of all quiz cards
+  // Returns partial of all quiz cards for view quizzes page
   router.get("/partial/view_quizzes", (req, res) => {
     const options = req.query;
     if(!options.offset) options.offset = 0;
