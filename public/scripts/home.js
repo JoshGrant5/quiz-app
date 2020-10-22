@@ -122,12 +122,7 @@ $(() => {
     })
   };
 
-  let count = 0;
-  const offset = 12;
-  const pageLimit = 10;
-  const buffer = 50;
-
-  $(window).scroll(function() {
+  const checkScroll = function() {
     if($(window).scrollTop() + $(window).height() > $(document).height() - buffer) {
       count++;
       const currentOffset = offset * count;
@@ -140,7 +135,16 @@ $(() => {
         renderQuizzes(res);
       }).catch((err) => err.message);
     }
- });
+  }
+
+  let count = 0;
+  const offset = 12;
+  const pageLimit = 10;
+  const buffer = 50;
+
+  checkScroll();
+  $(window).scroll(checkScroll);
+
   // truncate string given the string and character limit
   const truncate = (string, limit) => {
     const shorten = string.slice(0, limit);

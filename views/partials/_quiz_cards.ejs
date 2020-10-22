@@ -9,8 +9,8 @@
         <% const titleChar = quiz.title.length %>
         <% const descChar = quiz.description.length %>
         <% if (titleChar >= 40) quiz.title = quiz.title.slice(0, 40).concat("...") %>
-        <% if (titleChar >= 20 && descChar >= 54) quiz.description = quiz.description.slice(0, 54).concat("...") %>
         <% if (descChar >= 80) quiz.description = quiz.description.slice(0, 80).concat("...") %>
+        <% if (titleChar >= 20 && descChar >= 50) quiz.description = quiz.description.slice(0, 50).concat("...") %>
 
         <img class="card-img-top" src="<%= quiz.photo %>">
         <div class="card-body">

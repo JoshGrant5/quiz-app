@@ -7,6 +7,7 @@ $(document).ready(function() {
       url: "/api/partial/_quizzes"
     }).then((res) => {
       $("#container").append(res);
+      checkScroll();
     })
   };
   loadMyQuizzes();
@@ -36,12 +37,7 @@ $(document).ready(function() {
       });
   });
 
-  let count = 0;
-  const offset = 12;
-  const pageLimit = 10;
-  const buffer = 50;
-
-  $(window).scroll(function() {
+  const checkScroll = function() {
     if($(window).scrollTop() + $(window).height() > $(document).height() - buffer) {
       count++;
       const currentOffset = offset * count;
@@ -51,10 +47,19 @@ $(document).ready(function() {
         url: `/api/partial/${currentFilter}`,
         data: { offset: currentOffset }
       }).then((res) => {
-        const $res = $(res).wrap('<div />').parent();
-        $res.find('h2').remove();
-        $("#container").append($res)
+        const $res = $(res).wrap('<div/>').parent();
+        if ($res.find('.quiz').length < 1) return;
+        $res.find('.card').each(function() {
+          $("#quiz-container").append($(this));
+        });
       });
     }
- });
+  }
+
+  let count = 0;
+  const offset = 12;
+  const pageLimit = 10;
+  const buffer = 50;
+
+  $(window).scroll(checkScroll);
 });
