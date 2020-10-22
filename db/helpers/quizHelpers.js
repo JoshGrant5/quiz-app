@@ -294,6 +294,7 @@ module.exports = (db) => {
     }
   }
 
+  // Returns a quiz object with the given id
   const getQuizWithId = function(id) {
     return db.query(`
       SELECT *

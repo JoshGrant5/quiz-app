@@ -9,6 +9,7 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = ({ userHelpers, quizHelpers }) => {
+  // Shows my page, defaulting to quizzes
   router.get("/", (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;

@@ -11,6 +11,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .catch(err => err.message);
   });
 
+  // Returns the favourites partial with all info needed
   router.get('/partial/_favourites', (req, res) => {
     const options = req.query;
     if (!options.offset) options.offset = 0;
@@ -33,6 +34,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   })
 
+  // Returns the quizzes partial with all info needed
   router.get('/partial/_quizzes', (req, res) => {
     const options = req.query;
     if (!options.offset) options.offset = 0;
@@ -60,6 +62,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   })
 
+  // Returns the results partial with all info needed
   router.get('/partial/_results', (req, res) => {
     const options = req.query;
     if (!options.offset) options.offset = 0;
