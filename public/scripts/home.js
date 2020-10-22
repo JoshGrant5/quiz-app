@@ -13,7 +13,8 @@ $(() => {
         filterName: 'All',
         filterType: undefined,
         sortName: 'created',
-        sortOrder: 'desc'
+        sortOrder: 'desc',
+        offset: 0,
       }
     }).then(res => {
       $("#container").append(res);

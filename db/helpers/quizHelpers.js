@@ -106,7 +106,8 @@ module.exports = (db) => {
     }
 
     if (options.offset !== undefined) {
-      queryParams.push(options.offset);
+      if (Number(options.offset) === 0) queryParams.push(options.offset);
+      else queryParams.push(Number(options.offset) + 1);
       queryString += `LIMIT ${limit} OFFSET $${queryParams.length}`
     }
 
@@ -125,10 +126,10 @@ module.exports = (db) => {
       ORDER BY date_created DESC
     `
     if (offset !== undefined) {
-      params.push(offset);
+      if (Number(offset) === 0) params.push(offset);
+      else params.push(Number(offset) + 1);
       query += `LIMIT ${limit} OFFSET $2`;
     }
-
     return db.query(query, params)
       .then(data => data.rows)
       .catch(err => err.message);
@@ -665,7 +666,8 @@ module.exports = (db) => {
       ORDER BY favourites.id DESC
     `
     if (offset !== undefined) {
-      values.push(offset);
+      if (Number(offset) === 0) values.push(offset);
+      else values.push(Number(offset) + 1);
       query += `LIMIT ${limit} OFFSET $2`
     }
     return db.query(query, values)
