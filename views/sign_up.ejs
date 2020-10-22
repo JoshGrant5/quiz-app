@@ -35,9 +35,19 @@
   <body>
     <main>
 
-      <h2>Sign up</h2>
+      <h2>Sign Up</h2>
 
-    
+      <form action="/signup" method="POST">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input class="form-control mb-3" name="name">
+          <label for="email">Email address:</label>
+          <input class="form-control mb-3" type="email" name="email">
+          <label for="password">Password:</label>
+          <input class="form-control mb-3" type="password" name="password">
+          <button class="btn btn-primary" type="submit">Sign Up</button>
+        </div>
+      </form>
     </main>
 
     <!-- Bootstrap JS scripts -->
