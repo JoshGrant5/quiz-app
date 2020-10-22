@@ -3,18 +3,33 @@
 <div id='quiz-container'>
   <% for (const result of results) { %>
     <article class="card quiz">
+      <!-- Add a default photo if missing -->
+      <% if (!result.photo) result.photo = "../imgs/temp-photo.jpg" %>
+      <!-- Truncate result title or outcome if too long -->
+      <% const titleChar = result.title.length %>
+      <% if (result.type === 'personality') { %>
+        <% const outcomeChar = result.outcome.title.length %>
+        <% console.log(result.title, titleChar, outcomeChar) %>
+        <% if (titleChar >= 40) result.title = result.title.slice(0, 40).concat("...") %>
+        <% if (titleChar >= 20 && outcomeChar >= 44) { %>
+          <% result.outcome.title = result.outcome.title.slice(0, 44).concat("...") %>
+        <% } else if (outcomeChar >= 70) { %>
+          <% result.outcome.title = result.outcome.title.slice(0, 70).concat("...") %>
+        <% } %>
+      <% } %>
+            
       <a href="/quiz/<%= result.url %>">
-        <% if(!result.photo) result.photo = "../imgs/temp-photo.jpg" %>
-        <img src="<%= result.photo %>" class="card-img-top">
+        <img class="card-img-top" src="<%= result.photo %>">
       </a>
       <a href="/quiz/<%= result.url %>/result/<%= result.id %>">
         <div class="card-body">
           <h3 class="card-title"><%= result.title %></h3>
+          <p class="card-subtitle"><%= result.type %> | <%= result.category %></p>
           <footer>
             <% if(result.type === 'trivia') { %>
-              <p class="card-text">You got <%= result.percent %>%</p>
+              <p class="card-text">You got: <%= result.percent %>%</p>
             <% } else { %>
-              <p class="card-text">You got <%= result.outcome.title %></p>
+              <p class="card-text">You got: <%= result.outcome.title %></p>
             <% } %>
           </footer>
         </div>
