@@ -10,9 +10,18 @@
         <% if(!user) { %>
           <a class="nav-item nav-link active" href="/">View Quizzes</a></li>
         <% } else { %>
-          <a class="nav-item nav-link active" href="/">View Quizzes</a></li>
-          <a class="nav-item nav-link active" href="/quiz/create">Create Quiz</a></li>
-          <a class="nav-item nav-link active" href="/user">My Page</a></li>
+          <div class='underscore'>
+            <a class="nav-item nav-link active" href="/">View Quizzes</a></li>
+            <i class="gg-border-style-solid"></i>
+          </div>
+          <div class='underscore'>
+            <a class="nav-item nav-link active" href="/quiz/create">Create Quiz</a></li>
+            <i class="gg-border-style-solid"></i>
+          </div>
+          <div class='underscore'>
+            <a class="nav-item nav-link active" href="/user">My Page</a></li>
+            <i class="gg-border-style-solid"></i>
+          </div>
         <% } %>
     </div>
 

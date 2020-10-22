@@ -20,8 +20,26 @@ html {
       font-size: 32px;
     }
 
-    .navbar-nav a:hover {
-      // hover effect
+    .underscore {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 0.5em;
+    }
+    .underscore a {
+      color: black;
+      padding-top: 0.75em;
+      padding-bottom: 0;
+    }
+    .underscore i {
+      color: #007bff;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 0;
+    }
+
+    .navbar-collapse .navbar-nav > .underscore a:hover + i {
+      color: white;
     }
 
     #username {
