@@ -4,6 +4,10 @@ $font-color: #000;
 $background-color: #EEE;
 $primary-color: #007bff;
 
+html, body {
+  background-color: transparent;
+}
+
 main {
 
   h2 {

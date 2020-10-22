@@ -1,6 +1,10 @@
 $secondary-font: Passion One, cursive;
 $shadow: 10px 10px 5px rgb(172, 172, 172);
 
+html, body {
+  background-color: transparent;
+}
+
 #container {
   display: flex;
   flex-direction: column;
