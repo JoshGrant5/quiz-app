@@ -64,5 +64,5 @@ app.use("/api", apiRoutes({ userHelpers, quizHelpers }));
 // });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Quizandtell listening on port ${PORT}`);
 });
