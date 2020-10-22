@@ -16,20 +16,22 @@ $(() => {
   const addOutcome = () => {
     return `
     <div class='outcomes'>
-      <div class='singleLine'>
-        <label>Outcome ${outcomeCount}:</label>
-        <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
-      </div>
-      <div class='singleLine'>
-        <label>Description:</label>
-        <input type='text' name='description${outcomeCount}' autocomplete='off'>
-      </div>
-      <div class='singleLine'>
-        <label>Photo URL:</label>
-        <input type='url' name='photo${outcomeCount}' class='photoURL${outcomeCount}'>
-      </div>
+      <section>
+        <div class='singleLine'>
+          <label>Outcome ${outcomeCount}:</label>
+          <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
+        </div>
+        <div class='singleLine'>
+          <label>Description:</label>
+          <input type='text' name='description${outcomeCount}' autocomplete='off'>
+        </div>
+        <div class='singleLine'>
+          <label>Photo URL:</label>
+          <input type='url' name='photo${outcomeCount}' class='photoURL${outcomeCount}'>
+        </div>
+      </section>
       <div class='outcomePhoto'>
-        <img src='/imgs/temp-photo.jpg'>
+        <img src='/assets/quiz-placeholder.png'>
       </div>
     </div>
   `;
@@ -38,7 +40,7 @@ $(() => {
   const addPersonalityQuestion = () => {
     questionCount++;
     return `
-    <div class='newQuestion' newPersonalityQuestion'>
+    <div class='newQuestion newPersonalityQuestion'>
       <div class='question'>
         <label>Question ${questionCount}:</label>
         <input type='text' name='question${questionCount}' required='required' autocomplete='off'>
@@ -84,7 +86,7 @@ $(() => {
 
   // Autofill img container with user input
   $('.photoURL1').on('input', function() {
-    $(this).parent().next().children('img').attr('src', $(this).val());
+    $(this).parent().parent().next().children('img').attr('src', $(this).val());
   });
 
   // Select the entire input field on click
@@ -103,7 +105,7 @@ $(() => {
     // Create listener for the next outcome img to fill on input
     $(`.photoURL${outcomeCount}`).on('input', function() {
       console.log($(this).val())
-      $(this).parent().next().children('img').attr('src', $(this).val());
+      $(this).parent().parent().next().children('img').attr('src', $(this).val());
     })
     // Create listener for next click of url input field to select all
     $(`.photoURL${outcomeCount}`).on('click', function() {

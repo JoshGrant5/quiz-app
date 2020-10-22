@@ -8,8 +8,9 @@
   <!-- Bootstrap stylesheet -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <!-- CSS Icon stylesheet -->
+  <!-- Icon stylesheets -->
   <link href='https://css.gg/css' rel='stylesheet'>
+
 
   <!-- External stylesheet -->
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -35,13 +36,22 @@
     <%- include('./partials/header'); %>
   </header>
 
-  <div class='quizType'>
-    <h1>Select Your Quiz Type</h1>
-    <div>
-      <a class='btn btn-primary' href='/quiz/create/trivia' id='selectTrivia'>Trivia</a>
-      <a class='btn btn-primary' href='/quiz/create/personality' id='selectPersonality'>Personality</a>
-    </div>
-  </div>
+  <h1>Select Your Quiz Type</h1>
+
+  <main>
+    <a class='quizType btn' href='/quiz/create/trivia' id='selectTrivia'>
+
+
+      <h3>Trivia</h3>
+    </a>
+
+    <a class='quizType btn' href='/quiz/create/personality' id='selectPersonality'>
+
+
+      <h3>Personality</h3>
+    </a>
+
+  </main>
 
 </body>
 </html>
