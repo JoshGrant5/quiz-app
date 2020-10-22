@@ -42,7 +42,7 @@ $(() => {
     return `
     <div class='newQuestion newPersonalityQuestion'>
       <div class='question'>
-        <label>Question ${questionCount}:</label>
+        <label>Question:</label>
         <input type='text' name='question${questionCount}' required='required' autocomplete='off'>
         <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${questionCount}'>X</button>
       </div>
@@ -140,6 +140,8 @@ $(() => {
     $('.newPersonalityQuestion').css({display: 'none'});
     const question = addPersonalityQuestion();
     $('.newQuizContainer').append(question);
+    $('.newPersonalityQuestion').animate({width:'0px', opacity: '0'}, 'slow');
+    $('.newPersonalityQuestion').animate({width:'70vw', opacity: '1'}, 'slow');
     outcomeDropdown(outcomes);
     $('#questionCount').val(questionCount);
   });
@@ -147,6 +149,7 @@ $(() => {
   // All outcomes and questions are shown for user to review
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
+    $('.newPersonalityQuestion').slideDown(800);
     $('#createPersonalityQuiz').css({display: 'inline'});
     $('html, body').animate({scrollTop:0}, 1200);
     const category = $('#personalityCategory').find(":selected").text();
@@ -154,7 +157,10 @@ $(() => {
     $('.deleteQuestion').css({visibility: 'visible'});
 
     $('.deleteQuestion').on('click', function() {
-      $(this).parent().parent().remove();
+      $(this).parent().parent().animate({width: '0px', opacity: '0'}, 'slow')
+        $(this).parent().parent().slideUp(600, function() {
+          $(this).remove();
+        })
     });
   });
 

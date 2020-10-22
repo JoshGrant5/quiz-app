@@ -12,9 +12,9 @@ body {
 }
 
 main {
-  margin-top: 10vh;
+  margin-top: 5vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 h1 {
@@ -28,12 +28,13 @@ h1 {
   flex-direction: column;
   width: 30vw;
   height: 40vh;
-  margin: auto;
   padding: 2em;
   border: 3px solid black;
   font-family: Passion One, cursive;
   box-shadow: 10px 10px 5px #acacac;
 }
-// #selectTrivia {
-
-// }
+.quizIcon {
+  margin: auto;
+  height: 10em;
+  width: 10em;
+}
