@@ -60,13 +60,26 @@
           <% questions.forEach((question, index) => { %>
             <div id='question<%= index + 1 %>' class='question'>
               <div id='text'>
-                <h4>Question <%= index + 1 %></h4>
-                <p><%= question.question%></p>
+                <h3>Question <%= index + 1 %>:</h3>
+                <p class='questionText'><%= question.question%></p>
               </div>
+              <% let count = 1; %>
               <% question.answers.forEach((answer) => { %>
                 <div id='answer<%= answer.id %>text' class='answer'>
-                  <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>'>
-                  <label for='answer<%= answer.id %>'><%= answer.answer%></label>
+                  <% if (count === 1) { %>
+                  <label class='options'>A)</label>
+                  <% } else if (count === 2) { %>
+                  <label class='options'>B)</label>
+                  <% } else if (count === 3) { %>
+                  <label class='options'>C)</label>
+                  <% } else { %>
+                  <label class='options'>D)</label>
+                  <% } %>
+                  <% count++; %>
+                  <p class='answerText'><%= answer.answer%></p>
+                  <label for='answer<%= answer.id %>' class='check btn btn-outline-success'>
+                    <input type='radio' id='answer<%= answer.id %>' name='<%= question.id %>' value='<%= answer.id %>' autocomplete='off' required='required'><i class="gg-check"></i>
+                  </label>
                   <% if(answer.photo) { %>
                     <div id="ImageContainer">
                       <img src="<%= answer.photo %>" class="Image">

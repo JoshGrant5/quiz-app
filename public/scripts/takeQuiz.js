@@ -34,6 +34,12 @@ $(document).ready(function() {
     }
   });
 
+  // Activate "button" on click (radio button hidden insde checkmark button)
+  $('.check').on('click', function() {
+    $('.check').removeClass('active');
+    $(this).addClass('active');
+  })
+
   // Go to previous question
   $('#prev').click(() => {
     next.disabled = false;
@@ -46,15 +52,19 @@ $(document).ready(function() {
   // Go to next question
   $('#next').click(() => {
     prev.disabled = false;
-    $(`#question${count}`).css({display: 'none'});
-    count++;
-    $(`#question${count}`).css({display: 'block'});
+    $(`#question${count}`).fadeOut(600, function() {
+      count++;
+    $(`#question${count}`).css({display: 'block', width: '0'});
+    $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
     if (count === form.querySelectorAll('.question').length) next.disabled = true;
+    });
+
   });
 
   // Show all questions
   $('#review').click(() => {
-    $('.question').css({display: 'block'});
+    $('.question').css({display:'none'});
+    $('.question').slideDown(800);
     next.disabled = true;
     prev.disabled = true;
     review.disabled = true;
