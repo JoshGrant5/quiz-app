@@ -1,20 +1,20 @@
 <div id="quiz-container">
   <% for (const quiz of quizzes) { %>
     <article class="card quiz">
-      <a href="/quiz/<%= quiz.url %>">
-        <!-- Add a default photo or description if missing -->
-        <% if(!quiz.photo) quiz.photo = "../imgs/temp-photo.jpg" %>
-        <% if(!quiz.description) quiz.description = "" %>
-        <!-- Truncate title or quiz description -->
-        <% const titleChar = quiz.title.length %>
-        <% const descChar = quiz.description.length %>
-        <% if (titleChar >= 40) quiz.title = quiz.title.slice(0, 40).concat("...") %>
-        <% if (titleChar >= 20 && descChar >= 50) { %>
-          <% quiz.description = quiz.description.slice(0, 50).concat("...") %>
-        <% } else if (descChar >= 80) { %>
-          <% quiz.description = quiz.description.slice(0, 80).concat("...") %>
-        <% } %>
+      <!-- Add a default photo or description if missing -->
+      <% if(!quiz.photo) quiz.photo = "../imgs/temp-photo.jpg" %>
+      <% if(!quiz.description) quiz.description = "" %>
+      <!-- Truncate title or quiz description -->
+      <% const titleChar = quiz.title.length %>
+      <% const descChar = quiz.description.length %>
+      <% if (titleChar >= 40) quiz.title = quiz.title.slice(0, 40).concat("...") %>
+      <% if (titleChar >= 25 && descChar >= 50) { %>
+        <% quiz.description = quiz.description.slice(0, 50).concat("...") %>
+      <% } else if (descChar >= 80) { %>
+        <% quiz.description = quiz.description.slice(0, 80).concat("...") %>
+      <% } %>
 
+      <a href="/quiz/<%= quiz.url %>">
         <img class="card-img-top" src="<%= quiz.photo %>">
         <div class="card-body">
           <h3 class="card-title"><%= quiz.title %></h3>
