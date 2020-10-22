@@ -12,10 +12,10 @@ $(document).ready(function() {
   };
   loadMyQuizzes();
 
-  const $filterBtns = $(".quiz-filter button");
+  const $myPageBtns = $(".my-page-nav button");
   let currentFilter = '_quizzes';
 
-  $(".quiz-filter button").click(function(e) {
+  $(".my-page-nav button").click(function(e) {
     count = 0;
     const $button = $(this);
     currentFilter = $button.attr("name");
@@ -27,7 +27,7 @@ $(document).ready(function() {
         $("#container").empty();
         $("#container").append(res)
 
-        $filterBtns.each(function() {
+        $myPageBtns.each(function() {
           if($(this).hasClass("btn-primary")) {
             $(this).removeClass("btn-primary").addClass("btn-outline-primary");
           }
