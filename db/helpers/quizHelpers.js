@@ -127,7 +127,7 @@ module.exports = (db) => {
       params.push(offset);
       query += `LIMIT ${limit} OFFSET $2`;
     }
-    console.log(query, params);
+
     return db.query(query, params)
       .then(data => data.rows)
       .catch(err => err.message);
