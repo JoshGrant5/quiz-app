@@ -79,7 +79,7 @@ $(() => {
   const createQuizElement = (quiz) => {
     // set a filler photo and description if null
     if (!quiz.photo) {
-      quiz.photo = '/imgs/temp-photo.jpg';
+      quiz.photo = '/assets/temp-photo.jpg';
     }
     if (!quiz.description) {
       quiz.description = '';
