@@ -18,16 +18,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       res.redirect("/"); // send user back to home page
     }
 
-    // quiz and user data needed to render page
+    // user data needed to render page
     const promises = [];
-    promises.push(quizHelpers.getQuizzesForUser(userid, 0));
     promises.push(userHelpers.getUserById(userid));
 
     // get data and render page
     Promise.all(promises)
       .then(res => {
-        templateVars.quizzes = res[0];
-        templateVars.user = res[1] || undefined;
+        templateVars.user = res[0] || undefined;
         return templateVars;
       })
       .then(data => {
