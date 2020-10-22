@@ -26,6 +26,7 @@ $(document).ready(function() {
       .then(res => {
         $("#container").empty();
         $("#container").append(res)
+        checkScroll()
 
         $myPageBtns.each(function() {
           if($(this).hasClass("btn-primary")) {
