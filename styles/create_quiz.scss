@@ -163,7 +163,12 @@ section {
 }
 
 .selectedOutcome {
+  width: min-content;
   margin-left: 1em;
+}
+
+.categorySelect {
+  width: min-content;
 }
 
 .answerP {

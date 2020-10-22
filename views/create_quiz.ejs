@@ -52,7 +52,7 @@
           <div class='categoryDropdown'>
             <label>Category:</label>
             <input type='hidden' id='tCategoryInput' name='category'>
-            <select id='triviaCategory'>
+            <select class='custom-select categorySelect'>
               <% for (let category of categories) { %>
                 <option class='category' required='required'><%= category %></option>
               <% } %>
@@ -135,7 +135,7 @@
           <div class="dropdown">
             <label>Category:</label>
             <input type='hidden' id='pCategoryInput' name='category'>
-            <select id='personalityCategory'>
+            <select class='custom-select categorySelect'>
               <% for (let category of categories) { %>
                 <option class='category' required='required'><%= category %></option>
               <% } %>
