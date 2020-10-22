@@ -2,6 +2,11 @@ $(() => {
   // Question count: Starts at 1 since we already have 1 question in viewport at start
   let count = 1;
 
+  // Display trivia template
+  if (document.location.pathname == "/quiz/create/trivia") {
+    $('#newTriviaForm').slideDown(600);
+  }
+
   const addTriviaQuestion = () => {
     count++;
     return `
@@ -46,12 +51,6 @@ $(() => {
     `;
   };
 
-  // Display trivia template
-  $('#selectTrivia').on('click', function() {
-    $('.quizType').css({display: 'none'});
-    $('#newTriviaForm').slideDown(800);
-  });
-
   // Hide previous question container and replace with a new one
   $('#addNewQuestion').on('click', function() {
     $('.newQuestion').css({display: 'none'});
@@ -63,7 +62,7 @@ $(() => {
   // Show all previously hidden questions to review
   $('#reviewQuiz').on('click', function() {
     $('.newQuestion').slideDown(800);
-    $('#createQuizButton').css({visibility: 'visible'});
+    $('#createQuizButton').css({display:'block'});
     $('html, body').animate({scrollTop:200}, 1500);
     const category = $('#triviaCategory').find(":selected").text();
     $('#tCategoryInput').val(category);
@@ -85,24 +84,5 @@ $(() => {
   $('.thumbnail').on('click', function() {
     $(this).select();
   })
-
-  // Helper function for file uploader. Sets img src to the absolute path of the uploaded image
-  const thumbnailReadURL = input => {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        $('.quizPhoto').attr('src', event.target.result);
-        $('.thumbnail').val(event.target.result);
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  // Use helper function to upload image and show on screen
-  $('.cover').on('change', function() {
-    thumbnailReadURL(this);
-    url = this.value;
-    $(this).text(url);
-  });
 
 });

@@ -3,9 +3,13 @@ $secondary-font: Passion One, cursive;
 $font-color: #000;
 $background-color: #EEE;
 
+body {
+  background-color: $background-color;
+}
+
 input {
   font-family: $main-font;
-  font-size: 1.5em;
+  font-size: 1em;
   border-style: hidden;
   border-bottom: 3px solid #000433;
   outline: none;
@@ -19,28 +23,13 @@ h3, label, button {
   font-size: 1.5em;
 }
 
-.quizType {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 50vw;
-  margin: auto;
-  padding: 2em;
-  border: 3px solid black;
-  border-radius: 0.5em;
-}
-.quizType button {
-  padding: 1em;
-  margin: 1em;
-}
-
 .newQuizContainer {
   margin: 2em;
 }
 
 .card {
   margin: auto;
-  width: 50vw;
+  width: 40vw;
   border: 3px solid black;
   border-radius: 0.5em;
 }
@@ -66,7 +55,7 @@ h3, label, button {
 }
 
 .newQuestion {
-  width: 80vw;
+  width: 60vw;
   padding: 2em;
   margin-top: 2em;
   margin-left: auto;
@@ -93,17 +82,9 @@ h3, label, button {
   margin-top: auto;
 }
 
-// .newPersonalityQuestion {
-//   @extend .newQuestion;
-// }
-// .newQuestion div {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
 .outcomeHeader {
   font-family: $secondary-font;
-  margin-left: 5em;
+  text-align: center;
   margin-top: 2em;
 }
 
@@ -121,10 +102,9 @@ h3, label, button {
 .outcomePhoto img {
   margin: auto;
   padding-top: 2em;
-  width: -webkit-max-content;
-  height: min-content;
+  max-width: 100%;
+  max-height: 100%;
 }
-
 
 .switch input[type="radio"] {
   -webkit-appearance: none;
@@ -138,17 +118,6 @@ h3, label, button {
   background-color: blue;
 }
 
-
-
-// .outcomes input {
-//   width: 100%;
-//   background: lightblue;
-// }
-
-// .question input {
-//   width: 100%;
-// }
-
 .answers {
   flex-direction: column;
 }
@@ -156,6 +125,7 @@ h3, label, button {
 .check {
   display: flex;
   flex-direction: column;
+  margin-left: 1em;
 }
 
 .deleteQuestion {
@@ -168,13 +138,13 @@ h3, label, button {
   padding-bottom: 1em;
 }
 .question label {
-  width: 4.5em;
-  font-size: 2em;
+  width: 12vw;
+  font-size: 1.8em;
 }
 .question input {
   width: 80%;
   margin: auto;
-  margin-right: 1.5em;
+  margin-right: 5vw;
   margin-left: 0.5em;
 }
 
@@ -189,23 +159,26 @@ h3, label, button {
 .singleLine {
   align-items: stretch;
   padding-top: 0.5em;
+  padding-right: 1em;
 }
 .singleLine label {
   font-size: 1.5em;
   margin-top: auto;
 }
 .singleLine input {
+  margin-left: 1em;
   width: 90%;
 }
 .singleLine input[type="radio"] {
   -webkit-appearance: none;
 }
 
-#newTriviaForm, #newPersonalityForm {
+#newTriviaForm, #newPersonalityForm, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, #createQuizButton, .hide1, .hide2 {
   display: none;
 }
 
-#createQuizButton, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, .deleteQuestion {
+
+.deleteQuestion {
   visibility: hidden;
 }
 

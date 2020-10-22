@@ -36,12 +36,6 @@
 
 <body>
 
-<div class='quizType'>
-  <h1>Select Your Quiz Type</h1>
-  <button type='button' id='selectTrivia'>Trivia</button>
-  <button type='button' id='selectPersonality'>Personality</button>
-</div>
-
 <!-- Trivia Quiz Template -->
 <form method='POST' action='/quiz/create/trivia' id='newTriviaForm'>
   <div class='newQuizContainer'>
@@ -50,7 +44,7 @@
       <div class='cardbody newHeading'>
         <label>Trivia Quiz Title:</label>
         <input type='text' name='title' required='required' autocomplete='off'>
-        <label>Thumbnail URL:</label>
+        <label>Cover Photo URL:</label>
         <input type='url' class='thumbnail' name='thumbnail'>
         <label>Description:</label>
         <input type='text' name='quizDescription' placeholder='Optional' autocomplete='off'>
@@ -133,7 +127,7 @@
       <div class='cardbody newHeading'>
         <label>Personality Quiz Title:</label>
         <input type='text' name='title' required='required' autocomplete='off'>
-        <label>Thumbnail URL:</label>
+        <label>Cover Photo URL:</label>
         <input type='url' class='thumbnail' name='thumbnail'>
         <label>Description:</label>
         <input type='text' name='quizDescription' placeholder='Optional' autocomplete='off'>
@@ -173,28 +167,31 @@
         </div>
         <div class='singleLine'>
           <label>Photo URL:</label>
-          <input type='text' id='photo1' name='photo1' class='photoURL'>
+          <input type='url' id='photo1' name='photo1' class='photoURL1'>
         </div>
         <div class='outcomePhoto' >
-          <img id='outcomePhoto1' src='/imgs/temp-photo.jpg'>
+          <img src='/imgs/temp-photo.jpg'>
         </div>
       </div>
-
     </div>
+
   </div>
   <footer>
     <input type='hidden' id='outcomeCount' name='outcomeCount' value='1'>
     <input type='hidden' id='questionCount' name='questionCount' value='1'>
     <input type='hidden' name='type' value='personality'>
-    <button class='footerBtn btn btn-primary'  id='addOutcome'>Add Another Outcome</button>
-    <button class='footerBtn btn btn-primary'  id='submitOutcomes'>Submit Outcomes</button>
+
     <button class='footerBtn btn btn-primary' id='addPersonalityQuestion' type='button' >Add Another Question</button>
+    <button class='footerBtn btn btn-primary'  id='addOutcome' type='button'>Add Another Outcome</button>
     <button class='footerBtn btn btn-primary' id='reviewPersonalityQuiz' type='button'>Review Quiz</button>
+    <button class='footerBtn btn btn-primary'  id='submitOutcomes' type='button'>Submit Outcomes</button>
     <button class='footerBtn btn btn-success' id='createPersonalityQuiz' type='submit'>Create Quiz</button>
   </footer>
 </form>
 
 
+
+<br>
 
     <!-- Bootstrap JS scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -1,0 +1,37 @@
+$main-font: Roboto, sans-serif;
+$secondary-font: Passion One, cursive;
+$font-color: #000;
+$background-color: #EEE;
+
+html body {
+  margin-top: 25vh;
+  background-color: $background-color;
+}
+
+h1 {
+  text-align: center;
+}
+
+.quizType {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40vw;
+  margin: auto;
+  padding: 2em;
+  border: 3px solid black;
+  border-radius: 0.5em;
+  font-family: $secondary-font;
+}
+.quizType div {
+  flex-direction: row;
+  margin: auto;
+}
+
+.quizType a {
+  font-size: 2em;
+}
+
+#selectTrivia {
+  margin-right: 2em;
+}
