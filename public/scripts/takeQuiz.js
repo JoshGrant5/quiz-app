@@ -56,8 +56,8 @@ jQuery(function() {
     next.disabled = false;
     $(`#question${count}`).fadeOut(600, function() {
       count--;
-      $(`#question${count}`).css({display: 'block', width: '0'});
-      $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
+      $(`#question${count}`).css({display: 'block'});
+      $(`#question${count}`).animate({opacity: '1'}, 'slow');
       if (count === 1) prev.disabled = true;
     });
   });
@@ -67,15 +67,15 @@ jQuery(function() {
     prev.disabled = false;
     $(`#question${count}`).fadeOut(600, function() {
       count++;
-      $(`#question${count}`).css({display: 'block', width: '0'});
-      $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
+      $(`#question${count}`).css({display: 'block'});
+      $(`#question${count}`).animate({opacity: '1'}, 'slow');
       if (count === form.querySelectorAll('.question').length) next.disabled = true;
     });
   });
 
   // Show all questions
   $('#review').on('click', () => {
-    $('.question').css({display:'none', width:'auto'});
+    $('.question').css({display:'none'});
     $('.question').slideDown(800);
     next.disabled = true;
     prev.disabled = true;
