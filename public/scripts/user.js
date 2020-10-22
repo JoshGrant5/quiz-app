@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(function() {
 
   // show My Quizzes on page load
   const loadMyQuizzes = () => {
@@ -15,7 +15,7 @@ $(document).ready(function() {
   const $myPageBtns = $(".my-page-nav button");
   let currentFilter = '_quizzes';
 
-  $(".my-page-nav button").click(function(e) {
+  $(".my-page-nav button").on('click', function(e) {
     count = 0;
     const $button = $(this);
     currentFilter = $button.attr("name");

@@ -77,16 +77,16 @@ const heart = function() {
   });
 };
 
-$(document).ready(function() {
-  $("#share-result").click(() => share(false));
-  $("#share-quiz").click(() => share(true));
-  $("#take-quiz").click(takeQuiz);
-  $("#facebook").click(() => shareSocial(true));
-  $("#twitter").click(() => shareSocial(false));
-  $("#star1").click(() => stars(1));
-  $("#star2").click(() => stars(2));
-  $("#star3").click(() => stars(3));
-  $("#star4").click(() => stars(4));
-  $("#star5").click(() => stars(5));
-  $("#heart").click(heart);
+jQuery(function() {
+  $("#share-result").on('click',() => share(false));
+  $("#share-quiz").on('click',() => share(true));
+  $("#take-quiz").on('click',takeQuiz);
+  $("#facebook").on('click',() => shareSocial(true));
+  $("#twitter").on('click',() => shareSocial(false));
+  $("#star1").on('click',() => stars(1));
+  $("#star2").on('click',() => stars(2));
+  $("#star3").on('click',() => stars(3));
+  $("#star4").on('click',() => stars(4));
+  $("#star5").on('click',() => stars(5));
+  $("#heart").on('click',heart);
 });
