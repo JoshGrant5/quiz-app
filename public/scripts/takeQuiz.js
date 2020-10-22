@@ -42,17 +42,24 @@ jQuery(function() {
 
   // Activate "button" on click (radio button hidden insde checkmark button)
   $('.check').on('click', function() {
-    $('.check').removeClass('active');
+    const classList = $(this).attr('class').split(' ');
+    let question;
+    classList.forEach(function(item) {
+      if (item.includes('question')) question = item;
+    });
+    $(`.check.${question}`).removeClass('active');
     $(this).addClass('active');
   })
 
   // Go to previous question
   $('#prev').on('click',() => {
     next.disabled = false;
-    $(`#question${count}`).css({display: 'none'});
-    count--;
-    $(`#question${count}`).css({display: 'block'});
-    if (count === 1) prev.disabled = true;
+    $(`#question${count}`).fadeOut(600, function() {
+      count--;
+      $(`#question${count}`).css({display: 'block', width: '0'});
+      $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
+      if (count === 1) prev.disabled = true;
+    });
   });
 
   // Go to next question
@@ -60,16 +67,15 @@ jQuery(function() {
     prev.disabled = false;
     $(`#question${count}`).fadeOut(600, function() {
       count++;
-    $(`#question${count}`).css({display: 'block', width: '0'});
-    $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
-    if (count === form.querySelectorAll('.question').length) next.disabled = true;
+      $(`#question${count}`).css({display: 'block', width: '0'});
+      $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
+      if (count === form.querySelectorAll('.question').length) next.disabled = true;
     });
-
   });
 
   // Show all questions
   $('#review').on('click', () => {
-    $('.question').css({display:'none'});
+    $('.question').css({display:'none', width:'auto'});
     $('.question').slideDown(800);
     next.disabled = true;
     prev.disabled = true;
