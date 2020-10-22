@@ -58,8 +58,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         return templateVars;
       })
       .then(data => {
-        res.render("partials/_quizzes", data);
-      });
+        res.render("partials/_cards", data);
+      })
+      .catch(err => err.message);
   })
 
   // Returns the results partial with all info needed

@@ -1,30 +1,36 @@
 <div id="quiz-container">
 
-  <% const cards = result || quizzes %>
-
+  <% let cards %>
+  <% (locals.quizzes) ? cards = quizzes : cards = results %>
+  
+  <!-- Create element for each card object -->
   <% for (const card of cards) { %>
+
     <article class="card quiz">
 
-    <!-- Add a default photo or description if missing -->
-    <% if(!card.photo) card.photo = "../imgs/temp-photo.jpg" %>
-    <% if(!card.description) card.description = "" %>
-    <!-- Truncate title, description, or outcome if too long -->
-    <% const titleChar = card.title.length || 0 %>
-    <% const descChar = card.description.length || 0 %>
-    <% const outcomeChar = card.outcome.title.length || 0 %>
-    <% if (titleChar >= 40) card.title = card.title.slice(0, 40).concat("...") %>
-    <% if (titleChar >= 20 && descChar >= 50) { %>
-      <% card.description = card.description.slice(0, 50).concat("...") %>
-    <% } else if (descChar >= 80) { %>
-      <% card.description = card.description.slice(0, 80).concat("...") %>
-    <% } %>
+      <!-- Add a default photo or description if missing -->
+      <% if(!card.photo) card.photo = "../imgs/temp-photo.jpg" %>
+      <% if(!card.description) card.description = "" %>
 
-    <!-- Set url depending on quiz or result -->
-    <% if (quizzes) { %>
-      <a href="/quiz/<%= card.url %>">
-    <% } else if (results) { %>
-      <a href="/quiz/<%= card.url %>/result/<%= card.id %>">
-    <% } %>
+      <!-- Set url depending on quiz or result -->
+      <% if (locals.quizzes) { %>
+        <a href="/quiz/<%= card.url %>">
+      <% } else { %>
+        <a href="/quiz/<%= card.url %>/result/<%= card.id %>">
+      <% } %>
+
+      <!-- Truncate card title -->
+      <% const titleChar = card.title.length %>
+      <% if (titleChar >= 40) card.title = card.title.slice(0, 40).concat("...") %>
+
+      <!-- Truncate card body (description or outcome) -->
+      <% let bodyText %>
+      <% (locals.quizzes) ? bodyText = card.description : bodyText = card.outcome.title %>
+      <% if (titleChar >= 20 && bodyText.length >= 50) { %>
+        <% bodyText = bodyText.slice(0, 50).concat("...") %>
+      <% } else if (bodyText.length >= 80) { %>
+        <% bodyText = bodyText.slice(0, 80).concat("...") %>
+      <% } %>
     
         <img class="card-img-top" src="<%= card.photo %>">
         <div class="card-body">
@@ -32,17 +38,18 @@
           <p class="card-subtitle"><%= card.type %> | <%= card.category %></p>
 
         <!-- Set card text depending on quiz or result -->
-        <% if (quizzes) { %>
-          <p class="card-text"><%= card.description %></p>
-        <% } else if (results && card.type === "trivia") { %>
-          <p class="card-text">You got: <%= card.percent %>%</p>
-        <% } else if (results && card.type === "personality") %>
-          <p class="card-text">You got: <%= card.outcome.title %></p>
-        <% }
+        <% if (locals.quizzes) { %>
+          <p class="card-text"><%= bodyText %></p>
+        <% } else if (locals.results && card.type === "trivia") { %>
+          <p class="card-text">You got: <%= card.percent %></p>
+        <% } else if (locals.results && card.type === "personality") { %>
+          <p class="card-text">You got: <%= bodyText %></p>
+        <% } %>
         
         </div>
       </a>
     </article>
   <% } %>
+
 
 </div>
