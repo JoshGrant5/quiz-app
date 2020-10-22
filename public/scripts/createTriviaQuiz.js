@@ -12,7 +12,7 @@ $(() => {
     return `
     <div class='newQuestion'>
       <div class='question'>
-        <label>Question ${count}:</label>
+        <label>Question:</label>
         <input type='text' name='question${count}' required='required' autocomplete='off'>
         <button type="button" class="deleteQuestion btn btn-outline-danger" id='deleteQuestion${count}'>X</button>
       </div>
@@ -56,6 +56,8 @@ $(() => {
     $('.newQuestion').css({display: 'none'});
     const question = addTriviaQuestion();
     $('.newQuizContainer').append(question);
+    $('.newQuestion').animate({width:'0px', opacity: '0'}, 'slow');
+    $('.newQuestion').animate({width:'70vw', opacity: '1'}, 'slow');
     $('#count').val(count);
   });
 
@@ -70,7 +72,10 @@ $(() => {
     // Once review button is clicked and we know the number of questions, activate each delete button
     for (let i = 1; i <= count; i++) {
       $(`#deleteQuestion${i}`).on('click', function() {
-        $(`#deleteQuestion${i}`).parent().parent().remove();
+        $(this).parent().parent().animate({width: '0px', opacity: '0'}, 'slow')
+        $(this).parent().parent().slideUp(600, function() {
+          $(this).remove();
+        })
       });
     }
   });
