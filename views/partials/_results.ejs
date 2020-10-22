@@ -1,4 +1,3 @@
-<h2>My Results</h2>
 
 <div id='quiz-container'>
   <% for (const result of results) { %>
@@ -8,8 +7,7 @@
       <!-- Truncate result title or outcome if too long -->
       <% const titleChar = result.title.length %>
       <% if (result.type === 'personality') { %>
-        <% const outcomeChar = result.outcome.title.length %>
-        <% console.log(result.title, titleChar, outcomeChar) %>
+        <% const outcomeChar = result.outcome.title.length || 0 %>
         <% if (titleChar >= 40) result.title = result.title.slice(0, 40).concat("...") %>
         <% if (titleChar >= 20 && outcomeChar >= 44) { %>
           <% result.outcome.title = result.outcome.title.slice(0, 44).concat("...") %>
