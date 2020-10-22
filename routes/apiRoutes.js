@@ -27,7 +27,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
     Promise.all(promises)
       .then(results => {
-        templateVars.favourites = results[0];
+        templateVars.quizzes = results[0];
         templateVars.user = results[1] || undefined;
         res.render("partials/_favourites", templateVars);
       });
