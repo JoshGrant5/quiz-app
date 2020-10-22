@@ -21,7 +21,6 @@ $(() => {
       }
     }).then((res) => {
       renderQuizzes(res);
-      checkScroll();
     })
   };
   // on page load
@@ -121,6 +120,7 @@ $(() => {
       const $quiz = createQuizElement(quiz);
       $quizContainer.append($quiz);
     })
+    checkScroll();
   };
 
   const checkScroll = function() {
