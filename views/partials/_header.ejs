@@ -32,13 +32,18 @@
       <% if(!user) { %>
         <ul class="nav">
           <li class="nav-item">
+<<<<<<< HEAD
             <form action="/login" method="GET">
               <button class="btn btn-success">Login</button>
+=======
+            <form action="/login" method="POST">
+              <button class="btn btn-light">Login (hardcoded)</button>
+>>>>>>> josh/create/personality
             </form>
           </li>
           <li class="nav-item">
             <form action="/signup" method="GET">
-              <button class="btn btn-success">Sign up</button>
+              <button class="btn btn-light">Sign up</button>
             </form>
           </li>
         </ul>
@@ -47,7 +52,7 @@
           <li class="nav-item" id ="username">Signed in as: <%= user.name %></li>
           <form action="/logout" method="POST">
             <li class="nav-item">
-              <button class="btn btn-success">Logout</button>
+              <button class="btn btn-light">Logout</button>
             </li>
           </form>
         </ul>
