@@ -62,5 +62,6 @@ jQuery(function() {
   const pageLimit = 10;
   const buffer = 50;
 
-  $(window).scroll(checkScroll);
+  $(window).on('scroll',checkScroll);
+  $(window).on('resize',checkScroll);
 });

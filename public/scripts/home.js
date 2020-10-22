@@ -143,7 +143,8 @@ $(() => {
   const pageLimit = 10;
   const buffer = 50;
 
-  $(window).scroll(checkScroll);
+  $(window).on('scroll',checkScroll);
+  $(window).on('resize',checkScroll);
 
   // truncate string given the string and character limit
   const truncate = (string, limit) => {
