@@ -88,7 +88,7 @@ $(() => {
   });
 
   // Select the entire input field on click
-  $('.photoURL').on('click', function() {
+  $('.photoURL1').on('click', function() {
     $(this).select();
   })
 
@@ -104,6 +104,10 @@ $(() => {
     $(`.photoURL${outcomeCount}`).on('input', function() {
       console.log($(this).val())
       $(this).parent().next().children('img').attr('src', $(this).val());
+    })
+    // Create listener for next click of url input field to select all
+    $(`.photoURL${outcomeCount}`).on('click', function() {
+      $(this).select();
     })
   });
 

@@ -32,11 +32,13 @@ $shadow: 10px 10px 5px rgb(172, 172, 172);
     margin: 20px;
     word-wrap: break-word;
     box-shadow: $shadow;
+    border-radius: 0.5em;
 
     .card-img-top {
       height: 9rem;
       width: 100%;
       object-fit: cover;
+      border-radius: 0.4em;
     }
 
     .card-body {

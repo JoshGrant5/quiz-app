@@ -5,7 +5,8 @@ $background-color: #EEE;
 $shadow: 10px 10px 5px rgb(172, 172, 172);
 
 body {
-  background-color: $background-color;
+  background: white;
+  background: linear-gradient(to right, #EAEBED, rgb(175, 185, 194));
 }
 
 input {
@@ -41,8 +42,9 @@ h3, label, button {
 }
 
 .quizPhoto {
-  height: 20em;
-  width: -webkit-fill-available;
+  height: 15em;
+  object-fit: cover;
+  border-radius: 0.25em;
 }
 
 .newHeading {
