@@ -4,26 +4,25 @@ $(() => {
   const $sortAndFilterBtns = $(".quiz-view-options button");
   const $filterBtns = $(".quiz-filter button");
   const $sortBtns = $(".quiz-sort button");
-  let filterName = "All"
-  let filterType = undefined
-  let sortName = "created"
+  let filterName = "All";
+  let filterType = undefined;
+  let sortName = "created";
   let sortOrder = "desc";
 
   const loadQuizzes = () => {
     $.ajax({
       method: "GET",
-      url: "/api/quizzes",
+      url: "/api/partial/view_quizzes",
       data: {
         filterName: 'All',
+        filterType: undefined,
         sortName: 'created',
-        sortOrder: 'desc',
-        offset: 0,
+        sortOrder: 'desc'
       }
-    }).then((res) => {
-      renderQuizzes(res);
-    })
+    }).then(res => $("#container").append(res))
+      .catch(err => err.message);
   };
-  // on page load
+  // run on page load
   loadQuizzes();
 
   // click handler on quiz filtering and sorting
@@ -32,14 +31,12 @@ $(() => {
 
     const selectionType = $(this).parent().attr("class");
 
-    // if filter selected, filter = target, sort = styled
+    // get sort and filter options based on what the user selected
     if (selectionType === "quiz-filter") {
       filterName = $(this).text();
       filterType = $(this).attr("name");
       sortName = $(".quiz-sort button.btn-primary").attr("name").split("-")[0];
       sortOrder = $(".quiz-sort button.btn-primary").attr("name").split("-")[1];
-
-    // if sort selected, sort = target, filter = styled
     } else {
       filterName = $(".quiz-filter button.btn-primary").text();
       filterType = $(".quiz-filter button.btn-primary").attr("name");
@@ -53,17 +50,17 @@ $(() => {
       url: "/api/quizzes",
       data: { filterType, filterName, sortName, sortOrder }
     }).then((res) => {
-      // empty quiz container and show filtered quizzes in sort order
-      $quizContainer.empty();
-      renderQuizzes(res);
-
       // toggle button styles so only active filter/sort is solid
       toggleBtns(selectionType);
       $(e.target).removeClass("btn-outline-primary").addClass("btn-primary");
-    }).catch((err) => err.message);
+      
+      // empty quiz container and show filtered quizzes in sort order
+      $quizContainer.empty();
+      renderQuizzes(res);
+    }).catch(err => err.message);
   });
 
-  // toggle style of filter and sort button given selected button
+  // toggle style of filter and sort buttons given selected button
   const toggleBtns = (selection) => {
     let buttons;
     (selection === 'quiz-filter') ? buttons = $filterBtns : buttons = $sortBtns;

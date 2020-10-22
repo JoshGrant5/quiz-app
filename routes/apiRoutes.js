@@ -11,6 +11,20 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .catch(err => err.message);
   });
 
+  // Returns EJS partial of all quiz cards
+  router.get("/partial/view_quizzes", (req, res) => {
+    const options = req.query;
+    if(!options.offset) options.offset = 0;
+    const templateVars = {};
+
+    quizHelpers.getPublicQuizzes(options)
+      .then(data => {
+        templateVars.quizzes = data;
+        res.render("partials/_cards", templateVars)
+      })
+      .catch(err => err.message);
+  });
+
   // Returns the favourites partial with all info needed
   router.get('/partial/_favourites', (req, res) => {
     const options = req.query;
