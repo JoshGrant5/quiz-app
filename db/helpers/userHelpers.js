@@ -17,10 +17,21 @@ module.exports = (db) => {
       .catch(err => err.message);
   };
 
+  const addNewUser = (name, email, password) => {
+    return db.query(`
+      INSERT INTO users (name, email, password)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `, [name, email, password])
+      .then(data => data.rows[0])
+      .catch(err => err.message);
+  };
+
   return {
     getAllUsers,
     getUserByEmail,
-    getUserById
+    getUserById,
+    addNewUser
   }
 }
 

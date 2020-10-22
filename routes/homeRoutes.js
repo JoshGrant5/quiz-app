@@ -64,10 +64,24 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     res.redirect("back");
   })
 
-  // not used
+  // render sign up page
   router.get("/signup", (req, res) => {
-    res.send("<h1>Signup</h1>")
+    const userid = req.session.user_id;
+    // redirect to home if logged in
+    if (userid) res.redirect("/");
+
+    const templateVars = { user: undefined };
+    res.render("signup", templateVars);
   });
+
+  router.post("/signup", (req, res) => {
+    const { name, email, password } = req.body;
+    userHelpers.addNewUser(name, email, password)
+      .then(user => {
+        req.session.user_id = user.id;
+        res.redirect("/");
+      })
+  })
 
   return router;
 };
