@@ -11,8 +11,14 @@ const router  = express.Router();
 module.exports = ({ userHelpers, quizHelpers }) => {
 
   router.get('/create', (req, res) => {
-    const templateVars = {user: req.session.user_id}
-    res.render('options', templateVars);
+    const userid = req.session.user_id;
+    const templateVars = {};
+    
+    userHelpers.getUserById(userid)
+      .then(data => {
+        templateVars.user = data;
+        res.render('options', templateVars);
+      })
   });
 
   router.get('/create/trivia', (req, res) => {
