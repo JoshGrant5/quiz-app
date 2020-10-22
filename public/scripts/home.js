@@ -92,8 +92,8 @@ $(() => {
       quiz.title = truncate(quiz.title, 40);
     }
     // truncate description depending on whether title takes up 1 or 2 lines
-    if (titleChar >= 20 && descChar >= 54) {
-      quiz.description = truncate(quiz.description, 54);
+    if (titleChar >= 20 && descChar >= 50) {
+      quiz.description = truncate(quiz.description, 50);
     } else if (quiz.description.length >= 80) {
       quiz.description = truncate(quiz.description, 80);
     }
