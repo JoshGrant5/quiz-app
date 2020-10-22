@@ -34,7 +34,7 @@
         <% maxBodyCharShort = 55 %>
         <% maxBodyCharLong = 80 %>
       <% } else { %>
-        <% bodyText = card.outcome.title %>
+        <% bodyText = card.outcome.title + `</br>` + card.outcome.description %>
         <% maxBodyCharShort = 45 %>
         <% maxBodyCharLong = 70 %>
       <% } %>
@@ -55,7 +55,7 @@
         <% if (locals.quizzes) { %>
           <p class="card-text"><%= bodyText %></p>
         <% } else { %>
-          <p class="card-text">You got: <%= bodyText %></p>
+          <p class="card-text">You got: <%- bodyText %></p>
         <% } %>
 
         </div>
