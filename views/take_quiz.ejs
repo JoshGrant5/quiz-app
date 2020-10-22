@@ -44,6 +44,11 @@
             <img src="<%= quiz.photo %>" class='photo'>
           </div>
         <% } %>
+        <% if(quiz.description) { %>
+          <div id='description'>
+            <p><%= quiz.description %></p>
+          </div>
+        <% } %>
       </div>
 
       <!-- Quiz Questions -->
