@@ -1,4 +1,10 @@
 $secondary-font: Passion One, cursive;
+$shadow: 10px 10px 5px rgb(172, 172, 172);
+$background-color: #EEE;
+
+body {
+  height: 100vh;
+}
 
 #container {
   display: flex;
@@ -34,6 +40,7 @@ h2 {
   padding: 0.5em;
   border: 3px solid black;
   background: lightblue;
+  box-shadow: $shadow;
 }
 
 #text {
@@ -62,4 +69,5 @@ label {
   display: flex;
   justify-content: center;
   width: 400px;
+  margin: auto;
 }
