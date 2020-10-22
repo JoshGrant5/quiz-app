@@ -25,7 +25,7 @@ module.exports = (db) => {
     `, [name, email, password])
       .then(data => data.rows[0])
       .catch(err => err.message);
-  }
+  };
 
   return {
     getAllUsers,
