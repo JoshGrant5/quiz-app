@@ -6,13 +6,13 @@ module.exports = (db) => {
   };
 
   const getUserByEmail = (email) => {
-    return db.query(`SELECT * FROM users WHERE email = '${email}';`)
+    return db.query(`SELECT * FROM users WHERE email = $1;`, [email])
       .then(data => data.rows[0])
       .catch(err => err.message);
   };
 
   const getUserById = (id) => {
-    return db.query(`SELECT * FROM users WHERE id = '${id}';`)
+    return db.query(`SELECT * FROM users WHERE id = $1;`, [id])
       .then(data => data.rows[0])
       .catch(err => err.message);
   };
