@@ -30,7 +30,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(results => {
         templateVars.quizzes = results[0];
         templateVars.user = results[1] || undefined;
-        res.render("partials/_favourites", templateVars);
+        res.render("partials/_cards", templateVars);
       });
   })
 
@@ -104,7 +104,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
             });
             templateVars.user = results[1] || undefined;
             templateVars.results = templateVars.results.slice(options.offset, options.offset + 12);
-            res.render("partials/_results", templateVars);
+            res.render("partials/_cards", templateVars);
           });
       });
   })
