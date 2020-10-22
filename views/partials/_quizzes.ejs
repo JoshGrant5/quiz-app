@@ -1,3 +1,56 @@
 
 
-<%- include('./_quiz_cards'); %>
+<%- include('./_cards'); %>
+
+<div id="quiz-container">
+  <% let cards %>
+  <% if (locals.results) cards = results %>
+  <% if (locals.quizzes) cards = quizzes %>
+
+  <% console.log(cards) %>
+
+  <% for (const card of cards) { %>
+    <article class="card quiz">
+
+    <!-- Add a default photo or description if missing -->
+    <% if(!card.photo) card.photo = "../imgs/temp-photo.jpg" %>
+    <% if(!card.description) card.description = "" %>
+    <!-- Truncate title, description, or outcome if too long -->
+    <% const titleChar = card.title.length %>
+    <% const descChar = card.description.length %>
+    <% if (locals.results) const outcomeChar = card.outcome.title.length %>
+
+    <% if (titleChar >= 40) card.title = card.title.slice(0, 40).concat("...") %>
+    <% if (titleChar >= 20 && descChar >= 50) { %>
+      <% card.description = card.description.slice(0, 50).concat("...") %>
+    <% } else if (descChar >= 80) { %>
+      <% card.description = card.description.slice(0, 80).concat("...") %>
+    <% } %>
+
+    <!-- Set url depending on quiz or result -->
+    <% if (locals.quizzes) { %>
+      <a href="/quiz/<%= card.url %>">
+    <% } else if (results) { %>
+      <a href="/quiz/<%= card.url %>/result/<%= card.id %>">
+    <% } %>
+    
+        <img class="card-img-top" src="<%= card.photo %>">
+        <div class="card-body">
+          <h3 class="card-title"><%= card.title %></h3>
+          <p class="card-subtitle"><%= card.type %> | <%= card.category %></p>
+
+        <!-- Set card text depending on quiz or result -->
+        <% if (locals.quizzes) { %>
+          <p class="card-text"><%= card.description %></p>
+        <% } else if (locals.results && card.type === "trivia") { %>
+          <p class="card-text">You got: <%= card.percent %></p>
+        <% } else if (locals.results && card.type === "personality") { %>
+          <p class="card-text">You got: <%= card.outcome.title %></p>
+        <% } %>
+        
+        </div>
+      </a>
+    </article>
+  <% } %>
+
+</div>
