@@ -122,6 +122,7 @@ module.exports = (db) => {
       SELECT * FROM quizzes
       JOIN users ON users.id = creator_id
       WHERE creator_id = $1
+      ORDER BY date_created DESC
     `
     if (offset !== undefined) {
       params.push(offset);
