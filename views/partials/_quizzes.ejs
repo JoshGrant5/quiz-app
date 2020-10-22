@@ -21,7 +21,7 @@
     <% if (locals.results) const outcomeChar = card.outcome.title.length %>
 
     <% if (titleChar >= 40) card.title = card.title.slice(0, 40).concat("...") %>
-    <% if (titleChar >= 20 && descChar >= 50) { %>
+    <% if (titleChar >= 25 && descChar >= 50) { %>
       <% card.description = card.description.slice(0, 50).concat("...") %>
     <% } else if (descChar >= 80) { %>
       <% card.description = card.description.slice(0, 80).concat("...") %>
@@ -33,7 +33,7 @@
     <% } else if (results) { %>
       <a href="/quiz/<%= card.url %>/result/<%= card.id %>">
     <% } %>
-    
+
         <img class="card-img-top" src="<%= card.photo %>">
         <div class="card-body">
           <h3 class="card-title"><%= card.title %></h3>
@@ -47,7 +47,7 @@
         <% } else if (locals.results && card.type === "personality") { %>
           <p class="card-text">You got: <%= card.outcome.title %></p>
         <% } %>
-        
+
         </div>
       </a>
     </article>

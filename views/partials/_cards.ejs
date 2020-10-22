@@ -2,7 +2,7 @@
 
   <% let cards %>
   <% (locals.quizzes) ? cards = quizzes : cards = results %>
-  
+
   <!-- Create element for each card object -->
   <% for (const card of cards) { %>
 
@@ -39,12 +39,12 @@
         <% maxBodyCharLong = 70 %>
       <% } %>
 
-      <% if (titleChar >= 20 && bodyText.length >= maxBodyCharShort) { %>
+      <% if (titleChar >= 25 && bodyText.length >= maxBodyCharShort) { %>
         <% bodyText = bodyText.slice(0, maxBodyCharShort).concat("...") %>
       <% } else if (bodyText.length >= maxBodyCharLong) { %>
         <% bodyText = bodyText.slice(0, maxBodyCharLong).concat("...") %>
       <% } %>
-    
+
       <!-- Set card elements -->
         <img class="card-img-top" src="<%= card.photo %>">
         <div class="card-body">
@@ -57,7 +57,7 @@
         <% } else { %>
           <p class="card-text">You got: <%= bodyText %></p>
         <% } %>
-        
+
         </div>
       </a>
     </article>
