@@ -31,7 +31,7 @@ $(() => {
         </div>
       </section>
       <div class='outcomePhoto'>
-        <img src='/assets/quiz-placeholder.png'>
+        <img src='/assets/temp-photo.jpg'>
       </div>
     </div>
   `;
@@ -104,7 +104,6 @@ $(() => {
 
     // Create listener for the next outcome img to fill on input
     $(`.photoURL${outcomeCount}`).on('input', function() {
-      console.log($(this).val())
       $(this).parent().parent().next().children('img').attr('src', $(this).val());
     })
     // Create listener for next click of url input field to select all
@@ -158,5 +157,6 @@ $(() => {
       $(this).parent().parent().remove();
     });
   });
+
 
 });
