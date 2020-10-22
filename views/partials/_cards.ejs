@@ -23,7 +23,7 @@
       <% const titleChar = card.title.length %>
       <% if (titleChar >= 40) card.title = card.title.slice(0, 40).concat("...") %>
 
-      <!-- Truncate card body (description or outcome) -->
+      <!-- Truncate card body depending on quiz or result -->
       <% let bodyText, maxBodyCharShort, maxBodyCharLong %>
       <% if (locals.quizzes) { %>
         <% bodyText = card.description %>
@@ -45,12 +45,13 @@
         <% bodyText = bodyText.slice(0, maxBodyCharLong).concat("...") %>
       <% } %>
     
+      <!-- Set card elements -->
         <img class="card-img-top" src="<%= card.photo %>">
         <div class="card-body">
           <h3 class="card-title"><%= card.title %></h3>
           <p class="card-subtitle"><%= card.type %> | <%= card.category %></p>
 
-        <!-- Set card text depending on quiz or result -->
+        <!-- Set card text -->
         <% if (locals.quizzes) { %>
           <p class="card-text"><%= bodyText %></p>
         <% } else { %>
