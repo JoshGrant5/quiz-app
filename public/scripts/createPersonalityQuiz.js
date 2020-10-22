@@ -26,10 +26,10 @@ $(() => {
       </div>
       <div class='singleLine'>
         <label>Photo URL:</label>
-        <input type='text' id='photo${outcomeCount}' name='photo${outcomeCount}' class='photoURL'>
+        <input type='url' name='photo${outcomeCount}' class='photoURL${outcomeCount}'>
       </div>
       <div class='outcomePhoto'>
-        <img id='outcomePhoto${outcomeCount}' src='/imgs/temp-photo.jpg'>
+        <img src='/imgs/temp-photo.jpg'>
       </div>
     </div>
   `;
@@ -76,6 +76,22 @@ $(() => {
     }
   };
 
+  // Change color of public/private button based on choice
+  $('.listed').on('click', function() {
+    $(this).css({backgroundColor:'blue'});
+    $(this).siblings().css({backgroundColor:'lightblue'});
+  })
+
+  // Autofill img container with user input
+  $('.photoURL1').on('input', function() {
+    $(this).parent().next().children('img').attr('src', $(this).val());
+  });
+
+  // Select the entire input field on click
+  $('.photoURL').on('click', function() {
+    $(this).select();
+  })
+
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
     outcomeCount++;
@@ -83,6 +99,12 @@ $(() => {
     $('.outcomes').css({display: 'none'});
     $('.newQuizContainer').append(outcome);
     $('#outcomeCount').val(outcomeCount);
+
+    // Create listener for the next outcome img to fill on input
+    $(`.photoURL${outcomeCount}`).on('input', function() {
+      console.log($(this).val())
+      $(this).parent().next().children('img').attr('src', $(this).val());
+    })
   });
 
   // All outcome containers are hidden and the question container is shown
@@ -121,7 +143,7 @@ $(() => {
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
     $('#createPersonalityQuiz').css({display: 'inline'});
-    $('html, body').animate({scrollTop:400}, 1500);
+    $('html, body').animate({scrollTop:0}, 1500);
     const category = $('#personalityCategory').find(":selected").text();
     $('#pCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
@@ -130,30 +152,5 @@ $(() => {
       $(this).parent().parent().remove();
     });
   });
-
-  /* Hardcoding for photo generation on outcomes ... until solution found */
-  $('.photoURL').on('input', function() {
-
-    console.log($(this))
-
-    // let serialized = $(this).serialize() // receive all outcome inputs as a serialized string
-    // let list = serialized.split('='); // split the string into an array
-    // let trimmed = list.splice(outcomeCount)
-    // console.log(trimmed)
-
-    $(`#outcomePhoto${outcomeCount}`).attr('src', $(this).val());
-    $(this).parent().next().children('img').attr('src', $(this).val());
-  })
-
-  // Select the entire input field on click
-  $('.photoURL').on('click', function() {
-    $(this).select();
-  })
-
-  // Change color of public/private button based on choice
-  $('.listed').on('click', function() {
-    $(this).css({backgroundColor:'blue'});
-    $(this).siblings().css({backgroundColor:'lightblue'});
-  })
 
 });
