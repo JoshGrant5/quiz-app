@@ -21,6 +21,7 @@ $(() => {
       }
     }).then((res) => {
       renderQuizzes(res);
+      checkScroll();
     })
   };
   // on page load
@@ -142,7 +143,6 @@ $(() => {
   const pageLimit = 10;
   const buffer = 50;
 
-  checkScroll();
   $(window).scroll(checkScroll);
 
   // truncate string given the string and character limit
