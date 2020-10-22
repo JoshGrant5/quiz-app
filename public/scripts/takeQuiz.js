@@ -40,6 +40,12 @@ jQuery(function() {
     }
   });
 
+  // Activate "button" on click (radio button hidden insde checkmark button)
+  $('.check').on('click', function() {
+    $('.check').removeClass('active');
+    $(this).addClass('active');
+  })
+
   // Go to previous question
   $('#prev').on('click',() => {
     next.disabled = false;
@@ -52,15 +58,24 @@ jQuery(function() {
   // Go to next question
   $('#next').on('click',() => {
     prev.disabled = false;
-    $(`#question${count}`).css({display: 'none'});
-    count++;
-    $(`#question${count}`).css({display: 'block'});
+    $(`#question${count}`).fadeOut(600, function() {
+      count++;
+    $(`#question${count}`).css({display: 'block', width: '0'});
+    $(`#question${count}`).animate({width:'auto', opacity: '1'}, 'slow');
     if (count === form.querySelectorAll('.question').length) next.disabled = true;
+    });
+
   });
 
   // Show all questions
+<<<<<<< HEAD
   $('#review').on('click',() => {
     $('.question').css({display: 'block'});
+=======
+  $('#review').click(() => {
+    $('.question').css({display:'none'});
+    $('.question').slideDown(800);
+>>>>>>> josh/create/personality
     next.disabled = true;
     prev.disabled = true;
     review.disabled = true;
