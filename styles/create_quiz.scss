@@ -12,7 +12,9 @@ input {
   outline: none;
 }
 
-h3, label, button {
+h3,
+label,
+body > button {
   font-family: $secondary-font;
 }
 
