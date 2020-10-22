@@ -3,6 +3,7 @@ $secondary-font: Passion One, cursive;
 $font-color: #000;
 $background-color: #EEE;
 $primary-color: #007bff;
+$shadow: 10px 10px 5px rgb(172, 172, 172);
 
 #quiz-container {
 
@@ -30,6 +31,7 @@ $primary-color: #007bff;
     width: 15rem;
     margin: 20px;
     word-wrap: break-word;
+    box-shadow: $shadow;
 
     .card-img-top {
       height: 9rem;
@@ -39,7 +41,7 @@ $primary-color: #007bff;
 
     .card-body {
       padding: 10px;
-      
+
       .card-title {
         font-size: 1.25rem;
         max-height: 3rem;

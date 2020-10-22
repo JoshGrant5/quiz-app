@@ -143,7 +143,7 @@ $(() => {
   $('#reviewPersonalityQuiz').on('click', function() {
     $('.outcomes').slideDown(800);
     $('#createPersonalityQuiz').css({display: 'inline'});
-    $('html, body').animate({scrollTop:0}, 1500);
+    $('html, body').animate({scrollTop:0}, 1200);
     const category = $('#personalityCategory').find(":selected").text();
     $('#pCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});

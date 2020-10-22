@@ -2,6 +2,7 @@ $main-font: Roboto, sans-serif;
 $secondary-font: Passion One, cursive;
 $font-color: #000;
 $background-color: #EEE;
+$shadow: 10px 10px 5px rgb(172, 172, 172);
 
 body {
   background-color: $background-color;
@@ -32,6 +33,7 @@ h3, label, button {
   width: 40vw;
   border: 3px solid black;
   border-radius: 0.5em;
+  box-shadow: $shadow;
 }
 .card label {
   font-size: 1.5em;
@@ -62,6 +64,7 @@ h3, label, button {
   margin-right: auto;
   border: 3px solid black;
   border-radius: 0.5em;
+  box-shadow: $shadow;
   background: lightblue;
 }
 .newQuestion div {
