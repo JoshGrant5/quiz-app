@@ -100,6 +100,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     let quizInfo = {};
     Promise.all(promises)
       .then(results => {
+        if (!results[0]) res.redirect('/'); //Redirect to home page if url does not exist
         quizInfo.quiz = results[0];
         quizInfo.user = results[1] || undefined;
         return quizHelpers.getQuestions(quizInfo.quiz.id, quizInfo.quiz.type);
@@ -157,13 +158,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     if (userid) promises.push(userHelpers.getUserById(userid));
     Promise.all(promises)
       .then(results => {
+        if (!results[0]) res.redirect('/'); //Redirect to home page if url does not exist
         resultInfo.quiz = results[0];
         resultInfo.user = results[1] || undefined;
         return quizHelpers.getResult(req.params.id, resultInfo.quiz.type);
       })
       .then(result => {
         resultInfo.result = result;
-        if (resultInfo.result.url !== req.params.url) res.redirect('/'); //Redirect to home page if id does not belong to given url
+        if (!result || resultInfo.result.url !== req.params.url) res.redirect('/'); //Redirect to home page if id does not belong to given url or id doesn't exist
         const promises = [];
         if (resultInfo.quiz.type === 'trivia') {
           if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
