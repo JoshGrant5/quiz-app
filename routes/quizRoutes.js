@@ -12,6 +12,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
   router.get('/create', (req, res) => {
     const userid = req.session.user_id;
+    // redirect to home if logged out
+    if (!userid) res.redirect("/");
+
     const templateVars = {};
     
     userHelpers.getUserById(userid)
@@ -24,6 +27,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get('/create/trivia', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
+    // redirect to home if logged out
+    if (!userid) res.redirect("/");
+
     const promises = [];
     promises.push(userHelpers.getUserById(userid));
     promises.push(quizHelpers.getCategories());
@@ -42,6 +48,9 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   router.get('/create/personality', (req, res) => {
     const templateVars = { };
     const userid = req.session.user_id;
+    // redirect to home if logged out
+    if (!userid) res.redirect("/");
+
     const promises = [];
     promises.push(userHelpers.getUserById(userid));
     promises.push(quizHelpers.getCategories());
