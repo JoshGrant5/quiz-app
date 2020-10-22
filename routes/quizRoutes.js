@@ -16,7 +16,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     if (!userid) res.redirect("/");
 
     const templateVars = {};
-    
+
     userHelpers.getUserById(userid)
       .then(data => {
         templateVars.user = data;
@@ -79,6 +79,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   })
 
   router.post('/create/personality', (req,res) => {
+    console.log(req.body)
     quizHelpers.createNewQuiz(req.session.user_id, req.body)
     .then(data => {
       return quizHelpers.personalitySort(data.id ,req.body);

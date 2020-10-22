@@ -66,7 +66,7 @@ $(() => {
     $('.newQuestion').slideDown(800);
     $('#createQuizButton').css({display:'block'});
     $('html, body').animate({scrollTop:0}, 1200);
-    const category = $('#triviaCategory').find(":selected").text();
+    const category = $('#triviaSelect').find(":selected").text();
     $('#tCategoryInput').val(category);
     $('.deleteQuestion').css({visibility: 'visible'});
     // Once review button is clicked and we know the number of questions, activate each delete button

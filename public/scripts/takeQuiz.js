@@ -68,7 +68,7 @@ jQuery(function() {
     $(`#question${count}`).fadeOut(600, function() {
       count++;
       $(`#question${count}`).css({display: 'block'});
-      $(`#question${count}`).animate({opacity: '1'}, 'slow');
+      $(`#question${count}`).animate({width: 'auto', opacity: '1'}, 'slow');
       if (count === form.querySelectorAll('.question').length) next.disabled = true;
     });
   });
