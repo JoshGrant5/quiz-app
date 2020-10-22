@@ -37,7 +37,12 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
   // not used
   router.get("/login", (req, res) => {
-    res.send("<h1>Login</h1>");
+    const userid = req.session.user_id;
+    // redirect to home if logged in
+    if (userid) res.redirect("/");
+
+    const templateVars = { user: undefined };
+    res.render("login", templateVars);
   });
 
   router.post("/login", (req, res) => {
