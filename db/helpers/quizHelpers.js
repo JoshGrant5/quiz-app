@@ -197,18 +197,20 @@ module.exports = (db) => {
   // Goes through all questions and answers, placing in correct trivia db - accepts an object (returned from triviaSort())
   const addTriviaQuizContent = function(info) {
     let counter = 0; // counter used for referencing all answers against correct answer
+    let questionCounter = -1;
     for (let question of info.questions) {
       createTriviaQuestion([info.id, question])
       .then(questionInfo => {
+        questionCounter++;
         for (let i = 1; i <= 4; i++) {
           if (Number(info.correct[counter]) === i) {
-            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], true])
+            createTriviaAnswer([questionInfo[0].id, info.answers[questionCounter][i-1], true])
             .then(answer => {
               counter++;
               return answer;
             });
           } else {
-            createTriviaAnswer([questionInfo[0].id, info.answers[counter][i-1], false])
+            createTriviaAnswer([questionInfo[0].id, info.answers[questionCounter][i-1], false])
             .then(answer => {
               return answer;
             });
@@ -268,7 +270,7 @@ module.exports = (db) => {
   // Goes through all questions and answers, placing in correct personality db - accepts an object (returned from personalitySort())
   const addPersonalityQuizContent = function(info) {
     let outcomeCounter = 1; // starts at 1 because grabbing looking for # of outcomes, not index
-    let questionIndex = 0;
+    let questionIndex = -1;
     let outcomePairs = {};
     for (let outcome in info.outcomes) {
       let outcomeInfo = [info.id, outcome, info.outcomes[outcome][0], info.outcomes[outcome][1]];
@@ -280,10 +282,10 @@ module.exports = (db) => {
           for (let question of info.questions) {
             createPersonalityQuestion([info.id, question])
             .then(questionInfo => {
+              questionIndex++;
               for (let i = 1; i <= 4; i++) {
                 createPersonalityAnswer([questionInfo[0].id, outcomePairs[info.pointers[questionIndex][i-1]], info.answers[questionIndex][i-1]])
                 .then(answer => {
-                  questionIndex++;
                   return answer;
                 });
               }
