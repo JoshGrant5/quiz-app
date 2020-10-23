@@ -180,7 +180,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         return Promise.all(promises);
       })
       .then(results => {
-        if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / results[1] * 100);
+        if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / (results[1] - 1) * 100);
         else resultInfo.outcome = results[0];
         const promises = [];
         if (!userid) return Promise.all(promises);
