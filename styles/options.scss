@@ -4,10 +4,12 @@ $font-color: #000;
 $shadow: 10px 10px 5px rgb(172, 172, 172);
 
 html {
+  height: 100%;
   background-color: white;
 }
 
 body {
+  height: 100%;
   margin-top: 10vh;
 }
 
@@ -37,4 +39,8 @@ h1 {
   margin: auto;
   height: 10em;
   width: 10em;
+}
+
+footer {
+  padding-top: 5em;
 }
