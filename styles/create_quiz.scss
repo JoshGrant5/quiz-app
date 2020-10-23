@@ -18,10 +18,6 @@ body > button {
   font-family: $secondary-font;
 }
 
-.footerBtn {
-  font-size: 1.5em;
-}
-
 .newQuizContainer {
   margin: 2em;
 }
@@ -72,10 +68,6 @@ body > button {
   background: lightblue;
 }
 
-.correct {
-  border-style: hidden;
-}
-
 .categoryDropdown {
   position: relative;
   margin-top: auto;
@@ -96,7 +88,7 @@ body > button {
 }
 .outcomes label {
   font-size: 1.5em;
-  width: 5em;
+  min-width: 5em;
 }
 .outcomes input {
   margin-right: 2em;
@@ -189,15 +181,23 @@ section {
   -webkit-appearance: none;
 }
 
-#newTriviaForm, #newPersonalityForm, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, #createQuizButton, .newPersonalityQuestion .hide1, .hide2 {
-  display: none;
+.correct {
+  border-style: hidden;
 }
 
 .deleteQuestion {
   visibility: hidden;
 }
 
+#newTriviaForm, #newPersonalityForm, #createPersonalityQuiz, #addPersonalityQuestion, #reviewPersonalityQuiz, #createQuizButton, .newPersonalityQuestion .hide1, .hide2 {
+  display: none;
+}
+
 footer {
   display: flex;
   justify-content: space-evenly;
+}
+
+.footerBtn {
+  font-size: 1.5em;
 }

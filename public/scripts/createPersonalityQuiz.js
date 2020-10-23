@@ -5,7 +5,6 @@ $(() => {
   let questionCount = 0;
   // Array for storing all given outcomes
   let outcomes = [];
-  let photos;
 
   // Display Personality Template
   if (document.location.pathname == "/quiz/create/personality") {
@@ -18,7 +17,7 @@ $(() => {
     <div class='outcomes'>
       <section>
         <div class='singleLine'>
-          <label>Outcome ${outcomeCount}:</label>
+          <label>Outcome:</label>
           <input type='text' id='outcome${outcomeCount}' class='outcome' name='outcome${outcomeCount}' required='required' autocomplete='off'>
         </div>
         <div class='singleLine'>
@@ -96,14 +95,11 @@ $(() => {
 
   // New outcome container is displayed for user to fill
   $('#addOutcome').on('click', function() {
-    $('.outcomes').animate({width:'0px', opacity: '0'}, 'slow');
-    // $('.outcomes').fadeOut(600);
-    $('.outcomes').css({display: 'none', width: '0'});
     outcomeCount++;
-    const outcome = addOutcome()
-
+    const outcome = addOutcome();
+    $('.outcomes').css({display: 'none'});
     $('.newQuizContainer').append(outcome);
-
+    $('.outcomes').animate({width:'0px', opacity: '0'}, 'slow');
     $('.outcomes').animate({width:'70vw', opacity: '1'}, 'slow');
     $('#outcomeCount').val(outcomeCount);
 
@@ -168,6 +164,5 @@ $(() => {
         })
     });
   });
-
 
 });
