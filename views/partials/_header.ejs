@@ -27,18 +27,17 @@
           </div>
         <% } %>
     </div>
-
     <div class="navbar-nav ml-auto">
       <% if(!user) { %>
         <ul class="nav">
           <li class="nav-item">
             <form action="/login" method="GET">
-              <button class="btn btn-success">Login</button>
+              <button class="btn btn-light">Login</button>
             </form>
           </li>
           <li class="nav-item">
             <form action="/signup" method="GET">
-              <button class="btn btn-success">Sign up</button>
+              <button class="btn btn-light">Sign up</button>
             </form>
           </li>
         </ul>
@@ -47,7 +46,7 @@
           <li class="nav-item" id ="username">Signed in as: <%= user.name %></li>
           <form action="/logout" method="POST">
             <li class="nav-item">
-              <button class="btn btn-success">Logout</button>
+              <button class="btn btn-light">Logout</button>
             </li>
           </form>
         </ul>
