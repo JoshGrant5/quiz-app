@@ -13,3 +13,7 @@ INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed) VALU
 
 INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed) VALUES (4, 3, 2, 4, '2020-10-16 00:00:30 +0000');
 INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed) VALUES (4, 4, 1, 4, '2020-10-16 00:00:50 +0000');
+
+INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed) VALUES (31, 4, 1, 2, '2020-10-16 00:00:50 +0000');
+INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed) VALUES (31, 4, 1, 2, '2020-10-16 00:00:50 +0000');
+INSERT INTO trivia_results (quiz_id, user_id, score, total, date_completed) VALUES (31, 4, 2, 2, '2020-10-16 00:00:50 +0000');
