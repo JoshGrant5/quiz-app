@@ -149,8 +149,8 @@ module.exports = (db) => {
 
   // Adds quiz to db - accepts user_id string, and an object
   const createNewQuiz = (id, info) => {
-    const timestamp = new Date(Date.now());
-    const date = timestamp.toDateString();
+    let date = new Date();
+    date = date.toISOString();
     const createdURL = createURL();
     return db.query(`
     INSERT INTO quizzes (creator_id, title, photo, listed, url, category, date_created, type, description)

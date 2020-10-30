@@ -9,7 +9,7 @@ CREATE TABLE quizzes (
   listed BOOLEAN DEFAULT true,
   url VARCHAR(25),
   category VARCHAR(255),
-  date_created DATE,
+  date_created TIMESTAMP,
   type VARCHAR(255) NOT NULL,
   description TEXT
 );
