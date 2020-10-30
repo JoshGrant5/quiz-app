@@ -9,4 +9,5 @@
 \i db/seeds/09_personality_answers.sql
 \i db/seeds/10_ratings.sql
 \i db/seeds/11_favourites.sql
-\i db/seeds/12_real_quiz.sql
+\i db/seeds/12_categories.sql
+\i db/seeds/13_real_quiz.sql

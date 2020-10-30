@@ -9,3 +9,4 @@
 \i db/schema/09_personality_answers.sql
 \i db/schema/10_ratings.sql
 \i db/schema/11_favourites.sql
+\i db/schema/12_categories.sql
