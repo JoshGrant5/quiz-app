@@ -7,9 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const user = require('./userRoutes');
-const { promise } = require('bcrypt/promises');
-
+const bcrypt  = require('bcrypt');
 
 module.exports = ({ userHelpers, quizHelpers }) => {
   router.get("/", (req, res) => {
@@ -46,12 +44,11 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   });
 
   router.post("/login", (req, res) => {
-    // hardcoding users' login information
     const { email, password }  = req.body;
     userHelpers.getUserByEmail(email)
       .then(data => {
         const user = data;
-        if (password === user.password) {
+        if (bcrypt.compareSync(password, user.password)) {
           // Set a cookie
           req.session.user_id = user.id;
           res.redirect("back");
@@ -64,11 +61,10 @@ module.exports = ({ userHelpers, quizHelpers }) => {
   // login as userid 1 AKA Alice
   router.post("/login/1", (req, res) => {
     const email = "a@a.ca";
-    const password = "1";
 
     userHelpers.getUserByEmail(email)
       .then(data => {
-        const user = data;  // anonymous { id: 1, name: 'Alice', email: 'a@a.ca', password: '1' }
+        const user = data;
         req.session.user_id = user.id;
         res.redirect("back");
       });
@@ -92,7 +88,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
   router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
-    userHelpers.addNewUser(name, email, password)
+    userHelpers.addNewUser(name, email, bcrypt.hashSync(password, 10))
       .then(user => {
         req.session.user_id = user.id;
         res.redirect("/");
