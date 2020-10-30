@@ -137,6 +137,9 @@ module.exports = (db) => {
 
   // Check each created URL on creation to make sure it has not been used before
   const uniqueURLs = [];
+  db.query(`SELECT url FROM quizzes;`)
+    .then(data => uniqueURLs.push(...data.rows.map(url => url.url)))
+
   const createURL = () => {
     const createdURL = Math.random().toString(20).substr(2, 8);
     if (!uniqueURLs.includes(createdURL)) {
