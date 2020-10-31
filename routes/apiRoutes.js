@@ -81,30 +81,29 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     }
 
     const promises = [];
-    promises.push(quizHelpers.getResultsForUser(userid));
+    promises.push(quizHelpers.getResultsForUser(userid, options.offset));
     promises.push(userHelpers.getUserById(userid));
 
     Promise.all(promises)
       .then(results => {
-        const trivia = results[0][0].rows;
-        const personality = results[0][1].rows;
+        templateVars.results = results[0];
         const outcomes = [];
-        personality.forEach(result => outcomes.push(quizHelpers.getOutcomeWithId(result.outcome_id)));
+        templateVars.results.forEach(result => {
+          if (result.type === 'personality') {
+            result.outcome_id = result.score;
+            outcomes.push(quizHelpers.getOutcomeWithId(result.outcome_id))
+          }
+        });
         Promise.all(outcomes)
           .then(outcomes => {
-            for (let i = 0; i < outcomes.length; i++) {
-              personality[i].outcome = outcomes[i];
-            }
-            templateVars.results = trivia.concat(personality);
-            templateVars.results = templateVars.results.sort((a, b) => {
-              if (a.date_completed < b.date_completed) return 1;
-              if (a.date_completed > b.date_completed) return -1;
-              if (a.id < b.id) return 1;
-              if (a.id > b.id) return -1;
-              return 0;
-            });
+            let counter = 0;
+            templateVars.results.forEach(result => {
+              if (result.type === 'personality') {
+                result.outcome = outcomes[counter];
+                counter++;
+              }
+            })
             templateVars.user = results[1] || undefined;
-            templateVars.results = templateVars.results.slice(options.offset, options.offset + 12);
             res.render("partials/_cards", templateVars);
           });
       });

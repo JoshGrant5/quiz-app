@@ -604,24 +604,31 @@ module.exports = (db) => {
   };
 
   // Returns all results belonging to the given user
-  const getResultsForUser = function(user_id) {
-    const promises = [];
-    const values = [user_id];
+  const getResultsForUser = function(user_id, offset) {
     let query = `
-      SELECT *
-      FROM quizzes
-      JOIN trivia_results ON quiz_id = quizzes.id
-      WHERE user_id = $1;
+    SELECT trivia_results.id, user_id, quiz_id, score, date_completed, quizzes.*
+    FROM quizzes
+    JOIN trivia_results ON quiz_id = quizzes.id
+    WHERE user_id = $1
+    UNION SELECT personality_results.id, user_id, quiz_id, outcome_id, date_completed, quizzes.*
+    FROM quizzes
+    JOIN personality_results ON quiz_id = quizzes.id
+    WHERE user_id = $1
+    ORDER BY date_completed DESC
     `
-    promises.push(db.query(query, values));
-    query = `
-      SELECT *
-      FROM quizzes
-      JOIN personality_results ON quiz_id = quizzes.id
-      WHERE user_id = $1;
-    `
-    promises.push(db.query(query, values));
-    return Promise.all(promises);
+    const values = [user_id];
+
+    if (offset) {
+      if (Number(offset) === 0) values.push(offset);
+      else values.push(Number(offset) + 1);
+      query += `LIMIT 12 OFFSET $2`;
+    }
+
+    query += `;`
+
+    return db.query(query, values)
+      .then(data => data.rows)
+      .catch(err => err.message);
   };
 
   //Shuffles an array
