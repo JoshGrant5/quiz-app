@@ -132,7 +132,14 @@ module.exports = ({ userHelpers, quizHelpers }) => {
               result.score = answers.score;
               let user_id = '';
               if(req.session.user_id) user_id = req.session.user_id;
-              return quizHelpers.createTriviaResult(result.quiz.id, user_id, result.score, Object.keys(req.body).length);
+              let score;
+              console.log(result.score)
+              console.log(Object.keys(req.body).length)
+              if (result.score > Object.keys(req.body).length) score = 100;
+              else if (Object.keys(req.body).length === 0) score = 0;
+              else score = Math.floor(result.score/Object.keys(req.body).length * 100);
+              console.log(score)
+              return quizHelpers.createTriviaResult(result.quiz.id, user_id, score);
             })
             .then(result => res.redirect(`/quiz/${req.params.url}/result/${result.id}`));
         }
@@ -168,9 +175,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         if (!result || resultInfo.result.url !== req.params.url) res.redirect('/'); //Redirect to home page if id does not belong to given url or id doesn't exist
         const promises = [];
         if (resultInfo.quiz.type === 'trivia') {
-          if (resultInfo.result.total === 0 && resultInfo.result.score === 0) resultInfo.result.percent = 0;
-          else if (resultInfo.result.total === 0 && resultInfo.result.score !== 0) resultInfo.result.percent = 100;
-          else resultInfo.result.percent = Math.floor(resultInfo.result.score/resultInfo.result.total * 100);
           promises.push(quizHelpers.getNumScoresBeatenForQuiz(resultInfo.result.quiz_id, resultInfo.result.score));
           promises.push(quizHelpers.getNumResultsForQuiz(resultInfo.result.quiz_id));
         }
@@ -180,7 +184,10 @@ module.exports = ({ userHelpers, quizHelpers }) => {
         return Promise.all(promises);
       })
       .then(results => {
-        if (resultInfo.quiz.type === 'trivia') resultInfo.result.numBeaten = Math.floor(results[0] / (results[1] - 1) * 100);
+        if (resultInfo.quiz.type === 'trivia') {
+          if (results[1] === 1) resultInfo.result.numBeaten = 100;
+          else resultInfo.result.numBeaten = Math.floor(results[0] / (results[1] - 1) * 100);
+        }
         else resultInfo.outcome = results[0];
         const promises = [];
         if (!userid) return Promise.all(promises);

@@ -87,11 +87,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
     Promise.all(promises)
       .then(results => {
         const trivia = results[0][0].rows;
-        for (const result of trivia) {
-          if (result.total === 0 && result.score === 0) result.percent = 0;
-          else if (result.total === 0 && result.score !== 0) result.percent = 100;
-          else result.percent = Math.floor(result.score/result.total * 100);
-        }
         const personality = results[0][1].rows;
         const outcomes = [];
         personality.forEach(result => outcomes.push(quizHelpers.getOutcomeWithId(result.outcome_id)));
