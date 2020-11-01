@@ -45,15 +45,16 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
   router.post("/login", (req, res) => {
     const { email, password }  = req.body;
+    if (!email || !password) res.status(401).send('Please fill all fields');
     userHelpers.getUserByEmail(email)
-      .then(data => {
-        const user = data;
+      .then(user => {
+        if (!user) return res.status(401).send('Incorrect email');
         if (bcrypt.compareSync(password, user.password)) {
           // Set a cookie
           req.session.user_id = user.id;
-          res.redirect("back");
+          return res.redirect("/");
         } else {
-          res.status(401).send('Incorrect email or password');
+          return res.status(401).send('Incorrect password');
         }
       });
   });
@@ -66,7 +67,7 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       .then(data => {
         const user = data;
         req.session.user_id = user.id;
-        res.redirect("back");
+        res.redirect("/");
       });
   });
 
@@ -88,10 +89,16 @@ module.exports = ({ userHelpers, quizHelpers }) => {
 
   router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
-    userHelpers.addNewUser(name, email, bcrypt.hashSync(password, 10))
+    if (!name || !email || !password) res.status(401).send('Please fill all fields');
+    userHelpers.getUserByEmail(email)
       .then(user => {
+        if (user) res.status(401).send('Email already exists');
+        else return userHelpers.addNewUser(name, email, bcrypt.hashSync(password, 10))
+      })
+      .then(user => {
+        if (!user) return;
         req.session.user_id = user.id;
-        res.redirect("/");
+        return res.redirect("/");
       })
   })
 

@@ -18,6 +18,7 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <link rel="stylesheet" href="/styles/footer.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/error.css" type="text/css" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Passion+One&display=swap" rel="stylesheet">
@@ -25,7 +26,7 @@
 
     <!-- Local JS scripts -->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/home.js"></script>
+    <script type="text/javascript" src="/scripts/signup.js"></script>
   </head>
 
   <header>
@@ -37,18 +38,20 @@
 
       <h2>Sign Up</h2>
 
-      <form action="/signup" method="POST">
+      <form id='signup' action="/signup" method="POST">
         <div class="form-group">
           <label for="name">Name:</label>
           <input class="form-control mb-3" name="name">
           <label for="email">Email address:</label>
-          <input class="form-control mb-3" type="ema
-          il" name="email">
+          <input class="form-control mb-3" type="email" name="email">
           <label for="password">Password:</label>
           <input class="form-control mb-3" type="password" name="password">
+          <label for="confirmPassword">Confirm password:</label>
+          <input class="form-control mb-3" type="password" name="confirmPassword">
           <button class="btn btn-primary" type="submit">Sign Up</button>
         </div>
       </form>
+      <section id='error'></section>
     </main>
 
     <!-- Bootstrap JS scripts -->
