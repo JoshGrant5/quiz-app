@@ -59,18 +59,6 @@ module.exports = ({ userHelpers, quizHelpers }) => {
       });
   });
 
-  // login as userid 1 AKA Alice
-  router.post("/login/1", (req, res) => {
-    const email = "a@a.ca";
-
-    userHelpers.getUserByEmail(email)
-      .then(data => {
-        const user = data;
-        req.session.user_id = user.id;
-        res.redirect("/");
-      });
-  });
-
   router.post("/logout", (req, res) => {
     // clear cookie
     req.session = null;
