@@ -1,4 +1,12 @@
 \i db/seeds/01_users.sql
-\i db/seeds/02_quizzes.sql
-\i db/seeds/03_categories.sql
-\i db/seeds/04_pokemon_trivia.sql
+\i db/seeds/02_categories.sql
+\i db/seeds/03_quizzes.sql
+\i db/seeds/04_video_games_trivia.sql
+\i db/seeds/05_history_trivia.sql
+\i db/seeds/06_science_trivia.sql
+\i db/seeds/07_pop_culture_trivia.sql
+\i db/seeds/08_tv_movies_trivia.sql
+\i db/seeds/09_video_games_personality.sql
+\i db/seeds/10_pop_culture_personality.sql
+\i db/seeds/11_tv_movies_personality.sql
+\i db/seeds/12_random_personality.sql

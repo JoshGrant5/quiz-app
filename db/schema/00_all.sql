@@ -1,6 +1,6 @@
 \i db/schema/01_users.sql
-\i db/schema/02_quizzes.sql
-\i db/schema/03_categories.sql
+\i db/schema/02_categories.sql
+\i db/schema/03_quizzes.sql
 \i db/schema/04_trivia_questions.sql
 \i db/schema/05_trivia_answers.sql
 \i db/schema/06_trivia_results.sql
