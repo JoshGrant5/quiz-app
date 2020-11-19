@@ -14,14 +14,16 @@ Quizandtell is a quiz app that allows anyone to take quizzes and users to create
 
 ## Final Product
 
-!["Screenshot of home page"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/home.png)
+!["Screenshot of home page"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/home-page.png)
 Screenshot of home page
 !["Screenshot of taking a quiz"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/take-quiz.png)
 Screenshot of taking a quiz
 !["Screenshot of creating a quiz"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/create-quiz.png)
 Screenshot of creating a quiz
-!["Screenshot of the results page"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/results.png)
+!["Screenshot of the results page"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/results-page.png)
 Screenshot of the results page
+!["Screenshot of my page"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/my-page.png)
+Screenshot of my page
 
 ## Dependencies
 
