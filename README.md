@@ -1,6 +1,6 @@
 # Quizandtell
 
-Currently available on [heroku](quizandtell.herokuapp.com)
+Currently available on [heroku](https://quizandtell.herokuapp.com/)
 
 Quizandtell is a quiz app that allows anyone to take quizzes and users to create quizzes.
 
