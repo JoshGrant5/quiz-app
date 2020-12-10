@@ -12,6 +12,18 @@ Quizandtell is a quiz app that allows anyone to take quizzes and users to create
 - Users can create quizzes of both types, with any number of questions
 - Users can view all their created quizzes, all results of quizzes taken and all favorited quizzes
 
+## Tech Stack
+Front End: 
+- JavaScript
+- JQuery
+- EJS
+- Ajax
+- Bootstrap
+Back End: 
+- Node.js
+- Express
+- PostgreSQL
+
 ## Final Product
 
 !["Screenshot of home page"](https://github.com/JoshGrant5/quiz-app/blob/master/docs/home-page.png)
